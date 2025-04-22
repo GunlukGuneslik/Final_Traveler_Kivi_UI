@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * @author Zeynep
+ */
 public class LogInActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
