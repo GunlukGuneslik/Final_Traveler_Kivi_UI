@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Traveller Kivi</string>
+
+    <string name="create_a_New_Account_Page_Tag">Create a New Account</string>
+    <string name="Sign_in_button_tag">Sign in</string>
+    <string name="enterUserNameLabelTag">Enter a User Name</string>
+    <string name="enterUserNameHint">User Name</string>
+    <string name="EnterEmailLabelTag">Enter Your E-Mail Address</string>
+    <string name="enterEmailHint">e-mail</string>
+    <string name="enterPasswordLabelTag">Enter Your Password</string>
+    <string name="PasswordHint">Password</string>
+    <string name="enterPasswordAgainLabelTag">Enter Your Password Again</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

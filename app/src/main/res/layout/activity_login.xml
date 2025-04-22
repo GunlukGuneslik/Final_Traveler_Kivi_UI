@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_green"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/txtApplicationNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="34sp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/txtSignInPageNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text= "@string/create_a_New_Account_Page_Tag"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtApplicationNameTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/SignInPageButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="SignInButtonClicked"
+        android:visibility="visible"
+        android:text="@string/Sign_in_button_tag"
+        android:backgroundTint="@color/brown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordAgain" />
+
+    <TextView
+        android:id="@+id/UserNameEditTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="@string/enterUserNameLabelTag"
+        android:visibility="visible"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSignInPageNameTextView"
+        />
+
+    <EditText
+        android:id="@+id/SignInPageNameEditText"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="@string/enterUserNameHint"
+        android:inputType="text"
+        android:visibility="visible"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/UserNameEditTextLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/EmailAddressEditTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="@string/EnterEmailLabelTag"
+        android:visibility="visible"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignInPageNameEditText" />
+
+    <EditText
+        android:id="@+id/editTextTextEmailAddress"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="@string/enterEmailHint"
+        android:visibility="visible"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/EmailAddressEditTextLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/PasswordEditTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="@string/enterPasswordLabelTag"
+        android:visibility="visible"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress"  />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:visibility="visible"
+        android:hint="@string/PasswordHint"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordEditTextLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/PasswordAgainEditTextLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enterPasswordAgainLabelTag"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"/>
+
+    <EditText
+        android:id="@+id/editTextTextPasswordAgain"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/PasswordHint"
+        android:inputType="textPassword"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordAgainEditTextLabel" />
+</androidx.constraintlayout.widget.ConstraintLayout>
