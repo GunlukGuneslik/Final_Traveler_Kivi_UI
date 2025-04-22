@@ -1,4 +1,4 @@
 package com.example.actualtravellerkiviprojectui;
 
-public class GüneşDeneme {
+public class GneDeneme {
 }
