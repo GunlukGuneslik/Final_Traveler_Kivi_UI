@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Traveller Kivi</string>
+    <string name="google_maps_key">AIzaSyBfMWxuZSGE23f4CoAmJOvD4qCnLwWf3Pw</string>
 
     <string name="create_a_New_Account_Page_Tag">Create a New Account</string>
     <string name="Sign_in_button_tag">SIGN IN</string>
