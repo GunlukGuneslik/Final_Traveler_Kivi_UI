@@ -24,10 +24,11 @@ public class WelcomePageActivity extends AppCompatActivity {
 
         Button buttonWelcomeSignIn = findViewById(R.id.button2);
 
+        //I will update some minor things according to new activities.
         buttonWelcomeSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//sign in activity
+                Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//open sign in activity
                 startActivity(intent);
             }
         });
@@ -36,7 +37,7 @@ public class WelcomePageActivity extends AppCompatActivity {
         buttonWelcomeCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//create account activity
+                Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//open create account activity
                 startActivity(intent);
             }
         });
