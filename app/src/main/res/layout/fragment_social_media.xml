@@ -6,11 +6,19 @@
     tools:context=".SocialMediaFragment"
     android:background="@color/light_green">
 
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <SearchView
+            android:id="@+id/socialMediaSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="75dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/socialMediaRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </FrameLayout>
