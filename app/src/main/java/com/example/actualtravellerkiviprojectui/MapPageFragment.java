@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     private RecyclerView recyclerView;
     private Place_RecyclerViewAdapter mapAdapter;
     private ArrayList<PlaceModel> placeModels = new ArrayList<PlaceModel>();
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,10 +103,12 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         super.onViewCreated(view, savedInstanceState);
 
         fillThePlaceArrayList();
-        mapAdapter = new Place_RecyclerViewAdapter(getContext(), placeModels);
+        mapAdapter = new Place_RecyclerViewAdapter(getContext(), placeModels, this);
         recyclerView.setAdapter(mapAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
+
 
 
     // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
@@ -124,12 +128,9 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Adding all available markers
         for (PlaceModel place : placeModels) {
             mMap.addMarker(new MarkerOptions().position(place.getLocation()).title(place.getPlaceName()));
-        }
-
-        if (!placeModels.isEmpty()) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(placeModels.get(0).getLocation(), 10));
         }
 
         mMap.setOnMarkerClickListener(this);
@@ -147,5 +148,18 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
             }
         }
         return false;
+    }
+
+    public void showPlaceOnMap(LatLng latLng, String placeName) {
+        if (mMap != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15)); // Zoom in a bit
+        }
+    }
+
+    // Overload the method to accept a PlaceModel directly
+    public void showPlaceOnMap(PlaceModel place) {
+        if (mMap != null && place != null) {
+            showPlaceOnMap(place.getLocation(), place.getPlaceName());
+        }
     }
 }

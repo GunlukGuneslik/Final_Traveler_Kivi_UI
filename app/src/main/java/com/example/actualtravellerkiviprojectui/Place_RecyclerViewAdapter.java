@@ -7,20 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-
 import java.util.ArrayList;
 
 public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_RecyclerViewAdapter.MapViewHolder> {
     Context context;
     ArrayList<PlaceModel> placeModels;
-    public Place_RecyclerViewAdapter(Context context, ArrayList<PlaceModel> placeModels) {
+    MapPageFragment mapPageFragment;
+    public Place_RecyclerViewAdapter(Context context, ArrayList<PlaceModel> placeModels, MapPageFragment fragment) {
         this.context = context;
         this.placeModels = placeModels;
+        mapPageFragment = fragment;
     }
 
     @NonNull
@@ -33,11 +35,19 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
 
     @Override
     public void onBindViewHolder(@NonNull Place_RecyclerViewAdapter.MapViewHolder holder, int position) {
-        holder.placeImageView.setImageResource(placeModels.get(position).getImageOfPlace());
-        holder.placeNameView.setText(placeModels.get(position).getPlaceName());
-        holder.placeRateView.setText(placeModels.get(position).getRateOfPlace());
-        holder.placeDistanceView.setText(placeModels.get(position).getDistanceInKM());
-        holder.placeInfoView.setText(placeModels.get(position).getPlaceInformationText());
+        PlaceModel currentPlace = placeModels.get(position);
+        holder.placeImageView.setImageResource(currentPlace.getImageOfPlace());
+        holder.placeNameView.setText(currentPlace.getPlaceName());
+        holder.placeRateView.setText(currentPlace.getRateOfPlace());
+        holder.placeDistanceView.setText(currentPlace.getDistanceInKM());
+        holder.placeInfoView.setText(currentPlace.getPlaceInformationText());
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapPageFragment.showPlaceOnMap(currentPlace);
+            }
+        });
     }
 
     @Override
@@ -45,10 +55,11 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
         return placeModels.size();
     }
 
-    public static class MapViewHolder extends RecyclerView.ViewHolder {
+    public class MapViewHolder extends RecyclerView.ViewHolder {
 
         ImageView placeImageView;
         TextView placeNameView, placeRateView, placeDistanceView, placeInfoView;
+        CardView cardView;
         public MapViewHolder(@NonNull View itemView) {
             super(itemView);
             placeImageView = itemView.findViewById(R.id.placeImageView);
@@ -56,6 +67,7 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
             placeRateView = itemView.findViewById(R.id.ratingTextView);
             placeDistanceView = itemView.findViewById(R.id.distanceTextView);
             placeInfoView = itemView.findViewById(R.id.placeInformationTextView);
+            cardView = itemView.findViewById(R.id.Card);
         }
     }
 }
