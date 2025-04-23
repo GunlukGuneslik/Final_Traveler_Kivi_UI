@@ -5,13 +5,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class ApplicationPagesActivity extends AppCompatActivity {
+
     private Fragment mapFragment;
     private Fragment socialMediaFragment;
     private Fragment searchTourFragment;
@@ -39,10 +42,12 @@ public class ApplicationPagesActivity extends AppCompatActivity {
         // for first opening
         activeFragment = socialMediaFragment;
 
+
         // handels the selection from the navigation bar
         bottomNavigationBar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.map:
+                    //@ Güneş
                     Toast.makeText(ApplicationPagesActivity.this, "map", Toast.LENGTH_SHORT).show();
                     changeFragment(mapFragment);
                     break;

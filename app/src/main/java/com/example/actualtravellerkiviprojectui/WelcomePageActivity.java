@@ -33,7 +33,6 @@ public class WelcomePageActivity extends AppCompatActivity {
         });
 
         Button buttonWelcomeCreateAccount = findViewById(R.id.button3);
-
         buttonWelcomeCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
