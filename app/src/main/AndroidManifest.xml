@@ -18,8 +18,9 @@
         <activity
             android:name=".WelcomePageActivity"
             android:exported="false" />
+        <!--Change the name in the activity block bellow this comment according to which activity you want to check on emulator-->
         <activity
-            android:name=".LogInActivity"
+            android:name=".ApplicationPagesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
