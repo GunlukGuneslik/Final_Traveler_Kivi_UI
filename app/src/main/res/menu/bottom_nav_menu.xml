@@ -5,17 +5,17 @@
     <item
         android:id="@+id/map"
         android:title="Map"
-        android:icon="@drawable/baseline_fmd_good_24"/>
+        android:icon="@drawable/baseline_fmd_good_24" />
 
     <item
         android:id="@+id/socialMedia"
         android:title="SocialMedia"
-        android:icon="@drawable/baseline_cottage_24"/>
+        android:icon="@drawable/baseline_cottage_24" />
 
     <item
         android:id="@+id/searchTour"
         android:title="SearchTour"
-        android:icon="@drawable/baseline_directions_walk_24"/>
+        android:icon="@drawable/baseline_directions_walk_24" />
 
     <item android:id="@+id/profile"
         android:icon="@drawable/baseline_account_box_24"
