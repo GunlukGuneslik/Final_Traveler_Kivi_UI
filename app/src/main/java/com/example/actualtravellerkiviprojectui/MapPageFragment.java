@@ -88,7 +88,6 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map_page, container, false);
         fragmentForMap = view.findViewById(R.id.fragmentForMap);
-        recyclerView = view.findViewById(R.id.mapPageRecyclerView);
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction()
@@ -96,20 +95,13 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                 .commit();
         mapFragment.getMapAsync(this);
 
-        return view;
-    }
-
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-        super.onViewCreated(view, savedInstanceState);
-
+        recyclerView = view.findViewById(R.id.mapPageRecyclerView);
         fillThePlaceArrayList();
         mapAdapter = new Place_RecyclerViewAdapter(getContext(), placeModels, this);
         recyclerView.setAdapter(mapAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        return view;
     }
-
-
-
 
     // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
     /**it would be nice if the methods checks weather the data changed or not.

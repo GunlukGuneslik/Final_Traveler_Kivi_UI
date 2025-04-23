@@ -46,6 +46,7 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
             @Override
             public void onClick(View v) {
                 mapPageFragment.showPlaceOnMap(currentPlace);
+                Toast.makeText(context, "You clicked: " + currentPlace.getPlaceName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
