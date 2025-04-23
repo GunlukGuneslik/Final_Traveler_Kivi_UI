@@ -9,14 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * @author Zeynep
+ * @author Güneş
  */
-public class LogInActivity  extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_create_new_account);
     }
 
     public void SignInButtonClicked(View view){

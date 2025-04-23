@@ -5,11 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 /**
  * @author Zeynep
@@ -28,7 +24,11 @@ public class WelcomePageActivity extends AppCompatActivity {
         buttonWelcomeSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< Updated upstream
                 Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//open sign in activity
+=======
+                Intent intent = new Intent(WelcomePageActivity.this, CreateAccountActivity.class);//sign in activity
+>>>>>>> Stashed changes
                 startActivity(intent);
             }
         });
@@ -37,7 +37,11 @@ public class WelcomePageActivity extends AppCompatActivity {
         buttonWelcomeCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< Updated upstream
                 Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//open create account activity
+=======
+                Intent intent = new Intent(WelcomePageActivity.this, CreateAccountActivity.class);//create account activity
+>>>>>>> Stashed changes
                 startActivity(intent);
             }
         });
