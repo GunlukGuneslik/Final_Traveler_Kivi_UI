@@ -24,11 +24,7 @@ public class WelcomePageActivity extends AppCompatActivity {
         buttonWelcomeSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< Updated upstream
-                Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//open sign in activity
-=======
-                Intent intent = new Intent(WelcomePageActivity.this, CreateAccountActivity.class);//sign in activity
->>>>>>> Stashed changes
+                Intent intent = new Intent(WelcomePageActivity.this, SignInActivity.class);//sign in activity
                 startActivity(intent);
             }
         });
@@ -37,11 +33,7 @@ public class WelcomePageActivity extends AppCompatActivity {
         buttonWelcomeCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< Updated upstream
-                Intent intent = new Intent(WelcomePageActivity.this, LogInActivity.class);//open create account activity
-=======
                 Intent intent = new Intent(WelcomePageActivity.this, CreateAccountActivity.class);//create account activity
->>>>>>> Stashed changes
                 startActivity(intent);
             }
         });
