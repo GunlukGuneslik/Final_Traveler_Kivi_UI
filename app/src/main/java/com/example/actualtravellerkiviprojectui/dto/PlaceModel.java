@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui.dto;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class PlaceModel {
 
     private String placeName;
@@ -7,12 +9,14 @@ public class PlaceModel {
     private double rateOfPlace;
     private double distanceInKM;
     int imageOfPlace;
+    private LatLng location;
 
-    public PlaceModel(String placeName, double distanceInKM, double rateOfPlace, String placeInformationText) {
+    public PlaceModel(String placeName, double distanceInKM, double rateOfPlace, String placeInformationText, LatLng location) {
         this.placeName = placeName;
         this.distanceInKM = distanceInKM;
         this.rateOfPlace = rateOfPlace;
         this.placeInformationText = placeInformationText;
+        this.location = location;
     }
 
     public String getPlaceName() {
@@ -27,8 +31,10 @@ public class PlaceModel {
     public String getDistanceInKM() {
         return "Distance: " + distanceInKM + " km";
     }
-
     public int getImageOfPlace() {
         return imageOfPlace;
+    }
+    public LatLng getLocation() {
+        return location;
     }
 }
