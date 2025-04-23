@@ -9,13 +9,18 @@ public class PlaceModel {
     private double rateOfPlace;
     private double distanceInKM;
     int imageOfPlace;
+    private String cityName;
+    private String districtName;
     private LatLng location;
 
-    public PlaceModel(String placeName, double distanceInKM, double rateOfPlace, String placeInformationText, LatLng location) {
+    public PlaceModel(String placeName, double distanceInKM, double rateOfPlace, String placeInformationText,
+                      String cityName, String districtName, LatLng location) {
         this.placeName = placeName;
         this.distanceInKM = distanceInKM;
         this.rateOfPlace = rateOfPlace;
         this.placeInformationText = placeInformationText;
+        this.cityName = cityName;
+        this.districtName = districtName;
         this.location = location;
     }
 

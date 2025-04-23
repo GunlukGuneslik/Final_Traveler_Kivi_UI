@@ -113,8 +113,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
      * also prevent the duplication of items
      */
     private void fillThePlaceArrayList() {
-        PlaceModel testPlace1 = new PlaceModel("f",5,8,"f", new LatLng(39.925533, 32.866287));
-        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", new LatLng(41.0082, 28.9784));
+        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
+        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
 
         placeModels.add(testPlace1);
         placeModels.add(testPlace2);
