@@ -19,10 +19,16 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
     Context context;
     ArrayList<PlaceModel> placeModels;
     MapPageFragment mapPageFragment;
+
     public Place_RecyclerViewAdapter(Context context, ArrayList<PlaceModel> placeModels, MapPageFragment fragment) {
         this.context = context;
         this.placeModels = placeModels;
         mapPageFragment = fragment;
+    }
+
+    public void setFlitiredList(ArrayList<PlaceModel> flitiredList){
+        this.placeModels = flitiredList;
+        notifyDataSetChanged();
     }
 
     @NonNull

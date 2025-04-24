@@ -16,14 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius= "20dp"
+        app:cardCornerRadius= "10dp"
         app:cardElevation="4dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/light_green"            >
+            android:background="@drawable/search_view_map_page_bg">
 
 
             <ImageView

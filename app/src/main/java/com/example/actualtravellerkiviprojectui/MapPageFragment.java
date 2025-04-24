@@ -3,8 +3,6 @@ package com.example.actualtravellerkiviprojectui;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
@@ -35,6 +34,7 @@ import java.util.ArrayList;
  */
 public class MapPageFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    private SearchView searchViewForMap;
     private GoogleMap mMap;
     private FrameLayout fragmentForMap;
     private RecyclerView recyclerView;
@@ -95,12 +95,46 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
                 .commit();
         mapFragment.getMapAsync(this);
 
+        searchViewForMap = view.findViewById(R.id.searchViewForMapPage);
+        searchViewForMap.clearFocus();
+        searchViewForMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // we dont use this one
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                flitterList(newText);
+                return true;
+            }
+        });
+
+
         recyclerView = view.findViewById(R.id.mapPageRecyclerView);
         fillThePlaceArrayList();
         mapAdapter = new Place_RecyclerViewAdapter(getContext(), placeModels, this);
         recyclerView.setAdapter(mapAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
+    }
+
+    // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
+    private void flitterList(String Text) {
+        ArrayList<PlaceModel> fliteredList = new ArrayList<>();
+
+        for (PlaceModel current: placeModels) {
+            if (current.getPlaceName().toLowerCase().contains(Text.toLowerCase())) {
+                fliteredList.add(current);
+            }
+        }
+
+        if (fliteredList.isEmpty()) {
+            Toast.makeText(getContext(), "There is no place is found", Toast.LENGTH_SHORT).show();
+        } else {
+            mapAdapter.setFlitiredList(fliteredList);
+        }
     }
 
     // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
