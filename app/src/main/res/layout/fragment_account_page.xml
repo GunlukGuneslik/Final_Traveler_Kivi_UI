@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountPageFragment"
-    android:background="@color/dark_green">
+    android:background="@color/green">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,6 +16,38 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageView
+                    android:id="@+id/userProfilePhoto"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_report_image"
+                    android:clipToOutline="true"
+                    android:padding="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/circular_image_shape"
+                    />
+
+                <TextView
+                    android:id="@+id/userProfileNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile Name"
+                    android:textSize="24dp"
+                    android:layout_margin="15dp"
+                    app:layout_constraintStart_toEndOf="@+id/userProfilePhoto"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView

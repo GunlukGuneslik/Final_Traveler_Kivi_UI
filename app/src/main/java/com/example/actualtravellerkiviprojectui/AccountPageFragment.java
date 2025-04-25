@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
@@ -25,6 +27,10 @@ public class AccountPageFragment extends Fragment {
     ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
     private RecyclerView recyclerView;
     private Account_Page_Posts_RecyclerViewAdapter adapter;
+    private int userProfilePhoto;
+    private String userName;
+    private ImageView profilePhoto;
+    private TextView userProfileName;
 
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,14 +71,29 @@ public class AccountPageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        userProfilePhoto = getUserProfilePhoto();
+        userName = getUserName();
+    }
+    //TODO: complete this method
+    private String getUserName() {
+        return "fare" ;
+    }
 
-
+    //TODO: complete this method
+    private int getUserProfilePhoto() {
+        return R.drawable.mouse ;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
+
+        profilePhoto = view.findViewById(R.id.userProfilePhoto);
+        profilePhoto.setImageResource(userProfilePhoto);
+
+        userProfileName = view.findViewById(R.id.userProfileNameTextView);
+        userProfileName.setText(userName);
 
         recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
         //posts = currentUser.getPosts();
