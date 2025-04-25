@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui;
 
+import java.util.Date;
+
 public class SocialMediaPostModel {
     String userName;
     String photoDescription;
@@ -7,16 +9,18 @@ public class SocialMediaPostModel {
     int profilePhotoId;
     int sharedPhotoId;
     int numberOfLikes;
+    Date sharedDate;
 
 
     public SocialMediaPostModel(String userName, String photoDescription, String hashtag,
-                                int profilePhotoId, int sharedPhotoId, int numberOfLikes) {
+                                int profilePhotoId, int sharedPhotoId, int numberOfLikes, Date sharedDate) {
         this.userName = userName;
         this.photoDescription = photoDescription;
         this.hashtag = hashtag;
         this.profilePhotoId = profilePhotoId;
         this.sharedPhotoId = sharedPhotoId;
         this.numberOfLikes = numberOfLikes;
+        this.sharedDate = sharedDate;
     }
 
     public String getUserName() {
@@ -42,4 +46,6 @@ public class SocialMediaPostModel {
     public int getNumberOfLikes() {
         return numberOfLikes;
     }
+
+    public String getSharedDate(){return "Date: " + sharedDate;}
 }

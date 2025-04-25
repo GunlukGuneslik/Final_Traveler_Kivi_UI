@@ -3,10 +3,17 @@ package com.example.actualtravellerkiviprojectui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,7 +22,11 @@ import android.view.ViewGroup;
  */
 public class AccountPageFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
+    ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private Account_Page_Posts_RecyclerViewAdapter adapter;
+
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -53,12 +64,34 @@ public class AccountPageFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_account_page, container, false);
+
+        recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
+        //posts = currentUser.getPosts();
+        fillSocialMediaPosts();
+
+        adapter = new Account_Page_Posts_RecyclerViewAdapter(getContext(), posts);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        return view;
+    }
+
+    //TODO: complete this method so that it fills the array with user's posts
+    private void fillSocialMediaPosts(){
+        String[] photoDescriptions = getResources().getStringArray(R.array.photoDescriptions);
+        String[] hashtags = getResources().getStringArray(R.array.hashtags);
+        Date anyDate = new Date(2025,04,25);
+
+        for (int i = 0; i < 4; i++) {
+            posts.add(new SocialMediaPostModel("Helena", photoDescriptions[i], hashtags[i], R.drawable.baseline_account_box_24, R.drawable.anitkabir, 5, anyDate));
+        }
     }
 }

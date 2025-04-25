@@ -48,11 +48,9 @@ public class ApplicationPagesActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.map:
                     //@ Güneş
-                    Toast.makeText(ApplicationPagesActivity.this, "map", Toast.LENGTH_SHORT).show();
                     changeFragment(mapFragment);
                     break;
                 case R.id.socialMedia:
-                    Toast.makeText(ApplicationPagesActivity.this, "Social media", Toast.LENGTH_SHORT).show();
                     changeFragment(socialMediaFragment);
                     break;
                 case R.id.searchTour:
@@ -62,8 +60,6 @@ public class ApplicationPagesActivity extends AppCompatActivity {
                     changeFragment(profileFragment);
                     break;
             }
-
-
             return true;
         });
     }
