@@ -5,13 +5,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 public class ApplicationPagesActivity extends AppCompatActivity {
+
+    private Fragment mapFragment;
+    private Fragment socialMediaFragment;
+    private Fragment searchTourFragment;
+    private Fragment profileFragment;
+    private Fragment activeFragment;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,37 +28,49 @@ public class ApplicationPagesActivity extends AppCompatActivity {
         // our navigation bar to acces in the code
         BottomNavigationView bottomNavigationBar = findViewById(R.id.navigatorBar);
 
+        mapFragment = new MapPageFragment();
+        socialMediaFragment = new SocialMediaFragment();
+        searchTourFragment = new SearchTourPageFragment();
+        profileFragment = new AccountPageFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frameLayout, profileFragment, "ProfilePage").hide(profileFragment)
+                .add(R.id.frameLayout, searchTourFragment, "searchTourPage").hide(searchTourFragment)
+                .add(R.id.frameLayout, mapFragment, "mapPage").hide(mapFragment)
+                .add(R.id.frameLayout, socialMediaFragment, "socialMediaPage") // This is the first to be shown
+                .commit();
         // for first opening
-        replaceFragment(new SocialMediaFragment());
+        activeFragment = socialMediaFragment;
+
 
         // handels the selection from the navigation bar
         bottomNavigationBar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.map:
-                    Toast.makeText(ApplicationPagesActivity.this, "map", Toast.LENGTH_SHORT).show();
-                    replaceFragment(new MapPageFragment());
+                    //@ Güneş
+                    changeFragment(mapFragment);
                     break;
                 case R.id.socialMedia:
-                    Toast.makeText(ApplicationPagesActivity.this, "Social media", Toast.LENGTH_SHORT).show();
-                    replaceFragment(new SocialMediaFragment());
+                    changeFragment(socialMediaFragment);
                     break;
                 case R.id.searchTour:
-                    replaceFragment(new SearchTourPageFragment());
+                    changeFragment(searchTourFragment);
                     break;
                 case R.id.profile:
-                    replaceFragment(new AccountPageFragment());
+                    changeFragment(profileFragment);
                     break;
             }
-
-
             return true;
         });
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit();
+    private void changeFragment(Fragment targetFragment) {
+        if (activeFragment != targetFragment) {
+            getSupportFragmentManager().beginTransaction()
+                    .hide(activeFragment)
+                    .show(targetFragment)
+                    .commit();
+            activeFragment = targetFragment;
+        }
     }
 }

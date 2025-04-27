@@ -3,12 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapPageFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MapPageFragment"
+    android:background="@color/green">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:orientation="vertical">
 
+        <SearchView
+            android:id="@+id/searchViewForMapPage"
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:queryHint="Search for a place"
+            android:background="@drawable/search_view_map_page_bg"
+            android:iconifiedByDefault="false"
+            />
+
+        <FrameLayout
+            android:id="@+id/fragmentForMap"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5" >
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mapPageRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
 </FrameLayout>

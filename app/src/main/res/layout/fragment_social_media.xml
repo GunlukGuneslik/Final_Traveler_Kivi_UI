@@ -3,12 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SocialMediaFragment">
+    tools:context=".SocialMediaFragment"
+    android:background="@color/green">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <SearchView
+            android:id="@+id/socialMediaSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:background="@color/brown" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/socialMediaRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 </FrameLayout>
