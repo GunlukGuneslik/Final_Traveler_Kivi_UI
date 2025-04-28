@@ -20,8 +20,10 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 retrofit = { module = "com.squareup.retrofit2:retrofit",version.ref = "retrofit" }
-retrofit-jackson = { module = "com.squareup.retrofit2:converter-jackson" }
-jackson = { module = "com.fasterxml.jackson.core:jackson-core" }
+retrofit-jackson = { module = "com.squareup.retrofit2:converter-jackson", version = "2.11.0"}
+jackson = { module = "com.fasterxml.jackson.core:jackson-core" , version = "2.13.0"}
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations" , version = "2.13.0"}
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" , version = "2.13.0"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
