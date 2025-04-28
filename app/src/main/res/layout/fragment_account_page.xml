@@ -22,6 +22,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <Button
+                    android:id="@+id/AccountPageSettingsButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:drawableTop="@drawable/baseline_build_24"
+                    android:backgroundTint="@color/light_brown"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,11 +108,11 @@
                     android:id="@+id/userProfileNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
                     android:text="Profile Name"
                     android:textSize="24dp"
-                    android:layout_margin="15dp"
                     app:layout_constraintStart_toEndOf="@+id/userProfilePhoto"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/AccountPageSettingsButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>

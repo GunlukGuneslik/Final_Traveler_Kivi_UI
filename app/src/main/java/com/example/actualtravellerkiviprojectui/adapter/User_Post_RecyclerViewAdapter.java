@@ -1,4 +1,4 @@
-package com.example.actualtravellerkiviprojectui;
+package com.example.actualtravellerkiviprojectui.adapter;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.AccountPageFragment;
+import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
 
 import java.util.ArrayList;
 

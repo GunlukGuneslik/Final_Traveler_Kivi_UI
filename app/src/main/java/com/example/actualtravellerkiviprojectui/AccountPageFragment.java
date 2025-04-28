@@ -2,17 +2,26 @@ package com.example.actualtravellerkiviprojectui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.adapter.Account_Page_Posts_RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +40,7 @@ public class AccountPageFragment extends Fragment {
     private String userName;
     private ImageView profilePhoto;
     private TextView userProfileName;
+    private Button settingsButton;
 
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,6 +105,30 @@ public class AccountPageFragment extends Fragment {
         userProfileName = view.findViewById(R.id.userProfileNameTextView);
         userProfileName.setText(userName);
 
+        settingsButton = view.findViewById(R.id.AccountPageSettingsButton);
+        settingsButton.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(getContext(), settingsButton);
+            popup.getMenuInflater().inflate(R.menu.account_settings_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.ChangeTheAccountPhoto:
+                        Toast.makeText(getContext(), "Update profile photo",Toast.LENGTH_SHORT).show();
+                        //TODO
+                        return true;
+                    case R.id.ChangeName:
+                        Toast.makeText(getContext(), "Change Name",Toast.LENGTH_SHORT).show();
+                        //TODO
+                        return true;
+                    case R.id.ChangeLanguages:
+                        Toast.makeText(getContext(), "Change Languages",Toast.LENGTH_SHORT).show();
+                        //TODO
+                        return true;
+                }
+                return false;
+            });
+            popup.show();
+        });
+
         recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
         //posts = currentUser.getPosts();
         fillSocialMediaPosts();
@@ -104,6 +138,13 @@ public class AccountPageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
+
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = new MenuInflater(getContext());
+//        inflater.inflate(R.menu.account_settings_menu, menu);
+//        return true;
+//    }
+
 
     //TODO: complete this method so that it fills the array with user's posts
     private void fillSocialMediaPosts(){

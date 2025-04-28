@@ -1,7 +1,6 @@
-package com.example.actualtravellerkiviprojectui;
+package com.example.actualtravellerkiviprojectui.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.actualtravellerkiviprojectui.MapPageFragment;
+import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import java.util.ArrayList;
 

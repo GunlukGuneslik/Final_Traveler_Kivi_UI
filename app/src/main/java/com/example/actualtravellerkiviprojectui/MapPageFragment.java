@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
