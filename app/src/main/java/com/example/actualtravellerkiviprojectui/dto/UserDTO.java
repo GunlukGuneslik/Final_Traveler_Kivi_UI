@@ -1,76 +1,71 @@
 package com.example.actualtravellerkiviprojectui.dto;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.Set;
 
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
-
-import java.util.ArrayList;
-
-public class UserDTO implements Parcelable {
-    private int image;
-    private String userName;
-
-    private ArrayList<SocialMediaPostModel> posts;
-    ArrayList<String> userLanguages;
-
-    public UserDTO(int image, ArrayList<String> userLanguages, ArrayList<SocialMediaPostModel> posts, String userName) {
-        this.image = image;
-        this.userLanguages = userLanguages;
-        this.posts = posts;
-        this.userName = userName;
+public class UserDTO {
+    public enum UserType {
+        ADMIN,
+        REGULAR_USER,
+        GUIDE_USER,
+        GUEST
     }
 
-    public int getImage() {
-        return image;
+    private Integer id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setImage(int newImage) {
-        image = newImage;
+
+    private UserType userType;
+
+    private String registrationDate;
+
+    private Byte[] profilePicture;
+
+    private Set<String> languages;
+
+
+    public Set<String> getLanguages() {
+        return languages;
     }
 
-    public ArrayList<String> getUserLanguages() {
-        return userLanguages;
+    public UserDTO() {
     }
 
-    public ArrayList<SocialMediaPostModel> getPosts() {
-        return posts;
+    public Byte[] getProfilePicture() {
+        return profilePicture;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setProfilePicture(Byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
-    // Parcelable constructor
-    protected UserDTO(Parcel in) {
-        image = in.readInt();
-        userName = in.readString();
-        userLanguages = in.createStringArrayList();
-        posts = in.createTypedArrayList(SocialMediaPostModel.CREATOR);
+    public Integer getId() {
+        return id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(image);
-        dest.writeString(userName);
-        dest.writeStringList(userLanguages);
-        dest.writeTypedList(posts);
+
+    public UserType getUserType() {
+        return userType;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public static final Creator<UserDTO> CREATOR = new Creator<UserDTO>() {
-        @Override
-        public UserDTO createFromParcel(Parcel in) {
-            return new UserDTO(in);
-        }
+    public String getLastName() {
+        return lastName;
+    }
 
-        @Override
-        public UserDTO[] newArray(int size) {
-            return new UserDTO[size];
-        }
-    };
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
 }
