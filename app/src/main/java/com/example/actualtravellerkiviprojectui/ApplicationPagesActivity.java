@@ -21,7 +21,7 @@ public class ApplicationPagesActivity extends AppCompatActivity {
     private Fragment profileFragment;
     private Fragment activeFragment;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicationpages);
 
@@ -57,6 +57,7 @@ public class ApplicationPagesActivity extends AppCompatActivity {
                     changeFragment(searchTourFragment);
                     break;
                 case R.id.profile:
+                    // @ Güneş
                     changeFragment(profileFragment);
                     break;
             }

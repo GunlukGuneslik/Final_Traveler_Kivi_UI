@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,8 @@ public class AccountPageFragment extends Fragment {
     private ImageView profilePhoto;
     private TextView userProfileName;
     private Button settingsButton;
+    private Button attendedToursButton;
+    private Button upcomingToursButton;
 
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -129,6 +132,24 @@ public class AccountPageFragment extends Fragment {
             popup.show();
         });
 
+        attendedToursButton = view.findViewById(R.id.AttendedToursButton);
+        attendedToursButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AttendedToursActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        upcomingToursButton = view.findViewById(R.id.UpcomingToursButton);
+        upcomingToursButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UpcomingToursActivity.class);
+                startActivity(intent);
+            }
+        });
+
         recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
         //posts = currentUser.getPosts();
         fillSocialMediaPosts();
@@ -138,12 +159,6 @@ public class AccountPageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = new MenuInflater(getContext());
-//        inflater.inflate(R.menu.account_settings_menu, menu);
-//        return true;
-//    }
 
 
     //TODO: complete this method so that it fills the array with user's posts
