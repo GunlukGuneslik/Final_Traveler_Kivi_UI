@@ -11,10 +11,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface PostService {
-    @GET("posts/feed")
-    public Call<List<PostDTO>> fetchPosts(@Query("page") int page, @Query("size") int size, @Query("sort") String sort);
+    public List<PostDTO> fetchPosts(int page, int size,String sort);
 
-    @POST("posts/create")
     public Call<PostDTO> createPost(@Body PostDTO post);
 
 }
