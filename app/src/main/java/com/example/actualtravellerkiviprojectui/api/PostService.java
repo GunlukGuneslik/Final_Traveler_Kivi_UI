@@ -7,12 +7,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface PostService {
-    public List<PostDTO> fetchPosts(int page, int size,String sort);
+    @GET("posts/feed")
+    public Call<List<PostDTO>> fetchPosts(int page, int size, String sort);
 
+    @GET("posts/create")
     public Call<PostDTO> createPost(@Body PostDTO post);
 
 }
