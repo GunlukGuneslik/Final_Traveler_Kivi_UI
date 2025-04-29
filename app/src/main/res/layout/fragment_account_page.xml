@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccountPageFragment">
+    tools:context=".AccountPageFragment"
+    android:background="@color/green">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical" >
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/AccountPageSettingsButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:drawableTop="@drawable/baseline_build_24"
+                    android:backgroundTint="@color/light_brown"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_green"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userProfilePhoto" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/light_green"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/ToursTextViewLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Tours"
+                            android:textStyle="bold"
+                            android:textColor="@color/brown"
+                            android:layout_margin="8dp"
+                            android:textSize="16dp"/>
+
+                        <Button
+                            android:id="@+id/AttendedToursButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
+                            android:text="Attended Tours"
+                            android:backgroundTint="@color/light_brown"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:drawableLeft="@drawable/baseline_folder_open_24"
+                            android:visibility="visible"
+                            />
+
+                        <Button
+                            android:id="@+id/UpcomingToursButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
+                            android:text="Upcoming Tours"
+                            android:backgroundTint="@color/light_brown"
+                            android:textColor="@color/white"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:drawableLeft= "@drawable/baseline_calendar_month_24"
+                            android:visibility="visible"/>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/userProfilePhoto"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_report_image"
+                    android:clipToOutline="true"
+                    android:padding="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/circular_image_shape"
+                    />
+
+                <TextView
+                    android:id="@+id/userProfileNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="Profile Name"
+                    android:textSize="24dp"
+                    app:layout_constraintStart_toEndOf="@+id/userProfilePhoto"
+                    app:layout_constraintTop_toBottomOf="@+id/AccountPageSettingsButton" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/AccountPagePostRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 </FrameLayout>

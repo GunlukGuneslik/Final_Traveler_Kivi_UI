@@ -21,7 +21,7 @@ public class ApplicationPagesActivity extends AppCompatActivity {
     private Fragment profileFragment;
     private Fragment activeFragment;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_applicationpages);
 
@@ -48,22 +48,19 @@ public class ApplicationPagesActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.map:
                     //@ Güneş
-                    Toast.makeText(ApplicationPagesActivity.this, "map", Toast.LENGTH_SHORT).show();
                     changeFragment(mapFragment);
                     break;
                 case R.id.socialMedia:
-                    Toast.makeText(ApplicationPagesActivity.this, "Social media", Toast.LENGTH_SHORT).show();
                     changeFragment(socialMediaFragment);
                     break;
                 case R.id.searchTour:
                     changeFragment(searchTourFragment);
                     break;
                 case R.id.profile:
+                    // @ Güneş
                     changeFragment(profileFragment);
                     break;
             }
-
-
             return true;
         });
     }
