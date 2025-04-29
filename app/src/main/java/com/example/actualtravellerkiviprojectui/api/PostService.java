@@ -10,9 +10,9 @@ import retrofit2.http.GET;
 
 public interface PostService {
     @GET("posts/feed")
-    public Call<List<PostDTO>> fetchPosts(int page, int size, String sort);
+    Call<List<PostDTO>> fetchPosts(int page, int size, String sort);
 
     @GET("posts/create")
-    public Call<PostDTO> createPost(@Body PostDTO post);
+    Call<PostDTO> createPost(@Body PostDTO post);
 
 }
