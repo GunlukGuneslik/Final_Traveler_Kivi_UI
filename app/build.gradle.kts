@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.jackson)
     implementation(libs.jackson.annotations)
     implementation(libs.jackson.databind)
+    implementation(libs.retrofit.mock)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
