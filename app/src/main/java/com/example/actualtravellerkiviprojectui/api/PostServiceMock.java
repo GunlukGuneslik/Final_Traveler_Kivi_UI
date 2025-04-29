@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
+import retrofit2.mock.Calls;
 
 public class PostServiceMock implements PostService {
     private static final ObjectMapper objectMapper = JsonMapper.builder().enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION).build();
@@ -533,8 +533,8 @@ public class PostServiceMock implements PostService {
 
     }
     @Override
-    public List<PostDTO> fetchPosts(int page, int size, String sort) {
-        return postDTOList;
+    public Call<List<PostDTO>> fetchPosts(int page, int size, String sort) {
+        return Calls.response(postDTOList);
     }
 
     @Override
