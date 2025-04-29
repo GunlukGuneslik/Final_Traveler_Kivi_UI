@@ -1,36 +1,71 @@
 package com.example.actualtravellerkiviprojectui.dto;
 
-import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
-
-import java.util.ArrayList;
+import java.util.Set;
 
 public class UserDTO {
-    private int image;
-    private String userName;
-
-    private ArrayList<SocialMediaPostModel> posts;
-    ArrayList<String> userLanguages;
-
-    public UserDTO(int image, ArrayList<String> userLanguages, ArrayList<SocialMediaPostModel> posts, String userName) {
-        this.image = image;
-        this.userLanguages = userLanguages;
-        this.posts = posts;
-        this.userName = userName;
+    public enum UserType {
+        ADMIN,
+        REGULAR_USER,
+        GUIDE_USER,
+        GUEST
     }
 
-    public int getImage() {
-        return image;
+    private Integer id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    public String getEmail() {
+        return email;
     }
 
-    public ArrayList<String> getUserLanguages() {
-        return userLanguages;
+
+    private UserType userType;
+
+    private String registrationDate;
+
+    private Byte[] profilePicture;
+
+    private Set<String> languages;
+
+
+    public Set<String> getLanguages() {
+        return languages;
     }
 
-    public ArrayList<SocialMediaPostModel> getPosts() {
-        return posts;
+    public UserDTO() {
     }
 
-    public String getUserName() {
-        return userName;
+    public Byte[] getProfilePicture() {
+        return profilePicture;
     }
+
+    public void setProfilePicture(Byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getRegistrationDate() {
+        return registrationDate;
+    }
+
 }
