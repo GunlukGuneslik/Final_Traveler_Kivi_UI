@@ -59,7 +59,7 @@ public class Attended_Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerV
 
     public class MapViewHolder extends RecyclerView.ViewHolder{
         ImageView guidePhoto;
-        TextView tourName, places;
+        TextView tourName;
         CardView cardView;
         public MapViewHolder(@NonNull View itemView) {
             super(itemView);

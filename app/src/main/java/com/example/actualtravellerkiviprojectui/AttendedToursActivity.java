@@ -48,7 +48,7 @@ public class AttendedToursActivity extends AppCompatActivity {
         });
 
         RatedToursList = loadTours();
-        //WaitingToursList = loadTours();
+        WaitingToursList = loadTours();
 
         if (WaitingToursList.isEmpty()) {
             TextView waitingToursText = findViewById(R.id.textViewAttendedToursWaitingForRating);
@@ -92,25 +92,27 @@ public class AttendedToursActivity extends AppCompatActivity {
     * TODO: this method suppose to filter the tours according to both their name and places in it
      */
     private void flitterList(String Text, ArrayList<Tour> givenList, Attended_Tour_RecyclerViewAdapter_for_tour_frames adapter) {
-        Text.toLowerCase();
+        if (adapter == null || givenList.isEmpty()){
+            return;
+        }
         ArrayList<Tour> filteredList = new ArrayList<>();
 
         for (Tour currentTour: givenList) {
-            if (currentTour.getTourName().toLowerCase().contains(Text)) {
+            if (currentTour.getTourName().toLowerCase().contains(Text.toLowerCase())) {
                 filteredList.add(currentTour);
             } else {
                 for (PlaceModel currentPlace: currentTour.getPlaces()) {
-                    if (currentPlace.getPlaceName().toLowerCase().contains(Text)) {
+                    if (currentPlace.getPlaceName().toLowerCase().contains(Text.toLowerCase())) {
                         filteredList.add(currentTour);
                     }
                 }
             }
         }
 
+        adapter.setFilteredList(filteredList);
+
         if (filteredList.isEmpty()) {
             Toast.makeText(this, "No matching tours found.", Toast.LENGTH_SHORT).show();
-        } else {
-            adapter.setFilteredList(filteredList);
         }
     }
 
@@ -125,9 +127,11 @@ public class AttendedToursActivity extends AppCompatActivity {
         ArrayList<PlaceModel> testPlaceList = new ArrayList<>();
         testPlaceList.add(testPlace1);
         testPlaceList.add(testPlace2);
+        ArrayList<PlaceModel> testPlaceList2 = new ArrayList<>();
+        testPlaceList2.add(testPlace2);
 
         tours.add(new Tour("Location A", new Date(), "Alice", 150, testPlaceList));
-        tours.add(new Tour("Location B", new Date(), "Bob",   200, testPlaceList));
+        tours.add(new Tour("Location B", new Date(), "Bob",   200, testPlaceList2));
         return tours;
     }
 }
