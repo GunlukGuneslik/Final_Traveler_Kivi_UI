@@ -20,7 +20,9 @@ import com.example.actualtravellerkiviprojectui.WelcomePageActivity;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 
 import java.util.ArrayList;
-
+/**
+ * @author zeynep
+ */
 public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder> {
     Context context;
     ArrayList<SocialMediaPostModel> socialMediaPostModels;
