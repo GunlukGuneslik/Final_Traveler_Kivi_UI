@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.actualtravellerkiviprojectui.adapter.Attended_Tour_RecyclerViewAdapter_for_tour_frames;
+import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.google.android.gms.maps.model.LatLng;
@@ -28,8 +28,8 @@ public class AttendedToursActivity extends AppCompatActivity {
     private RecyclerView recyclerViewForAttendedToursWaitingForRating;
     private RecyclerView recyclerViewForAttendedToursRated;
     private Button returnButton;
-    private Attended_Tour_RecyclerViewAdapter_for_tour_frames adapterForWaitingTours;
-    private Attended_Tour_RecyclerViewAdapter_for_tour_frames adapterForRatedTours;
+    private Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapterForWaitingTours;
+    private Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapterForRatedTours;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class AttendedToursActivity extends AppCompatActivity {
             waitingToursText.setVisibility(View.GONE);
             recyclerViewForAttendedToursWaitingForRating.setVisibility(View.GONE);
         } else {
-            adapterForWaitingTours = new Attended_Tour_RecyclerViewAdapter_for_tour_frames(this, WaitingToursList);
+            adapterForWaitingTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, WaitingToursList);
             recyclerViewForAttendedToursWaitingForRating.setAdapter(adapterForWaitingTours);
             recyclerViewForAttendedToursWaitingForRating.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -65,7 +65,7 @@ public class AttendedToursActivity extends AppCompatActivity {
             ratedToursText.setVisibility(View.GONE);
             recyclerViewForAttendedToursRated.setVisibility(View.GONE);
         } else {
-            adapterForRatedTours = new Attended_Tour_RecyclerViewAdapter_for_tour_frames(this, RatedToursList);
+            adapterForRatedTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, RatedToursList);
             recyclerViewForAttendedToursRated.setAdapter(adapterForRatedTours);
             recyclerViewForAttendedToursRated.setLayoutManager(new LinearLayoutManager(this));
         }
@@ -91,7 +91,7 @@ public class AttendedToursActivity extends AppCompatActivity {
     /*
     * TODO: this method suppose to filter the tours according to both their name and places in it
      */
-    private void flitterList(String Text, ArrayList<Tour> givenList, Attended_Tour_RecyclerViewAdapter_for_tour_frames adapter) {
+    private void flitterList(String Text, ArrayList<Tour> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
         if (adapter == null || givenList.isEmpty()){
             return;
         }
