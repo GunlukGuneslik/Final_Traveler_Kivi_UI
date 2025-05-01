@@ -7,15 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.actualtravellerkiviprojectui.AttendedToursActivity;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.model.Tour;
-
 import java.util.ArrayList;
 
 /**
@@ -25,26 +21,26 @@ import java.util.ArrayList;
 public class Attended_Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerView.Adapter<Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder>{
     Context context;
     ArrayList<Tour> tourList;
-    AttendedToursActivity tourPagesActivity;
 
-    public Attended_Tour_RecyclerViewAdapter_for_tour_frames(AttendedToursActivity tourPagesActivity, ArrayList<Tour> tourList, Context context) {
-        this.tourPagesActivity = tourPagesActivity;
-        this.tourList = tourList;
+    public Attended_Tour_RecyclerViewAdapter_for_tour_frames(Context context, ArrayList<Tour> tourList) {
         this.context = context;
+        this.tourList = tourList;
     }
 
     @NonNull
     @Override
     public Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_tour_pages, parent, false);
+        View view = inflater.inflate(R.layout.tour_page_recycler_view_row, parent, false);
         return new Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder holder, int position) {
         Tour currentTour = tourList.get(position);
+        //TODO: Tour classı düzelitildiğinde bunlar da düzeltilmeli
         //holder.guidePhoto.setImageResource(currentTour.getGuide().getPhoto);
+        holder.guidePhoto.setImageResource(R.drawable.mouse);
         holder.places.setText(currentTour.getDestination());
         //holder.tourName.setText(currentTour.getTourName());
 
@@ -75,7 +71,7 @@ public class Attended_Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerV
         }
     }
 
-    public void setFlitiredList(ArrayList<Tour> flitiredList){
+    public void setFlirtedList(ArrayList<Tour> flitiredList){
         this.tourList = flitiredList;
         notifyDataSetChanged();
     }

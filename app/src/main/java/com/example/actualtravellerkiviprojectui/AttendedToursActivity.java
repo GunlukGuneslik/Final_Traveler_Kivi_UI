@@ -3,7 +3,6 @@ package com.example.actualtravellerkiviprojectui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -13,12 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Attended_Tour_RecyclerViewAdapter_for_tour_frames;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class AttendedToursActivity extends AppCompatActivity {
 
@@ -50,11 +47,11 @@ public class AttendedToursActivity extends AppCompatActivity {
             }
         });
 
-        adapterForWaitingTours = new Attended_Tour_RecyclerViewAdapter_for_tour_frames(this, WaitingToursList, this);
+        adapterForWaitingTours = new Attended_Tour_RecyclerViewAdapter_for_tour_frames(this, WaitingToursList);
         recyclerViewForAttendedToursWaitingForRating.setAdapter(adapterForWaitingTours);
         recyclerViewForAttendedToursWaitingForRating.setLayoutManager(new LinearLayoutManager(this));
 
-        adapterForRatedTours = new Attended_Tour_RecyclerViewAdapter_for_tour_frames(this, RatedToursList, this);
+        adapterForRatedTours = new Attended_Tour_RecyclerViewAdapter_for_tour_frames(this, RatedToursList);
         recyclerViewForAttendedToursRated.setAdapter(adapterForRatedTours);
         recyclerViewForAttendedToursRated.setLayoutManager(new LinearLayoutManager(this));
 
@@ -78,18 +75,18 @@ public class AttendedToursActivity extends AppCompatActivity {
     }
 
     private void flitterList(String Text, ArrayList<Tour> givenList, Attended_Tour_RecyclerViewAdapter_for_tour_frames adapter) {
-        ArrayList<Tour> fliteredList = new ArrayList<>();
+        ArrayList<Tour> filteredList = new ArrayList<>();
 
         for (Tour current: givenList) {
             if (current.getDestination().toLowerCase().contains(Text.toLowerCase())) {
-                fliteredList.add(current);
+                filteredList.add(current);
             }
         }
 
-        if (fliteredList.isEmpty()) {
-            Toast.makeText(this, "There is no place is found", Toast.LENGTH_SHORT).show();
+        if (filteredList.isEmpty()) {
+            Toast.makeText(this, "No matching tours found.", Toast.LENGTH_SHORT).show();
         } else {
-            adapter.setFlitiredList(fliteredList);
+            adapter.setFlirtedList(filteredList);
         }
     }
 

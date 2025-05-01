@@ -20,6 +20,8 @@
     <string name="joinUsLabelTag">Join us</string>
     <string name="createAccountButtonTag">Create account</string>
 
+    <string name="NoPlaceFoundWarning">No matching tours found.</string>
+
     <string-array name="userNames">
         <item>Helena</item>
         <item>Ben</item>
