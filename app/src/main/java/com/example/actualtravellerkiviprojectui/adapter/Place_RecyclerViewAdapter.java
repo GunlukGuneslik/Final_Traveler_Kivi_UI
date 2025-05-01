@@ -18,8 +18,14 @@ import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import java.util.ArrayList;
 
 /**
+<<<<<<< HEAD
  * @author Güneş
  */
+=======
+ * @author zeynep
+ */
+
+>>>>>>> origin/main
 public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_RecyclerViewAdapter.MapViewHolder> {
     Context context;
     ArrayList<PlaceModel> placeModels;

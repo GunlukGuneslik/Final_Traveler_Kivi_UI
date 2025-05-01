@@ -1,7 +1,9 @@
 package com.example.actualtravellerkiviprojectui;
 
 import java.util.Date;
-
+/**
+ * @author zeynep
+ */
 public class SocialMediaPostModel {
     String userName;
     String photoDescription;
