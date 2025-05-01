@@ -1,9 +1,11 @@
 package com.example.actualtravellerkiviprojectui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.SignInActivity;
 import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
+import com.example.actualtravellerkiviprojectui.WelcomePageActivity;
 
 import java.util.ArrayList;
 
@@ -40,6 +44,14 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         holder.textViewLikes.setText(socialMediaPostModels.get(position).getNumberOfLikes() + " likes");
         holder.profileImageView.setImageResource(socialMediaPostModels.get(position).getProfilePhotoId());
         holder.placeImageView.setImageResource(socialMediaPostModels.get(position).getSharedPhotoId());
+        holder.heartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                socialMediaPostModels.get(holder.getAdapterPosition()).setNumberOfLikes(socialMediaPostModels.get(holder.getAdapterPosition()).getNumberOfLikes()+1);
+                holder.heartButton.setImageResource(R.drawable.filledheart);
+                holder.textViewLikes.setText(socialMediaPostModels.get(position).getNumberOfLikes() + " likes");
+            }
+        });
     }
 
     @Override
@@ -54,7 +66,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         TextView textViewPhotoDescription;
         TextView textViewHashtag;
         TextView textViewLikes;
-
+        ImageButton heartButton;
 
         public SocialMediaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +77,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
             textViewPhotoDescription = itemView.findViewById(R.id.textView7);
             textViewHashtag = itemView.findViewById(R.id.textView8);
             textViewLikes = itemView.findViewById(R.id.textView9);
+            heartButton = itemView.findViewById(R.id.imageButton2);
 
         }
     }

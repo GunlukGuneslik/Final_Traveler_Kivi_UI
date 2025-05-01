@@ -21,7 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="385dp">
+            android:layout_height="324dp">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -60,8 +60,8 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="328dp"
-                android:layout_height="260dp"
+                android:layout_width="327dp"
+                android:layout_height="229dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -87,29 +87,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5 likes"
-                android:textColor="@color/black"
-                android:textSize="18dp"
+                android:textColor="@color/dark_gray"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.268"
+                app:layout_constraintHorizontal_bias="0.926"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.666" />
+                app:layout_constraintVertical_bias="0.307" />
 
             <ImageButton
                 android:id="@+id/imageButton2"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="26dp"
+                android:layout_height="21dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
-                android:contentDescription="likeButton"
+                android:contentDescription="likeButton_emptyHeart"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView9"
-                app:layout_constraintHorizontal_bias="0.913"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
-                app:layout_constraintVertical_bias="0.235"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintVertical_bias="0.333"
                 app:srcCompat="@drawable/emptyheart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

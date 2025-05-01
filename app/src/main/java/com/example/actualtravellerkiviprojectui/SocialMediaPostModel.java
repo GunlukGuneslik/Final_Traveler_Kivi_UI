@@ -48,4 +48,8 @@ public class SocialMediaPostModel {
     }
 
     public String getSharedDate(){return "Date: " + sharedDate;}
+
+    public void setNumberOfLikes(int numberOfLikes) {
+        this.numberOfLikes = numberOfLikes;
+    }
 }
