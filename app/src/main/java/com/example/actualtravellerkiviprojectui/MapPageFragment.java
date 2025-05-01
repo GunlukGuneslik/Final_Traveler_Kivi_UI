@@ -90,10 +90,13 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         View view = inflater.inflate(R.layout.fragment_map_page, container, false);
         fragmentForMap = view.findViewById(R.id.fragmentForMap);
 
+        fillThePlaceArrayList();
+
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.fragmentForMap, mapFragment)
                 .commit();
+        getChildFragmentManager().executePendingTransactions();
         mapFragment.getMapAsync(this);
 
         searchViewForMap = view.findViewById(R.id.searchViewForMapPage);
@@ -114,7 +117,6 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
         recyclerView = view.findViewById(R.id.mapPageRecyclerView);
-        fillThePlaceArrayList();
         mapAdapter = new Place_RecyclerViewAdapter(getContext(), placeModels, this);
         recyclerView.setAdapter(mapAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -155,9 +157,15 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Adding all available markers
-        for (PlaceModel place : placeModels) {
-            mMap.addMarker(new MarkerOptions().position(place.getLocation()).title(place.getPlaceName()));
+        if (placeModels.isEmpty()) {
+            LatLng defaultLocation =  new LatLng(39.925533, 32.866287); // Default
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10)); // Zoom level 10 or whatever you like
+        } else {
+
+            // Adding all available markers
+            for (PlaceModel place : placeModels) {
+                mMap.addMarker(new MarkerOptions().position(place.getLocation()).title(place.getPlaceName()));
+            }
         }
 
         mMap.setOnMarkerClickListener(this);
@@ -171,6 +179,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         for (PlaceModel place : placeModels) {
             if (place.getLocation().equals(clickedLocation)) {
                 Toast.makeText(getContext(), place.getPlaceName(), Toast.LENGTH_SHORT).show();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedLocation, 10));
                 return true;
             }
         }
