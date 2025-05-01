@@ -11,17 +11,39 @@ import androidx.core.view.WindowInsetsCompat;
 /**
  * @author Eftelya
  */
+
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+/**
+ * @author:Eftelya
+ */
 public class RecoveryPasswordActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_recovery_password);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        setContentView(R.layout.activity_forgot_password);
+
+        EditText emailEt = findViewById(R.id.resetEmailEt);
+        Button   sendBtn = findViewById(R.id.sendResetBtn);
+
+        sendBtn.setOnClickListener(v -> {
+            String email = emailEt.getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(this,"Email boş olamaz",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this,
+                        "Demo: reset linki gidecek → " + email,
+                        Toast.LENGTH_LONG).show();
+            }
         });
     }
 }
+
