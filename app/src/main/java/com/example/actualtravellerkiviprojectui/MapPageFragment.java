@@ -158,8 +158,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         mMap = googleMap;
 
         if (placeModels.isEmpty()) {
-            LatLng defaultLocation =  new LatLng(39.925533, 32.866287); // Default
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10)); // Zoom level 10 or whatever you like
+            LatLng defaultLocation =  new LatLng(39.925533, 32.866287);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
         } else {
 
             // Adding all available markers

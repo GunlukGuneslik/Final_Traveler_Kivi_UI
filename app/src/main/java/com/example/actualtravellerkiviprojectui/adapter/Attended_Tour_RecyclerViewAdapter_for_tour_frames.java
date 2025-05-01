@@ -41,8 +41,7 @@ public class Attended_Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerV
         //TODO: Tour classı düzelitildiğinde bunlar da düzeltilmeli
         //holder.guidePhoto.setImageResource(currentTour.getGuide().getPhoto);
         holder.guidePhoto.setImageResource(R.drawable.mouse);
-        holder.places.setText(currentTour.getDestination());
-        //holder.tourName.setText(currentTour.getTourName());
+        holder.tourName.setText(currentTour.getTourName());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,13 +65,12 @@ public class Attended_Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerV
             super(itemView);
             guidePhoto = itemView.findViewById(R.id.miniTourCardGuideImage);
             tourName = itemView.findViewById(R.id.miniTourCardTourName);
-            places = itemView.findViewById(R.id.miniTourCardDestinition);
             cardView = itemView.findViewById(R.id.TourMiniCard);
         }
     }
 
-    public void setFlirtedList(ArrayList<Tour> flitiredList){
-        this.tourList = flitiredList;
+    public void setFilteredList(ArrayList<Tour> filteredList){
+        this.tourList = filteredList;
         notifyDataSetChanged();
     }
 }

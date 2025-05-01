@@ -17,10 +17,10 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/tvDestination"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Destination"
+            android:text="Tour Name"
             android:textSize="18sp"
             android:textColor="@color/brown"/>
 

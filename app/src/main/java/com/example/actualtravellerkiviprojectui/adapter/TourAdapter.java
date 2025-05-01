@@ -30,7 +30,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     @Override
     public void onBindViewHolder(@NonNull TourViewHolder holder, int pos) {
         Tour tour = tours.get(pos);
-        holder.dest.setText(tour.getDestination());
+        holder.name.setText(tour.getTourName());
         String date = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
                 .format(tour.getDate());
         holder.date.setText(date);
@@ -41,10 +41,10 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     public int getItemCount() { return tours.size(); }
 
     static class TourViewHolder extends RecyclerView.ViewHolder {
-        TextView dest, date, guide;
+        TextView name, date, guide;
         TourViewHolder(@NonNull View iv) {
             super(iv);
-            dest  = iv.findViewById(R.id.tvDestination);
+            name  = iv.findViewById(R.id.tvName);
             date  = iv.findViewById(R.id.tvDate);
             guide = iv.findViewById(R.id.tvGuide);
         }
