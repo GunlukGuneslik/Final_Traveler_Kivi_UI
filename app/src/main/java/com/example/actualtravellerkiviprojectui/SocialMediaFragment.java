@@ -1,7 +1,9 @@
 package com.example.actualtravellerkiviprojectui;
 
+import android.content.ClipData;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,11 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
 import com.example.actualtravellerkiviprojectui.adapter.SocialMediaPost_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author zeynep
@@ -32,6 +38,8 @@ public class SocialMediaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private RecyclerView recyclerView;
+    private SearchView searchView;
+    private SocialMediaPost_RecyclerViewAdapter socialMediaAdapter;
 
     private ArrayList<SocialMediaPostModel> socialMediaPostModels = new ArrayList<>();
 
@@ -72,9 +80,43 @@ public class SocialMediaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_social_media, container, false);
         recyclerView = view.findViewById(R.id.socialMediaRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        socialMediaAdapter = new SocialMediaPost_RecyclerViewAdapter(getContext(),socialMediaPostModels,this);
         fillSocialMediaPosts();
+        searchView = view.findViewById(R.id.socialMediaSearchBar);
+        searchView.clearFocus();
+        searchView.setQueryHint("#...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
+
         return view;
     }
+
+    private void filterList(String newText) {
+        ArrayList<SocialMediaPostModel> filteredList = new ArrayList<>();
+        for (SocialMediaPostModel post: socialMediaPostModels) {
+            if(post.getHashtag().toLowerCase().contains(newText.toLowerCase())){
+                filteredList.add(post);
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(getContext(), "There is no post with written hashtag", Toast.LENGTH_SHORT).show();
+        } else {
+            socialMediaAdapter.setFilteredList(filteredList);
+        }
+
+    }
+
     //for testing now
     private void fillSocialMediaPosts(){
         String[] userNames = getResources().getStringArray(R.array.userNames);
@@ -85,8 +127,6 @@ public class SocialMediaFragment extends Fragment {
         for (int i = 0; i < userNames.length; i++) {
             socialMediaPostModels.add(new SocialMediaPostModel(userNames[i], photoDescriptions[i], hashtags[i], R.drawable.baseline_account_box_24, R.drawable.anitkabir, 5, anyDate));
         }
-
-        SocialMediaPost_RecyclerViewAdapter adapter = new SocialMediaPost_RecyclerViewAdapter(getContext(),socialMediaPostModels);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(socialMediaAdapter);
     }
 }

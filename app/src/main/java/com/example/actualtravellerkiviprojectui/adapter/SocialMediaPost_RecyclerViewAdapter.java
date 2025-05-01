@@ -14,18 +14,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.SignInActivity;
+import com.example.actualtravellerkiviprojectui.SocialMediaFragment;
 import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
 import com.example.actualtravellerkiviprojectui.WelcomePageActivity;
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 
 import java.util.ArrayList;
 
 public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder> {
     Context context;
     ArrayList<SocialMediaPostModel> socialMediaPostModels;
+    SocialMediaFragment socialMediaFragment;
 
-    public SocialMediaPost_RecyclerViewAdapter(Context context, ArrayList<SocialMediaPostModel> socialMediaPostModels) {
+    public SocialMediaPost_RecyclerViewAdapter(Context context, ArrayList<SocialMediaPostModel> socialMediaPostModels,SocialMediaFragment fragment) {
         this.context = context;
         this.socialMediaPostModels = socialMediaPostModels;
+        socialMediaFragment = fragment;
+    }
+
+    public void setFilteredList(ArrayList<SocialMediaPostModel> filteredList){
+        this.socialMediaPostModels = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull
