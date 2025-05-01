@@ -15,8 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.adapter.TourAdapter;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,8 +61,8 @@ public class SearchTourPageFragment extends Fragment {
             String sortBy = spinnerSort.getSelectedItem().toString();
 
             List<Tour> result = allTours.stream()
-                    .filter(t -> t.getDestination().toLowerCase().contains(q))
-                    .filter(t -> filt.equals("All") || t.getDestination().equals(filt))
+                    .filter(t -> t.getTourName().toLowerCase().contains(q))
+                    .filter(t -> filt.equals("All") || t.getTourName().equals(filt))
                     .collect(Collectors.toList());
 
             if (sortBy.equals("Date")) {
@@ -78,9 +80,16 @@ public class SearchTourPageFragment extends Fragment {
 
     // Test verisi; yerine gerçek API/DB çağıracaksın
     private List<Tour> loadTours() {
-        List<Tour> tours = new ArrayList<>();
-        tours.add(new Tour("Location A", new Date(), "Alice", 150));
-        tours.add(new Tour("Location B", new Date(), "Bob",   200));
+        ArrayList<Tour> tours = new ArrayList<>();
+
+        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
+        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
+        ArrayList<PlaceModel> testPlaceList = new ArrayList<>();
+        testPlaceList.add(testPlace1);
+        testPlaceList.add(testPlace2);
+
+        tours.add(new Tour("Location A", new Date(), "Alice", 150, testPlaceList));
+        tours.add(new Tour("Location B", new Date(), "Bob",   200, testPlaceList));
         return tours;
     }
 }

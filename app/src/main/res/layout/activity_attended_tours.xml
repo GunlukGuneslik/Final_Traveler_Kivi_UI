@@ -2,40 +2,86 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".TourPagesFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/green">
 
-    <Button
-        android:id="@+id/AttendedToursPageReturnButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:backgroundTint="@color/brown"
-        android:drawableTop="@drawable/baseline_arrow_back_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <SearchView
-        android:id="@+id/searchViewForAttendedTours"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/search_view_map_page_bg"
-        android:iconifiedByDefault="false"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/AttendedToursPageReturnButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="Search for a tour" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <FrameLayout
-        android:id="@+id/frameLayoutInTourPages"
-        android:layout_width="0dp"
+        <Button
+            android:id="@+id/AttendedToursPageReturnButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/brown"
+            android:drawableTop="@drawable/baseline_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SearchView
+            android:id="@+id/searchViewForAttendedTours"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@drawable/search_view_map_page_bg"
+            android:iconifiedByDefault="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/AttendedToursPageReturnButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryHint="Search for a tour" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchViewForAttendedTours"></FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
+        <TextView
+            android:id="@+id/textViewAttendedToursWaitingForRating"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="The Tours Waiting For Your Rate"
+            android:textColor="@color/brown"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAttendedToursWaitingForRating"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textViewAttendedToursRated"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Your Attended Tours"
+            android:textColor="@color/brown"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAttendedToursRated"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
