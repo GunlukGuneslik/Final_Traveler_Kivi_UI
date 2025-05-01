@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.actualtravellerkiviprojectui.AttendedToursActivity;
 import com.example.actualtravellerkiviprojectui.R;
-import com.example.actualtravellerkiviprojectui.TourPagesFragment;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
@@ -22,27 +22,27 @@ import java.util.ArrayList;
  * @author Güneş
  * this adapter was created to show attended tours and upcoming tours which can be accessed by account page
  */
-public class Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerView.Adapter<Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder>{
+public class Attended_Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerView.Adapter<Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder>{
     Context context;
     ArrayList<Tour> tourList;
-    TourPagesFragment tourPagesFragment;
+    AttendedToursActivity tourPagesActivity;
 
-    public Tour_RecyclerViewAdapter_for_tour_frames(TourPagesFragment tourPagesFragment, ArrayList<Tour> tourList, Context context) {
-        this.tourPagesFragment = tourPagesFragment;
+    public Attended_Tour_RecyclerViewAdapter_for_tour_frames(AttendedToursActivity tourPagesActivity, ArrayList<Tour> tourList, Context context) {
+        this.tourPagesActivity = tourPagesActivity;
         this.tourList = tourList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.fragment_tour_pages, parent, false);
-        return new Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder(view);
+        return new Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Attended_Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder holder, int position) {
         Tour currentTour = tourList.get(position);
         //holder.guidePhoto.setImageResource(currentTour.getGuide().getPhoto);
         holder.places.setText(currentTour.getDestination());
