@@ -17,6 +17,9 @@ import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import java.util.ArrayList;
 
+/**
+ * @author Güneş
+ */
 public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_RecyclerViewAdapter.MapViewHolder> {
     Context context;
     ArrayList<PlaceModel> placeModels;

@@ -1,4 +1,4 @@
-package com.example.actualtravellerkiviprojectui;
+package com.example.actualtravellerkiviprojectui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,12 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.TourPagesFragment;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
 
+/**
+ * @author Güneş
+ * this adapter was created to show attended tours and upcoming tours which can be accessed by account page
+ */
 public class Tour_RecyclerViewAdapter_for_tour_frames extends RecyclerView.Adapter<Tour_RecyclerViewAdapter_for_tour_frames.MapViewHolder>{
     Context context;
     ArrayList<Tour> tourList;

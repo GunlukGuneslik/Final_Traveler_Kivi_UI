@@ -15,6 +15,9 @@ import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
 
 import java.util.ArrayList;
 
+/**
+ * @author Güneş
+ */
 public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter<Account_Page_Posts_RecyclerViewAdapter.postViewHolder> {
     Context context;
     ArrayList<SocialMediaPostModel> posts;
