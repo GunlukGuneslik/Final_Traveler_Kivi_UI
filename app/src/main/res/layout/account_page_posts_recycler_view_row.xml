@@ -59,7 +59,7 @@
 
             <TextView
                 android:id="@+id/postDescription"
-                android:layout_margin="8dp"
+                android:layout_margin="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

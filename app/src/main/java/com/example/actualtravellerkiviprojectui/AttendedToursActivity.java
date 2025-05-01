@@ -20,6 +20,9 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * @author Güneş
+ */
 public class AttendedToursActivity extends AppCompatActivity {
 
     private ArrayList<Tour> WaitingToursList = new ArrayList<Tour>();
