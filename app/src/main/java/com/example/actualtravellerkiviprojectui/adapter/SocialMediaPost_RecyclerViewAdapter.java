@@ -58,9 +58,12 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                socialMediaPostModels.get(holder.getAdapterPosition()).setNumberOfLikes(socialMediaPostModels.get(holder.getAdapterPosition()).getNumberOfLikes()+1);
-                holder.heartButton.setImageResource(R.drawable.filledheart);
-                holder.textViewLikes.setText(socialMediaPostModels.get(position).getNumberOfLikes() + " likes");
+                if(!holder.isClicked){
+                    socialMediaPostModels.get(holder.getAdapterPosition()).setNumberOfLikes(socialMediaPostModels.get(holder.getAdapterPosition()).getNumberOfLikes()+1);
+                    holder.heartButton.setImageResource(R.drawable.filledheart);
+                    holder.textViewLikes.setText(socialMediaPostModels.get(position).getNumberOfLikes() + " likes");
+                    holder.isClicked = true;
+                }
             }
         });
     }
@@ -78,6 +81,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         TextView textViewHashtag;
         TextView textViewLikes;
         ImageButton heartButton;
+        boolean isClicked = false;
 
         public SocialMediaViewHolder(@NonNull View itemView) {
             super(itemView);
