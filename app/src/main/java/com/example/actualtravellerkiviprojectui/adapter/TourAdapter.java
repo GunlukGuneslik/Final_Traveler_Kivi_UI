@@ -1,13 +1,18 @@
 
 package com.example.actualtravellerkiviprojectui.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.actualtravellerkiviprojectui.ApplicationPagesActivity;
 import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -35,6 +40,12 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
                 .format(tour.getDate());
         holder.date.setText(date);
         holder.guide.setText("Guide: " + tour.getGuideName());
+        //test için cardview'a action listener ekliyorum *ben zeynep*
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
+            v.getContext().startActivity(intent);
+        });
+        //sonra değiştirebiliriz data aktarmak için
     }
 
     @Override
@@ -42,11 +53,13 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
 
     static class TourViewHolder extends RecyclerView.ViewHolder {
         TextView name, date, guide;
+        CardView cardView;
         TourViewHolder(@NonNull View iv) {
             super(iv);
             name  = iv.findViewById(R.id.tvName);
             date  = iv.findViewById(R.id.tvDate);
             guide = iv.findViewById(R.id.tvGuide);
+            cardView = iv.findViewById(R.id.cardTourSearch);
         }
     }
 }
