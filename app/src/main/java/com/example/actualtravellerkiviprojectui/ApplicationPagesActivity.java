@@ -41,6 +41,8 @@ public class ApplicationPagesActivity extends AppCompatActivity {
                 .commit();
         // for first opening
         activeFragment = socialMediaFragment;
+        // this will be selected as default
+        bottomNavigationBar.setSelectedItemId(R.id.socialMedia);
 
 
         // handels the selection from the navigation bar

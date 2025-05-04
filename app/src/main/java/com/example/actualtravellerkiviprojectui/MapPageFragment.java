@@ -178,7 +178,8 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
         for (PlaceModel place : placeModels) {
             if (place.getLocation().equals(clickedLocation)) {
-                Toast.makeText(getContext(), place.getPlaceName(), Toast.LENGTH_SHORT).show();
+                // when we click on a place on map it directly shows the info about this place
+                flitterList(place.getPlaceName());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedLocation, 10));
                 return true;
             }

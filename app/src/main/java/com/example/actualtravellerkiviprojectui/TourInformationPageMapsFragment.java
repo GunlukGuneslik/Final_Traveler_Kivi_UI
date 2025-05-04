@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,8 +17,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class TourInformationPageMapsFragment extends Fragment {
 
+    ArrayList<PlaceModel> placesOnTheTour;
+    private GoogleMap mMap;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -31,9 +36,20 @@ public class TourInformationPageMapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap = googleMap;
+
+            if (placesOnTheTour.isEmpty()) {
+                LatLng defaultLocation =  new LatLng(39.925533, 32.866287);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
+            } else {
+
+                // Adding all available markers
+                for (PlaceModel place : placesOnTheTour) {
+                    mMap.addMarker(new MarkerOptions().position(place.getLocation()).title(place.getPlaceName()));
+                }
+            }
+
+            mMap.getUiSettings().setZoomControlsEnabled(true);
         }
     };
 
@@ -42,6 +58,9 @@ public class TourInformationPageMapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        placesOnTheTour = new ArrayList<PlaceModel>();
+        fillThePlaceArrayList();
+
         return inflater.inflate(R.layout.fragment_tour_information_page_maps, container, false);
     }
 
@@ -54,4 +73,18 @@ public class TourInformationPageMapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
+
+    // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
+    /**it would be nice if the methods checks weather the data changed or not.
+     *if data is not changed it might be cause delay.
+     * also prevent the duplication of items
+     */
+    private void fillThePlaceArrayList() {
+        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
+        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
+
+        placesOnTheTour.add(testPlace1);
+        placesOnTheTour.add(testPlace2);
+    }
+
 }
