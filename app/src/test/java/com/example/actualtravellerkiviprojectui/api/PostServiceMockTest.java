@@ -7,7 +7,7 @@ import java.io.IOException;
 public class PostServiceMockTest {
 
     @Test
-    public void fetchPosts() {
+    public void fetchFeed() {
         try {
             System.err.println(new PostServiceMock().fetchPosts(1, 10, "").execute().body().get(0).getBody());
         } catch (IOException e) {
