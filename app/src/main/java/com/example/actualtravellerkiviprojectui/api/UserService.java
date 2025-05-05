@@ -17,7 +17,7 @@ public interface UserService {
     Call<List<UserDTO>> getAllUsers();
 
     @POST("users/")
-    Call<UserDTO> createUser(@Body UserCreateDTO userCreateDTO);
+    Call<UserDTO> createUser(@Body UserDTO userCreateDTO);
 
     @GET("users/{userId}/avatar")
     Call<ImageDTO> getAvatarOfUser(@Path("userId") int userId);
