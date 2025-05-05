@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui.api;
 
+import com.example.actualtravellerkiviprojectui.dto.PostCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
@@ -28,6 +29,6 @@ public interface PostService {
     Call<List<UserDTO>> likers(@Path("postId") int postId);
 
     @GET("posts/create")
-    Call<PostDTO> createPost(@Body PostDTO post);
+    Call<PostDTO> createPost(@Body PostCreateDTO post);
 
 }
