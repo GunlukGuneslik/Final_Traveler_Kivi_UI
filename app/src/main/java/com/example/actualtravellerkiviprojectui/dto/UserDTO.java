@@ -2,9 +2,10 @@ package com.example.actualtravellerkiviprojectui.dto;
 
 import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserDTO {
+public class UserDTO implements Serializable {
     private int image;
     private String userName;
 

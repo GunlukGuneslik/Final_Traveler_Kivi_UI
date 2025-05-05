@@ -14,6 +14,8 @@ import com.example.actualtravellerkiviprojectui.ApplicationPagesActivity;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
 import com.example.actualtravellerkiviprojectui.model.Tour;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;

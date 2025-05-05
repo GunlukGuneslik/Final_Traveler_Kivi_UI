@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -133,8 +134,11 @@ public class AttendedToursActivity extends AppCompatActivity {
         ArrayList<PlaceModel> testPlaceList2 = new ArrayList<>();
         testPlaceList2.add(testPlace2);
 
-        tours.add(new Tour("Location A", new Date(), "Alice", 150, testPlaceList));
-        tours.add(new Tour("Location B", new Date(), "Bob",   200, testPlaceList2));
+        UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
+        UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
+
+        tours.add(new Tour("Location A", new Date(), 100,"Türkçe", testPlaceList, user1, R.drawable.ankara));
+        tours.add(new Tour("Location B", new Date(), 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara));
         return tours;
     }
 }

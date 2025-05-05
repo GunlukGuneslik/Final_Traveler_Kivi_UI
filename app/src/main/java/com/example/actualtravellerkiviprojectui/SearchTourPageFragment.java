@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.adapter.TourAdapter;
 import com.google.android.gms.maps.model.LatLng;
@@ -88,8 +89,11 @@ public class SearchTourPageFragment extends Fragment {
         testPlaceList.add(testPlace1);
         testPlaceList.add(testPlace2);
 
-        tours.add(new Tour("Location A", new Date(), "Alice", 150, testPlaceList));
-        tours.add(new Tour("Location B", new Date(), "Bob",   200, testPlaceList));
+        UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
+        UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
+
+        tours.add(new Tour("Location A", new Date(), 100,"Türkçe", testPlaceList, user1, R.drawable.ankara));
+        tours.add(new Tour("Location B", new Date(), 150,   "Türkçe", testPlaceList, user2, R.drawable.ankara));
         return tours;
     }
 }

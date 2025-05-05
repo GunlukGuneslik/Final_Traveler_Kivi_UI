@@ -1,6 +1,7 @@
 package com.example.actualtravellerkiviprojectui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import java.util.ArrayList;
 
@@ -46,8 +48,10 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Open the tour page
-                Toast.makeText(context, "You clicked: a tour", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
+                intent.putExtra("tour", currentTour);
+                intent.putExtra("guide", currentTour.getGuide());
+                v.getContext().startActivity(intent);
             }
         });
     }

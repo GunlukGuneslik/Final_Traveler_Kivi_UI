@@ -3,32 +3,51 @@ package com.example.actualtravellerkiviprojectui.model;
 
 
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Tour {
+public class Tour implements Serializable {
     private final String tourName;
+    private String tourLanguage;
     private final Date date;
-    private final String guideName;
     private final int popularity;
+    private int tourImage;
     private ArrayList<PlaceModel> places;
 
-    public Tour(String destination, Date date, String guideName, int popularity, ArrayList<PlaceModel> places) {
+    private UserDTO guide;
+
+    public Tour(String destination, Date date, int popularity, String tourLanguage, ArrayList<PlaceModel> places, UserDTO guide, int tourImage) {
         this.tourName = destination;
         this.date       = date;
-        this.guideName  = guideName;
+        this.tourLanguage = tourLanguage;
         this.popularity = popularity;
         this.places = places;
+        this.guide = guide;
+        this.tourImage = tourImage;
     }
 
     public String getTourName() { return tourName; }
     public Date   getDate()        { return date; }
-    public String getGuideName()   { return guideName; }
+    public String getGuideName()   { return guide.getUserName(); }
     public int    getPopularity()  { return popularity; }
     //@author Güneş
     public ArrayList<PlaceModel> getPlaces() {
         return places;
+    }
+    //@ Güneş
+    public UserDTO getGuide() {
+        return guide;
+    }
+
+    public int getTourImage() {
+        return tourImage;
+    }
+
+    public String getTourLanguage(){
+        return tourLanguage;
     }
 }
 
