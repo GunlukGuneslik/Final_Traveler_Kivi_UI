@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.AccountPageFragment;
-import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
+import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
 

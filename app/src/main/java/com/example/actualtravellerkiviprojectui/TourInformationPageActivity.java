@@ -18,6 +18,9 @@ import androidx.fragment.app.Fragment;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * @author zeynep
  */
@@ -64,7 +67,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         });
 
         //@author Güneş
-        currentTour = (Tour) getIntent().getSerializableExtra("tour");
+        currentTour = getIntent().getParcelableExtra("tour");
 
         //test ediyorum
         if (currentTour == null) {
@@ -84,8 +87,9 @@ public class TourInformationPageActivity extends AppCompatActivity {
         tourLanguage.setText("Language: " + currentTour.getTourLanguage());
         // date
         tourDate = findViewById(R.id.TourDateTourInformationPage);
-        //TODO: fix this
-        tourDate.setText("" + currentTour.getDate());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(currentTour.getDate());
+        tourDate.setText(formattedDate);
         //tour rate
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         tourRate.setText("Rate: " + currentTour.getRate());

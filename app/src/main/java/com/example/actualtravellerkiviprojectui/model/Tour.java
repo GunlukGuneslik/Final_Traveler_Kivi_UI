@@ -2,6 +2,11 @@ package com.example.actualtravellerkiviprojectui.model;
 
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
@@ -9,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Tour implements Serializable {
+public class Tour implements Parcelable {
     private final String tourName;
     private String tourLanguage;
     private final Date date;
@@ -55,5 +60,46 @@ public class Tour implements Serializable {
     public double getRate() {
         return rate;
     }
+
+    // Parcel constructor
+    protected Tour(Parcel in) {
+        tourName = in.readString();
+        tourLanguage = in.readString();
+        date = new Date(in.readLong());
+        popularity = in.readInt();
+        tourImage = in.readInt();
+        rate = in.readDouble();
+        places = in.createTypedArrayList(PlaceModel.CREATOR);
+        guide = in.readParcelable(UserDTO.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(tourName);
+        dest.writeString(tourLanguage);
+        dest.writeLong(date.getTime());
+        dest.writeInt(popularity);
+        dest.writeInt(tourImage);
+        dest.writeDouble(rate);
+        dest.writeTypedList(places);
+        dest.writeParcelable(guide, flags);
+    }
+
+    public static final Creator<Tour> CREATOR = new Creator<Tour>() {
+        @Override
+        public Tour createFromParcel(Parcel in) {
+            return new Tour(in);
+        }
+
+        @Override
+        public Tour[] newArray(int size) {
+            return new Tour[size];
+        }
+    };
 }
 

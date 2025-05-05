@@ -1,7 +1,6 @@
 package com.example.actualtravellerkiviprojectui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
-import com.example.actualtravellerkiviprojectui.SignInActivity;
 import com.example.actualtravellerkiviprojectui.SocialMediaFragment;
-import com.example.actualtravellerkiviprojectui.SocialMediaPostModel;
-import com.example.actualtravellerkiviprojectui.WelcomePageActivity;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
 /**

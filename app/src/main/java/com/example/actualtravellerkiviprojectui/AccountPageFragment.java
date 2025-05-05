@@ -3,17 +3,11 @@ package com.example.actualtravellerkiviprojectui;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.actualtravellerkiviprojectui.adapter.Account_Page_Posts_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
 import java.util.Date;

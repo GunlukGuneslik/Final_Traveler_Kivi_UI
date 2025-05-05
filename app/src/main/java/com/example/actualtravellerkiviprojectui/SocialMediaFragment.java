@@ -1,6 +1,5 @@
 package com.example.actualtravellerkiviprojectui;
 
-import android.content.ClipData;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -13,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
 import com.example.actualtravellerkiviprojectui.adapter.SocialMediaPost_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author zeynep
