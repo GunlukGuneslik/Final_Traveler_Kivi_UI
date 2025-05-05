@@ -1,12 +1,19 @@
 package com.example.actualtravellerkiviprojectui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.actualtravellerkiviprojectui.adapter.Account_Page_Posts_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,6 +41,8 @@ public class AccountPageFragment extends Fragment {
     ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
     private RecyclerView recyclerView;
     private Account_Page_Posts_RecyclerViewAdapter adapter;
+
+    private UserDTO currentUser;
     private int userProfilePhoto;
     private String userName;
     private ImageView profilePhoto;
@@ -39,6 +50,7 @@ public class AccountPageFragment extends Fragment {
     private Button settingsButton;
     private Button attendedToursButton;
     private Button upcomingToursButton;
+    ActivityResultLauncher<Intent> resultLauncher;
 
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,18 +91,27 @@ public class AccountPageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        userProfilePhoto = getUserProfilePhoto();
-        userName = getUserName();
-    }
-    //TODO: complete this method
-    private String getUserName() {
-        return "fare" ;
+        currentUser = getCurrentUser();
+        userProfilePhoto = currentUser.getImage();
+        userName = currentUser.getUserName();
+
+        resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    try {
+                        // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
+                        Uri imageUri = result.getData().getData();
+                        profilePhoto.setImageURI(imageUri);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "No image sellected",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        );
     }
 
-    //TODO: complete this method
-    private int getUserProfilePhoto() {
-        return R.drawable.mouse ;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,8 +131,7 @@ public class AccountPageFragment extends Fragment {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.ChangeTheAccountPhoto:
-                        Toast.makeText(getContext(), "Update profile photo",Toast.LENGTH_SHORT).show();
-                        //TODO
+                        pickImage();
                         return true;
                     case R.id.ChangeName:
                         Toast.makeText(getContext(), "Change Name",Toast.LENGTH_SHORT).show();
@@ -153,6 +173,21 @@ public class AccountPageFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
+    }
+
+    private void pickImage() {
+        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        resultLauncher.launch(intent);
+    }
+
+    //TODO: Complete this method
+    private UserDTO getCurrentUser() {
+        ArrayList<String> languages = new ArrayList<>();
+        languages.add("Türkçe");
+        ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
+        posts.add(new SocialMediaPostModel("Fare", "Hi", "Ankara", R.drawable.mouse, R.drawable.anitkabir,
+                10, new Date(2025, 4, 5)));
+        return new UserDTO(R.drawable.mouse, languages, posts, "Fare");
     }
 
 

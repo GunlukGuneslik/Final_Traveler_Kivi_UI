@@ -25,6 +25,10 @@ public class UserDTO implements Parcelable {
         return image;
     }
 
+    public void setImage(int newImage) {
+        image = newImage;
+    }
+
     public ArrayList<String> getUserLanguages() {
         return userLanguages;
     }
