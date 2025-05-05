@@ -92,8 +92,12 @@ public class SearchTourPageFragment extends Fragment {
         UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
         UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
 
-        tours.add(new Tour("Location A", new Date(), 3.2,  100,"Türkçe", testPlaceList, user1, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz..."));
-        tours.add(new Tour("Location B", new Date(), 1.0, 150,   "Türkçe", testPlaceList, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz..."));
+        ArrayList<String> comments = new ArrayList<>();
+        comments.add("It was nice.");
+        comments.add(("Ankara'yı çok sevdim."));
+        comments.add("I didn't like it.");
+        tours.add(new Tour("Location A", new Date(), 3.2,  100,"Türkçe", testPlaceList, user1, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
+        tours.add(new Tour("Location B", new Date(), 1.0, 150,   "Türkçe", testPlaceList, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
         return tours;
     }
 }
