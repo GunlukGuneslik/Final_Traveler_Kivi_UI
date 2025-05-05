@@ -6,7 +6,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/TourPlanCardView"
-        android:layout_width="350dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/search_view_map_page_bg">
+            android:background="@color/light_brown">
 
             <ImageView
                 android:id="@+id/TourPlanLocationImage"
@@ -38,6 +38,7 @@
                 android:layout_margin="10dp"
                 android:text="AnıtKabir"
                 android:textSize="18sp"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/TourPlanLocationImage"
                 app:layout_constraintTop_toTopOf="parent" />
