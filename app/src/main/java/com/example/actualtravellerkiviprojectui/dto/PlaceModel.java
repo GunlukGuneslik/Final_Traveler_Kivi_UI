@@ -2,7 +2,9 @@ package com.example.actualtravellerkiviprojectui.dto;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class PlaceModel {
+import java.io.Serializable;
+
+public class PlaceModel implements Serializable  {
 
     private String placeName;
     private String placeInformationText;

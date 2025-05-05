@@ -29,10 +29,13 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="google_maps_key" />
 
         <activity
             android:name=".TourInformationPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity
             android:name=".SignInActivity"

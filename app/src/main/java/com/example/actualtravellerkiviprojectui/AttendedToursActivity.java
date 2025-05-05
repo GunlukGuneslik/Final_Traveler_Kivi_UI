@@ -96,7 +96,7 @@ public class AttendedToursActivity extends AppCompatActivity {
     * TODO: this method suppose to filter the tours according to both their name and places in it
      */
     private void flitterList(String Text, ArrayList<Tour> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
-        if (adapter == null || givenList.isEmpty()){
+        if (adapter == null || givenList.isEmpty() || givenList == null){
             return;
         }
         ArrayList<Tour> filteredList = new ArrayList<>();
@@ -137,8 +137,8 @@ public class AttendedToursActivity extends AppCompatActivity {
         UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
         UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
 
-        tours.add(new Tour("Location A", new Date(), 100,"Türkçe", testPlaceList, user1, R.drawable.ankara));
-        tours.add(new Tour("Location B", new Date(), 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara));
+        tours.add(new Tour("Location A", new Date(), 4.3, 100,"Türkçe", testPlaceList, user1, R.drawable.ankara));
+        tours.add(new Tour("Location B", new Date(), 3.2, 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara));
         return tours;
     }
 }

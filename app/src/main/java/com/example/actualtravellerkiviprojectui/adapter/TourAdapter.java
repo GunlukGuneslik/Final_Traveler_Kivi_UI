@@ -43,11 +43,15 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
         holder.date.setText(date);
         holder.guide.setText("Guide: " + tour.getGuideName());
         //test için cardview'a action listener ekliyorum *ben zeynep*
-        holder.cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
-            v.getContext().startActivity(intent);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
+                intent.putExtra("tour", tour);
+                v.getContext().startActivity(intent);
+            }
         });
-        //sonra değiştirebiliriz data aktarmak için
+        //sonra değiştirebiliriz data aktarmak için // ben değiştirdim @author Güneş 05.05.2025
     }
 
     @Override

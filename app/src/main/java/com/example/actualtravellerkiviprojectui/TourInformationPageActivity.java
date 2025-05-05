@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
     private TextView tourNameTextView;
     private TextView tourLanguage;
     private TextView tourDate;
-    private TextView toruRate;
+    private TextView tourRate;
     private ImageView tourImage;
     private UserDTO guide;
     private TextView guideName;
@@ -46,7 +47,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_tour_information_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.TourInformationPage), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -64,26 +65,44 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
         //@author Güneş
         currentTour = (Tour) getIntent().getSerializableExtra("tour");
+
+        //test ediyorum
+        if (currentTour == null) {
+            // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
+            Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT).show();
+            finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+        }
+
         //Tour name
-        tourNameTextView.findViewById(R.id.tourNameTextViewTourInformationPage);
+        tourNameTextView = findViewById(R.id.tourNameTextViewTourInformationPage);
         tourNameTextView.setText(currentTour.getTourName());
         //Tour image
-        tourImage.findViewById(R.id.TourImageTourInformationPage);
+        tourImage = findViewById(R.id.TourImageTourInformationPage);
         tourImage.setImageResource(currentTour.getTourImage());
         // Tour language
-        tourLanguage.findViewById(R.id.tourLanguageTextViewTourInfoPage);
-        tourLanguage.setText(currentTour.getTourLanguage());
+        tourLanguage = findViewById(R.id.tourLanguageTextViewTourInfoPage);
+        tourLanguage.setText("Language: " + currentTour.getTourLanguage());
         // date
-        tourDate.findViewById(R.id.TourDateTourInformationPage);
+        tourDate = findViewById(R.id.TourDateTourInformationPage);
         //TODO: fix this
         tourDate.setText("" + currentTour.getDate());
+        //tour rate
+        tourRate = findViewById(R.id.tourRateTourInformationPage);
+        tourRate.setText("Rate: " + currentTour.getRate());
 
-        guide = (UserDTO) getIntent().getSerializableExtra("guide");
+        guide = currentTour.getGuide();
+
+        // test ediyorum
+        if (guide == null) {
+            Toast.makeText(this, "Error: Guied null.", Toast.LENGTH_SHORT).show();
+            finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+        }
+
         // guide image
-        guideImage.findViewById(R.id.guideImageTourInformationPage);
+        guideImage = findViewById(R.id.guideImageTourInformationPage);
         guideImage.setImageResource(guide.getImage());
         // guide name
-        guideName.findViewById(R.id.guideNameTextViewTourInformationPage);
+        guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
         guideName.setText(guide.getUserName());
 
 

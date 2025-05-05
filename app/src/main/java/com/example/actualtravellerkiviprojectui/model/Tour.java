@@ -16,11 +16,13 @@ public class Tour implements Serializable {
     private final int popularity;
     private int tourImage;
     private ArrayList<PlaceModel> places;
+    private double rate;
 
     private UserDTO guide;
 
-    public Tour(String destination, Date date, int popularity, String tourLanguage, ArrayList<PlaceModel> places, UserDTO guide, int tourImage) {
+    public Tour(String destination, Date date, double rate, int popularity, String tourLanguage, ArrayList<PlaceModel> places, UserDTO guide, int tourImage) {
         this.tourName = destination;
+        this.rate = rate;
         this.date       = date;
         this.tourLanguage = tourLanguage;
         this.popularity = popularity;
@@ -48,6 +50,10 @@ public class Tour implements Serializable {
 
     public String getTourLanguage(){
         return tourLanguage;
+    }
+
+    public double getRate() {
+        return rate;
     }
 }
 

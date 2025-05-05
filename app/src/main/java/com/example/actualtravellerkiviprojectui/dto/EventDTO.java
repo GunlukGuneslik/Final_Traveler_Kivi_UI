@@ -1,4 +1,6 @@
 package com.example.actualtravellerkiviprojectui.dto;
 
-public class EventDTO {
+import java.io.Serializable;
+
+public class EventDTO implements Serializable {
 }

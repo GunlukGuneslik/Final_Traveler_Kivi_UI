@@ -92,8 +92,8 @@ public class SearchTourPageFragment extends Fragment {
         UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
         UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
 
-        tours.add(new Tour("Location A", new Date(), 100,"Türkçe", testPlaceList, user1, R.drawable.ankara));
-        tours.add(new Tour("Location B", new Date(), 150,   "Türkçe", testPlaceList, user2, R.drawable.ankara));
+        tours.add(new Tour("Location A", new Date(), 3.2,  100,"Türkçe", testPlaceList, user1, R.drawable.ankara));
+        tours.add(new Tour("Location B", new Date(), 1.0, 150,   "Türkçe", testPlaceList, user2, R.drawable.ankara));
         return tours;
     }
 }

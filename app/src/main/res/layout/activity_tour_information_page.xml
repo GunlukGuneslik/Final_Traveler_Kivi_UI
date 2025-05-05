@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/TourInformationPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TourInformationPageActivity"
@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/tourRateTourInformationPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -134,7 +134,7 @@
                 android:layout_width="28dp"
                 android:layout_height="25dp"
                 android:layout_margin="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/textView12"
+                app:layout_constraintEnd_toStartOf="@+id/tourRateTourInformationPage"
                 app:layout_constraintStart_toEndOf="@+id/tourLanguageTextViewTourInfoPage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/star" />

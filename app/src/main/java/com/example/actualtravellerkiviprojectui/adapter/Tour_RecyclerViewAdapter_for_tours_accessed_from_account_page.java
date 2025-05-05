@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import java.util.ArrayList;
 
@@ -40,9 +41,9 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
     @Override
     public void onBindViewHolder(@NonNull Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder holder, int position) {
         Tour currentTour = tourList.get(position);
-        //TODO: Tour classı düzelitildiğinde bunlar da düzeltilmeli
-        //holder.guidePhoto.setImageResource(currentTour.getGuide().getPhoto);
-        holder.guidePhoto.setImageResource(R.drawable.mouse);
+        UserDTO guide = currentTour.getGuide();
+
+        holder.guidePhoto.setImageResource(guide.getImage());
         holder.tourName.setText(currentTour.getTourName());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +51,6 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
                 intent.putExtra("tour", currentTour);
-                intent.putExtra("guide", currentTour.getGuide());
                 v.getContext().startActivity(intent);
             }
         });
