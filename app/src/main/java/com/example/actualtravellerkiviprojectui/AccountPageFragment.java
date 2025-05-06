@@ -1,18 +1,8 @@
 package com.example.actualtravellerkiviprojectui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +13,24 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.actualtravellerkiviprojectui.adapter.Account_Page_Posts_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +38,9 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class AccountPageFragment extends Fragment {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
 
     ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -92,7 +96,13 @@ public class AccountPageFragment extends Fragment {
         }
 
         currentUser = getCurrentUser();
-        userProfilePhoto = currentUser.getImage();
+        // TODO: This Won't work and use proper callback.
+        try {
+            //userProfilePhoto = Integer.valueOf(userService.getAvatar(currentUser.id).execute().body());
+            userProfilePhoto = 4;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         userName = currentUser.getUserName();
 
         resultLauncher = registerForActivityResult(
@@ -180,25 +190,23 @@ public class AccountPageFragment extends Fragment {
         resultLauncher.launch(intent);
     }
 
-    //TODO: Complete this method
+    //TODO: Complete this method. Will add callback and fail methods
     private UserDTO getCurrentUser() {
-        ArrayList<String> languages = new ArrayList<>();
-        languages.add("Türkçe");
-        ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
-        posts.add(new SocialMediaPostModel("Fare", "Hi", "Ankara", R.drawable.mouse, R.drawable.anitkabir,
-                10, new Date(2025, 4, 5)));
-        return new UserDTO(R.drawable.mouse, languages, posts, "Fare");
+        try {
+            return userService.getUser(1).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
-    //TODO: complete this method so that it fills the array with user's posts
+    //TODO: complete this method so that it fills the array with user's posts.
+    //TODO: currently for prototyping. use proper callback methods.
     private void fillSocialMediaPosts(){
-        String[] photoDescriptions = getResources().getStringArray(R.array.photoDescriptions);
-        String[] hashtags = getResources().getStringArray(R.array.hashtags);
-        Date anyDate = new Date(2025,04,25);
-
-        for (int i = 0; i < 4; i++) {
-            posts.add(new SocialMediaPostModel("Helena", photoDescriptions[i], hashtags[i], R.drawable.baseline_account_box_24, R.drawable.anitkabir, 5, anyDate));
+        try {
+            postService.fetchFeed(0, 1, 100, "").execute().body().forEach(post -> posts.add(SocialMediaPostModel.fromPostDTO(post)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
