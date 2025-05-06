@@ -30,10 +30,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="google_maps_key" />
-
+        <activity android:name="com.example.actualtravellerkiviprojectui.AddPostActivity"/>
         <activity
             android:name=".TourInformationPageActivity"
             android:exported="false" />
+
         <activity
             android:name=".CreateAccountActivity"
             android:exported="false" />
