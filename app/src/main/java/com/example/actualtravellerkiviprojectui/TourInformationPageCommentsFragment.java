@@ -3,10 +3,20 @@ package com.example.actualtravellerkiviprojectui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.actualtravellerkiviprojectui.adapter.Comments_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.adapter.TourPlan_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.model.Tour;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,11 @@ public class TourInformationPageCommentsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Tour currentTour;
+    private RecyclerView recyclerView;
+    private Comments_RecyclerViewAdapter adapter;
+    private ArrayList<String> comments = new ArrayList<>();
 
     public TourInformationPageCommentsFragment() {
         // Required empty public constructor
@@ -58,7 +73,14 @@ public class TourInformationPageCommentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tour_information_page_comments, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewComments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        currentTour = getActivity().getIntent().getParcelableExtra("tour");
+        comments = currentTour.getComments();
+        adapter = new Comments_RecyclerViewAdapter(getContext(),comments,this);
+        recyclerView.setAdapter(adapter);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tour_information_page_comments, container, false);
+        return view;
     }
 }

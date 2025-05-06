@@ -16,22 +16,26 @@
             android:layout_width="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
             android:text="Tour Plan: " />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTourPlan"
             android:layout_width="match_parent"
-            android:layout_height="276dp" />
+            android:layout_height="337dp" />
 
         <TextView
             android:id="@+id/textView17"
+            android:textColor="@color/white"
+            android:textSize="17sp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
+            android:padding="8dp"
             android:background="@drawable/tour_information_page_text_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

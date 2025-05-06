@@ -22,10 +22,13 @@ public class Tour implements Parcelable {
     private int tourImage;
     private ArrayList<PlaceModel> places;
     private double rate;
+    private String details;
+
+    private ArrayList<String> comments;
 
     private UserDTO guide;
 
-    public Tour(String destination, Date date, double rate, int popularity, String tourLanguage, ArrayList<PlaceModel> places, UserDTO guide, int tourImage) {
+    public Tour(String destination, Date date, double rate, int popularity, String tourLanguage, ArrayList<PlaceModel> places, UserDTO guide, int tourImage, String details, ArrayList<String> comments) {
         this.tourName = destination;
         this.rate = rate;
         this.date       = date;
@@ -34,6 +37,8 @@ public class Tour implements Parcelable {
         this.places = places;
         this.guide = guide;
         this.tourImage = tourImage;
+        this.details = details;
+        this.comments = comments;
     }
 
     public String getTourName() { return tourName; }
@@ -57,6 +62,10 @@ public class Tour implements Parcelable {
         return tourLanguage;
     }
 
+    public String getDetails(){ return details; }
+
+    public ArrayList<String> getComments() { return comments;}
+
     public double getRate() {
         return rate;
     }
@@ -71,6 +80,9 @@ public class Tour implements Parcelable {
         rate = in.readDouble();
         places = in.createTypedArrayList(PlaceModel.CREATOR);
         guide = in.readParcelable(UserDTO.class.getClassLoader());
+        //sonradan ekledim bir sıkıntı oluşmaz umarım
+        details = in.readString();
+        comments = in.createStringArrayList();
     }
 
     @Override
@@ -88,6 +100,8 @@ public class Tour implements Parcelable {
         dest.writeDouble(rate);
         dest.writeTypedList(places);
         dest.writeParcelable(guide, flags);
+        dest.writeString(details);
+        dest.writeStringList(comments);
     }
 
     public static final Creator<Tour> CREATOR = new Creator<Tour>() {
