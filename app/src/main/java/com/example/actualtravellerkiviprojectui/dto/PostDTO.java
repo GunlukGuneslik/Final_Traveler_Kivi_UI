@@ -15,4 +15,5 @@ public class PostDTO {
     public List<String> tags = new ArrayList<>(); // List of tags associated with the post
     public String createdAt; // Timestamp for when the post was created
     public String updatedAt; // Timestamp for when the post was last updated
+    public Integer likeCount;
 }

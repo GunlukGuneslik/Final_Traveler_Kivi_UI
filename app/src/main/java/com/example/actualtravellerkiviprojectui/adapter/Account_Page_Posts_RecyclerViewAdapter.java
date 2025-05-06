@@ -36,7 +36,7 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull Account_Page_Posts_RecyclerViewAdapter.postViewHolder holder, int position) {
-        holder.hastag.setText(posts.get(position).getHashtag());
+        holder.hastag.setText(String.join(", ", posts.get(position).getHashtags()));
         holder.sharedDate.setText(posts.get(position).getSharedDate());
         holder.imageView.setImageResource(posts.get(position).getSharedPhotoId());
         holder.description.setText(posts.get(position).getPhotoDescription());
