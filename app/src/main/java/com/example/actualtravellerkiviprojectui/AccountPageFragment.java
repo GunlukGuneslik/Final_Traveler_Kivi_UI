@@ -103,7 +103,7 @@ public class AccountPageFragment extends Fragment {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        userName = currentUser.getUserName();
+        userName = currentUser.firstName;
 
         resultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
