@@ -13,11 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,6 +30,9 @@ import java.util.Date;
  * @author Güneş
  */
 public class AttendedToursActivity extends AppCompatActivity {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
 
     private ArrayList<Tour> WaitingToursList = new ArrayList<Tour>();
     private ArrayList<Tour> RatedToursList = new ArrayList<Tour>();
@@ -134,9 +142,18 @@ public class AttendedToursActivity extends AppCompatActivity {
         ArrayList<PlaceModel> testPlaceList2 = new ArrayList<>();
         testPlaceList2.add(testPlace2);
 
-        UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
-        UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
-
+        UserDTO user1 = null;
+        try {
+            user1 = userService.getUser(1).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        UserDTO user2 = null;
+        try {
+            user2 = userService.getUser(2).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         ArrayList<String> comments = new ArrayList<>();
         comments.add("It was nice.");
         comments.add(("Ankara'yı çok sevdim."));
