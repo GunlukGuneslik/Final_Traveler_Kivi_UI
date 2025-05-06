@@ -29,7 +29,7 @@ public class RecoveryPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+        setContentView(R.layout.activity_recovery_password);
 
         EditText emailEt = findViewById(R.id.resetEmailEt);
         Button   sendBtn = findViewById(R.id.sendResetBtn);
