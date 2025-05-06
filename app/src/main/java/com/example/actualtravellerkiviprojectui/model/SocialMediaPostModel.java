@@ -3,11 +3,23 @@ package com.example.actualtravellerkiviprojectui.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.dto.PostDTO;
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+
 import java.util.Date;
+
 /**
  * @author zeynep
  */
 public class SocialMediaPostModel implements Parcelable {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+    private static SocialMediaPostModel created;
     String userName;
     String photoDescription;
     String hashtag;
@@ -52,10 +64,18 @@ public class SocialMediaPostModel implements Parcelable {
         return numberOfLikes;
     }
 
-    public String getSharedDate(){return "Date: " + sharedDate;}
+    public static SocialMediaPostModel fromPostDTO(PostDTO postDTO) {
+        UserDTO owner = userService.getUser(postDTO.userId);
+        SocialMediaPostModel created = new SocialMediaPostModel(owner.firstName, "a nice photo", postDTO.tags, postService.getLikeCount(postDTO.postId), postDTO.createdAt)
+        return created;
+    }
 
     public void setNumberOfLikes(int numberOfLikes) {
         this.numberOfLikes = numberOfLikes;
+    }
+
+    public String getSharedDate() {
+        return "Date: " + sharedDate;
     }
 
     // Parcelable Constructor
