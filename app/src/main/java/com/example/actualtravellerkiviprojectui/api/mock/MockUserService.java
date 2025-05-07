@@ -17,6 +17,11 @@ public class MockUserService implements UserService {
     }
 
     @Override
+    public Call<UserDTO> getUser(Integer userId) {
+        return null;
+    }
+
+    @Override
     public Call<List<UserDTO>> getAllUsers() {
         return null;
     }
@@ -48,6 +53,18 @@ public class MockUserService implements UserService {
 
     @Override
     public Call<UserDTO> followUser(int userId, int targetUserId) {
+        return null;
+    }
+
+    /**
+     * TODO: Use bytestream?
+     * Returns the avatar of user.
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Call<String> getAvatar(int userId) {
         return null;
     }
 }
