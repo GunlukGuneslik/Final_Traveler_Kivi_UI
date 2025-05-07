@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui.api;
 
+import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 import com.example.actualtravellerkiviprojectui.dto.PostCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
@@ -14,7 +15,7 @@ import retrofit2.http.Query;
 
 public interface PostService {
     @GET("posts/feed/{userId}")
-    Call<List<PostDTO>> fetchFeed(@Path("userId") int userId, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
+    Call<PagedModel<PostDTO>> fetchFeed(@Path("userId") int userId, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
 
     @GET("posts/{postId}/get")
     Call<PostDTO> fetchPost(@Path("postId") int postId, int userId);
