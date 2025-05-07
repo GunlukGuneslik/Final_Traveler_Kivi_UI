@@ -129,7 +129,7 @@ public class AccountPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
 
         profilePhoto = view.findViewById(R.id.userProfilePhoto);
-        profilePhoto.setImageResource(userProfilePhoto);
+        // profilePhoto.setImageResource(userProfilePhoto);
 
         userProfileName = view.findViewById(R.id.userProfileNameTextView);
         userProfileName.setText(userName);

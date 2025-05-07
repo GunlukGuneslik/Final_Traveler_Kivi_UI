@@ -7,14 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
+
 import java.util.ArrayList;
 
 /**
@@ -43,7 +45,6 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
         Tour currentTour = tourList.get(position);
         UserDTO guide = currentTour.getGuide();
 
-        holder.guidePhoto.setImageResource(guide.getImage());
         holder.tourName.setText(currentTour.getTourName());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
