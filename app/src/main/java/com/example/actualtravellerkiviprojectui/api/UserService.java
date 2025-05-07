@@ -13,6 +13,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserService {
+    @GET("users/{userId}/get")
+    Call<UserDTO> getUser(@Path("userId") Integer userId);
+
     @GET("users/")
     Call<List<UserDTO>> getAllUsers();
 
@@ -33,5 +36,15 @@ public interface UserService {
 
     @GET("users/{userId}/follow")
     Call<UserDTO> followUser(@Path("userId") int userId, @Query("targetUserId") int targetUserId);
+
+    /**
+     * TODO: Use bytestream?
+     * Returns the avatar of user.
+     *
+     * @param userId
+     * @return
+     */
+    @GET("users/{userId}/avatar")
+    Call<String> getAvatar(@Path("userId") int userId);
 
 }
