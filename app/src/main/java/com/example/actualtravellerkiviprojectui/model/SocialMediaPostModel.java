@@ -24,13 +24,13 @@ public class SocialMediaPostModel implements Parcelable {
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
     private static SocialMediaPostModel created;
-    UserDTO owner;
-    String photoDescription;
-    List<String> hashtags;
-    int profilePhotoId;
-    int sharedPhotoId;
-    int numberOfLikes;
-    Date sharedDate;
+    public UserDTO owner;
+    public String photoDescription;
+    public List<String> hashtags;
+    public int profilePhotoId;
+    public int sharedPhotoId;
+    public int numberOfLikes;
+    public Date sharedDate;
 
 
     public SocialMediaPostModel(UserDTO owner, String photoDescription, List<String> hashtags,

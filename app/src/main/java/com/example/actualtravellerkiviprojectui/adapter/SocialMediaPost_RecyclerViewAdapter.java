@@ -48,9 +48,9 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
     @Override
     public void onBindViewHolder(@NonNull SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder holder, int position) {
         SocialMediaPostModel socialMediaPostModel = socialMediaPostModels.get(position);
-        holder.textViewUserName.setText(socialMediaPostModel.getUserName());
+        holder.textViewUserName.setText(socialMediaPostModel.owner.firstName);
         holder.textViewPhotoDescription.setText(socialMediaPostModel.getPhotoDescription());
-        holder.textViewHashtag.setText(socialMediaPostModel.getHashtag());
+        holder.textViewHashtag.setText(socialMediaPostModel.getHashtags().get(0));
         holder.textViewLikes.setText(socialMediaPostModel.getNumberOfLikes() + " likes");
         holder.profileImageView.setImageResource(socialMediaPostModel.getProfilePhotoId());
         holder.placeImageView.setImageResource(socialMediaPostModel.getSharedPhotoId());
