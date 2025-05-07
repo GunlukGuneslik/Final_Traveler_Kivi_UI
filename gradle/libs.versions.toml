@@ -11,6 +11,7 @@ playServicesMaps = "19.2.0"
 retrofit = "2.11.0"
 retrofitMock = "2.11.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
+jacksonDatatypeJsr310 = "2.19.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -27,6 +28,7 @@ jackson = { module = "com.fasterxml.jackson.core:jackson-core", version = "2.19.
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version = "2.19.0" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.19.0" }
 retrofit-mock = { group = "com.squareup.retrofit2", name = "retrofit-mock", version.ref = "retrofitMock" }
+jackson-datatype-jsr310 = { group = "com.fasterxml.jackson.datatype", name = "jackson-datatype-jsr310", version.ref = "jacksonDatatypeJsr310" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
