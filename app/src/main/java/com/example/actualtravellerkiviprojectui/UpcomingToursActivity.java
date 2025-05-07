@@ -1,21 +1,22 @@
 package com.example.actualtravellerkiviprojectui;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
-import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author Güneş
@@ -122,24 +123,6 @@ public class UpcomingToursActivity extends AppCompatActivity {
      */
     private ArrayList<Tour> loadTours() {
         ArrayList<Tour> tours = new ArrayList<>();
-
-        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
-        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
-        ArrayList<PlaceModel> testPlaceList = new ArrayList<>();
-        testPlaceList.add(testPlace1);
-        testPlaceList.add(testPlace2);
-        ArrayList<PlaceModel> testPlaceList2 = new ArrayList<>();
-        testPlaceList2.add(testPlace2);
-
-        UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
-        UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
-
-        ArrayList<String> comments = new ArrayList<>();
-        comments.add("It was nice.");
-        comments.add(("Ankara'yı çok sevdim."));
-        comments.add("I didn't like it.");
-        tours.add(new Tour("Location A", new Date(), 4.2, 100,"Türkçe", testPlaceList, user1, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
-        tours.add(new Tour("Location B", new Date(), 2.3, 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
         return tours;
     }
 }

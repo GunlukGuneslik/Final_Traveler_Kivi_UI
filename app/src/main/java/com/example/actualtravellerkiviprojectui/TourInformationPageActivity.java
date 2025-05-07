@@ -104,10 +104,11 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
         // guide image
         guideImage = findViewById(R.id.guideImageTourInformationPage);
-        guideImage.setImageResource(guide.getImage());
+        // TODO: no images right now
+        //guideImage.setImageResource(guide.());
         // guide name
         guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
-        guideName.setText(guide.getUserName());
+        guideName.setText(guide.firstName);
 
 
         buttonTourPlan = findViewById(R.id.button5);

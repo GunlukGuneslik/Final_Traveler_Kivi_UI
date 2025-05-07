@@ -1,22 +1,20 @@
 package com.example.actualtravellerkiviprojectui;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.actualtravellerkiviprojectui.adapter.SocialMediaPost_RecyclerViewAdapter;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * @author zeynep
@@ -101,7 +99,7 @@ public class SocialMediaFragment extends Fragment {
     private void filterList(String newText) {
         ArrayList<SocialMediaPostModel> filteredList = new ArrayList<>();
         for (SocialMediaPostModel post: socialMediaPostModels) {
-            if(post.getHashtag().toLowerCase().contains(newText.toLowerCase())){
+            if (post.getHashtags().stream().anyMatch(s -> s.toLowerCase().contains(newText.toLowerCase()))) {
                 filteredList.add(post);
             }
         }
@@ -116,14 +114,7 @@ public class SocialMediaFragment extends Fragment {
 
     //for testing now
     private void fillSocialMediaPosts(){
-        String[] userNames = getResources().getStringArray(R.array.userNames);
-        String[] photoDescriptions = getResources().getStringArray(R.array.photoDescriptions);
-        String[] hashtags = getResources().getStringArray(R.array.hashtags);
-        // merhaba zeynep, ufak bir değişiklik yaptım güneş.
-        Date anyDate = new Date(2025,4,25);
-        for (int i = 0; i < userNames.length; i++) {
-            socialMediaPostModels.add(new SocialMediaPostModel(userNames[i], photoDescriptions[i], hashtags[i], R.drawable.baseline_account_box_24, R.drawable.anitkabir, 5, anyDate));
-        }
+
         recyclerView.setAdapter(socialMediaAdapter);
     }
 }

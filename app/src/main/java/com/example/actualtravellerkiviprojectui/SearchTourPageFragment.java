@@ -1,10 +1,10 @@
 package com.example.actualtravellerkiviprojectui;
-import android.widget.ArrayAdapter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -15,18 +15,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.adapter.TourAdapter;
-import com.google.android.gms.maps.model.LatLng;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SearchTourPageFragment extends Fragment {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inf, ViewGroup ctr, Bundle bs) {
@@ -79,25 +82,9 @@ public class SearchTourPageFragment extends Fragment {
         });
     }
 
-    // Test verisi; yerine gerçek API/DB çağıracaksın
+    // TODO: Test verisi; yerine gerçek API/DB çağıracaksın
     private List<Tour> loadTours() {
         ArrayList<Tour> tours = new ArrayList<>();
-
-        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
-        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
-        ArrayList<PlaceModel> testPlaceList = new ArrayList<>();
-        testPlaceList.add(testPlace1);
-        testPlaceList.add(testPlace2);
-
-        UserDTO user1 = new UserDTO(R.drawable.avatar, null, null, "Alice");
-        UserDTO user2 = new UserDTO(R.drawable.avatar, null, null, "Bob");
-
-        ArrayList<String> comments = new ArrayList<>();
-        comments.add("It was nice.");
-        comments.add(("Ankara'yı çok sevdim."));
-        comments.add("I didn't like it.");
-        tours.add(new Tour("Location A", new Date(), 3.2,  100,"Türkçe", testPlaceList, user1, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
-        tours.add(new Tour("Location B", new Date(), 1.0, 150,   "Türkçe", testPlaceList, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
         return tours;
     }
 }
