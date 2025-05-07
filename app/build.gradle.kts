@@ -41,12 +41,15 @@ android {
         create("prod") {
             // Uses Spring backend
             dimension = "mocking"
+            resValue("string", "app_name", "Traveller Kivi")
         }
         create("mock") {
             // Uses mocked data
             dimension = "mocking"
             applicationIdSuffix = ".mock"
             versionNameSuffix = "-mock"
+            resValue("string", "app_name", "Traveller Kivi Mock")
+
         }
     }
 
