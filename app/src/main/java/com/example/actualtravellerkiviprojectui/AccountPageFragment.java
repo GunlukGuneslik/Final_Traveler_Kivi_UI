@@ -204,7 +204,7 @@ public class AccountPageFragment extends Fragment {
     //TODO: currently for prototyping. use proper callback methods.
     private void fillSocialMediaPosts(){
         try {
-            postService.fetchFeed(0, 1, 100, "").execute().body().forEach(post -> posts.add(SocialMediaPostModel.fromPostDTO(post)));
+            postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> posts.add(SocialMediaPostModel.fromPostDTO(post)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
