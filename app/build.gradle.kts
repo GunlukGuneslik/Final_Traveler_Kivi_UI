@@ -25,7 +25,27 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+        }
     }
+
+    flavorDimensions += "mocking"
+    productFlavors {
+        create("prod") {
+            // Uses Spring backend
+            dimension = "mocking"
+        }
+        create("mock") {
+            // Uses mocked data
+            dimension = "mocking"
+            applicationIdSuffix = ".mock"
+            versionNameSuffix = "-mock"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
