@@ -18,7 +18,8 @@ public class MockUserService implements UserService {
 
     @Override
     public Call<UserDTO> getUser(Integer userId) {
-        return null;
+        return delegate.returningResponse("mock/users/userdetail");
+
     }
 
     @Override

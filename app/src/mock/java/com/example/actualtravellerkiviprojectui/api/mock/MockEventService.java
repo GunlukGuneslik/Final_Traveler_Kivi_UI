@@ -17,64 +17,38 @@ public class MockEventService implements EventService {
         this.delegate = delegate;
     }
 
-    /**
-     * Creates new event.
-     *
-     * @param event
-     */
     @Override
     public Call<EventDTO> createEvent(EventDTO event) {
-        return null;
+        // Mock a response
+        return delegate.returningResponse(utils.loadMockJson("mock/events/event_1.json")).createEvent(event);
     }
 
-    /**
-     * Returns the list of all events.
-     */
     @Override
     public Call<List<EventDTO>> getAllEvents() {
-        return null;
+        return delegate.returningResponse(utils.loadMockJson("mock/events/event_list.json")).getAllEvents();
     }
 
-    /**
-     * Returns paginated list of events.
-     *
-     * @param size
-     * @param page
-     * @param sort
-     */
     @Override
     public Call<PagedModel<EventDTO>> getPaginatedEvents(int size, int page, String sort) {
-        return null;
+        return delegate.returningResponse(utils.loadMockJson("mock/events/event_list.json")).getPaginatedEvents(size, page, sort);
     }
 
-    /**
-     * Gets an event according to id.
-     *
-     * @param eventId
-     */
     @Override
     public Call<EventDTO> getEvent(int eventId) {
-        return null;
+        return delegate.returningResponse(utils.loadMockJson("mock/events/event_" + eventId + ".json")).getEvent(eventId);
     }
 
-    /**
-     * Updates an event.
-     *
-     * @param eventId
-     * @param update
-     */
     @Override
     public Call<EventDTO> updateEvent(int eventId, EventCreateUpdate update) {
-        return null;
+        return delegate.returningResponse(utils.loadMockJson("mock/events/event_" + eventId + ".json")).updateEvent(eventId, update);
     }
 
-    /**
-     * Deletes an event.
-     *
-     * @param eventId
-     */
     @Override
     public Call<Void> deleteEvent(int eventId) {
-        return null;
+        return delegate.returningResponse("").deleteEvent(eventId);
+    }
+
+    public String loadMockJson(String fileName) {
+        return utils.loadMockJson(fileName);
     }
 }
