@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui.api;
 
+
+import com.example.actualtravellerkiviprojectui.BuildConfig;
 import com.example.actualtravellerkiviprojectui.api.modules.MockModule;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 
@@ -33,7 +35,7 @@ public class ServiceLocator {
 
     public static synchronized UserService getUserService() {
         if (userService == null) {
-            userService = USE_MOCK
+            userService = BuildConfig.FLAVOR.equals("mock")
                     ? MockModule.provideMockUserService(getMockRetrofit())
                     : NetworkModule.provideUserService(getRetrofit());
         }
@@ -42,7 +44,7 @@ public class ServiceLocator {
 
     public static synchronized PostService getPostService() {
         if (postService == null) {
-            postService = USE_MOCK
+            postService = BuildConfig.FLAVOR.equals("mock")
                     ? MockModule.provideMockPostService(getMockRetrofit())
                     : NetworkModule.providePostService(getRetrofit());
         }
@@ -51,7 +53,7 @@ public class ServiceLocator {
 
     public static synchronized EventService getEventService() {
         if (eventService == null) {
-            eventService = USE_MOCK
+            eventService = BuildConfig.FLAVOR.equals("mock")
                     ? MockModule.provideMockEventService(getMockRetrofit())
                     : NetworkModule.provideEventService(getRetrofit());
         }

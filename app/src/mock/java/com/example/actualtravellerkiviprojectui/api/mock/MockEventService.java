@@ -20,27 +20,27 @@ public class MockEventService implements EventService {
     @Override
     public Call<EventDTO> createEvent(EventDTO event) {
         // Mock a response
-        return delegate.returningResponse(utils.loadMockJson("mock/events/event_1.json")).createEvent(event);
+        return delegate.returningResponse(Utils.loadMockJson("mock/events/event_1.json")).createEvent(event);
     }
 
     @Override
     public Call<List<EventDTO>> getAllEvents() {
-        return delegate.returningResponse(utils.loadMockJson("mock/events/event_list.json")).getAllEvents();
+        return delegate.returningResponse(Utils.loadMockJson("mock/events/event_list.json")).getAllEvents();
     }
 
     @Override
     public Call<PagedModel<EventDTO>> getPaginatedEvents(int size, int page, String sort) {
-        return delegate.returningResponse(utils.loadMockJson("mock/events/event_list.json")).getPaginatedEvents(size, page, sort);
+        return delegate.returningResponse(Utils.loadMockJson("mock/events/event_list.json")).getPaginatedEvents(size, page, sort);
     }
 
     @Override
     public Call<EventDTO> getEvent(int eventId) {
-        return delegate.returningResponse(utils.loadMockJson("mock/events/event_" + eventId + ".json")).getEvent(eventId);
+        return delegate.returningResponse(Utils.loadMockJson("mock/events/event_" + eventId + ".json")).getEvent(eventId);
     }
 
     @Override
     public Call<EventDTO> updateEvent(int eventId, EventCreateUpdate update) {
-        return delegate.returningResponse(utils.loadMockJson("mock/events/event_" + eventId + ".json")).updateEvent(eventId, update);
+        return delegate.returningResponse(Utils.loadMockJson("mock/events/event_" + eventId + ".json")).updateEvent(eventId, update);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class MockEventService implements EventService {
     }
 
     public String loadMockJson(String fileName) {
-        return utils.loadMockJson(fileName);
+        return Utils.loadMockJson(fileName);
     }
 }
