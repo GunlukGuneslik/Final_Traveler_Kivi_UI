@@ -13,7 +13,7 @@ import com.example.actualtravellerkiviprojectui.dto.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -30,11 +30,11 @@ public class SocialMediaPostModel implements Parcelable {
     public int profilePhotoId;
     public int sharedPhotoId;
     public int numberOfLikes;
-    public Date sharedDate;
+    public LocalDate sharedDate;
 
 
     public SocialMediaPostModel(UserDTO owner, String photoDescription, List<String> hashtags,
-                                List<String> pictureIDs, int numberOfLikes, Date sharedDate) {
+                                List<String> pictureIDs, int numberOfLikes, LocalDate sharedDate) {
         this.owner = owner;
         this.photoDescription = photoDescription;
         this.hashtags = hashtags;
@@ -61,7 +61,7 @@ public class SocialMediaPostModel implements Parcelable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageIds, postDTO.likeCount, new Date(postDTO.createdAt));
+        SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageIds, postDTO.likeCount, LocalDate.parse(postDTO.createdAt));
         return created;
     }
 
@@ -118,7 +118,6 @@ public class SocialMediaPostModel implements Parcelable {
     public String getSharedDate() {
         return "Date: " + sharedDate;
     }
-
 
 
 }
