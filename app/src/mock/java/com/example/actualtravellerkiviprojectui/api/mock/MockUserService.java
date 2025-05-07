@@ -1,8 +1,11 @@
 package com.example.actualtravellerkiviprojectui.api.mock;
 
+import androidx.annotation.NonNull;
+
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.ImageDTO;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
 
@@ -16,10 +19,15 @@ public class MockUserService implements UserService {
         this.delegate = delegate;
     }
 
+    @NonNull
+    private UserService getUserResponse() {
+        return delegate.returningResponse(Utils.loadObject("mock/users/userdetail.json", new TypeReference<UserDTO>() {
+        }));
+    }
+
     @Override
     public Call<UserDTO> getUser(Integer userId) {
-        return delegate.returningResponse("mock/users/userdetail");
-
+        return getUserResponse().getUser(userId);
     }
 
     @Override
@@ -49,12 +57,13 @@ public class MockUserService implements UserService {
 
     @Override
     public Call<List<UserDTO>> getUserFollowed(int userId) {
-        return null;
+        return delegate.returningResponse(Utils.loadObject("mock/users/users.json", new TypeReference<List<UserDTO>>() {
+        })).getUserFollowed(userId);
     }
 
     @Override
     public Call<UserDTO> followUser(int userId, int targetUserId) {
-        return null;
+        return getUserResponse().followUser(userId, targetUserId);
     }
 
     /**
