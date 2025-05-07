@@ -8,6 +8,11 @@ import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import retrofit2.Retrofit;
 import retrofit2.mock.MockRetrofit;
 
+/**
+ * ServiceLocator is used to retrieve a reference to common service objects.
+ * Services are initialized lazily.
+ * See: dependency injection, singleton pattern.
+ */
 public class ServiceLocator {
     private static final boolean USE_MOCK = true;
 

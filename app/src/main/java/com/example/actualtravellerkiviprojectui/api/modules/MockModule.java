@@ -12,6 +12,9 @@ import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 
+/**
+ * MockModule is only used in {@link com.example.actualtravellerkiviprojectui.api.ServiceLocator}
+ */
 public class MockModule {
     public static MockRetrofit provideMockRetrofit(Retrofit retrofit) {
         NetworkBehavior behavior = NetworkBehavior.create();
