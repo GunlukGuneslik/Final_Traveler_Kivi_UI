@@ -24,6 +24,10 @@ public class UserDTO implements Parcelable {
     public String firstName;
     public Integer id;
 
+    public UserDTO() {
+
+    }
+
     public static final Creator<UserDTO> CREATOR = new Creator<UserDTO>() {
         @Override
         public UserDTO createFromParcel(Parcel in) {
