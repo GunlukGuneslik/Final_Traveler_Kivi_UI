@@ -1,7 +1,6 @@
 package com.example.actualtravellerkiviprojectui.model;
 
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,7 +9,6 @@ import androidx.annotation.NonNull;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,7 +41,10 @@ public class Tour implements Parcelable {
 
     public String getTourName() { return tourName; }
     public Date   getDate()        { return date; }
-    public String getGuideName()   { return guide.getUserName(); }
+
+    public String getGuideName() {
+        return guide.firstName;
+    }
     public int    getPopularity()  { return popularity; }
     //@author Güneş
     public ArrayList<PlaceModel> getPlaces() {
