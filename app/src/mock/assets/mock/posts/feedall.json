@@ -1,0 +1,272 @@
+{
+  "content": [
+    {
+      "postId": 1,
+      "userId": 1,
+      "body": "Hello everyone!\\nThis is my first post in the app.",
+      "imageIds": [
+        "176c4d414-3d76-4d0e-ad49-c393712b14c5"
+      ],
+      "tags": [
+        "firstPost",
+        "hello"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 2,
+      "userId": 1,
+      "body": "Oh my god! I didn't know that Kızılay was this beautiful.",
+      "imageIds": [],
+      "tags": [
+        "CanımAnkaram",
+        "Kızılay"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 3,
+      "userId": 1,
+      "body": "Standing in awe at Anıtkabir, a majestic memorial dedicated to Mustafa Kemal Atatürk. The grandeur and historical significance of this place are truly remarkable! 🇹🇷",
+      "imageIds": [],
+      "tags": [
+        "Atatürk",
+        "Anıtkabir"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 4,
+      "userId": 2,
+      "body": "Exploring the Museum of Anatolian Civilizations, a treasure trove of ancient artifacts and fascinating history. A must-visit for history buffs! 🏛️",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "AnadoluMedeniyetleri"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 5,
+      "userId": 2,
+      "body": "Climbing up to Ankara Kalesi, a historic fortress with breathtaking views. Stepping into the past and admiring the city from above! 🏰",
+      "imageIds": [],
+      "tags": [
+        "AnkaraKalesi",
+        "Castle"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 6,
+      "userId": 2,
+      "body": "Discovering the ancient Augustus Tapınağı, a hidden gem in Ankara. Roman architecture and inscriptions take you back in time! 🏛️",
+      "imageIds": [],
+      "tags": [
+        "Temple",
+        "AugustusTapınağı"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 7,
+      "userId": 3,
+      "body": "Uncovering ancient treasures at Erimtan Arkeoloji ve Sanat Müzesi. From archaeological finds to stunning art, it's a cultural journey! 🏛️",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "ErimtanMüzesi"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 8,
+      "userId": 3,
+      "body": "Stepping into the fascinating world of Rahmi M. Koç Müzesi, Ankara's first industrial museum. From transportation to science, it's a captivating experience! 🚀",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "RahmiKoçMüzesi"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 9,
+      "userId": 3,
+      "body": "Wandering through the enchanting Hamamönü, a historic neighborhood with Ottoman charm. Beautiful architecture, local shops, and a glimpse into the past! 🕌",
+      "imageIds": [],
+      "tags": [
+        "OldTown",
+        "Hamamönü"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 10,
+      "userId": 4,
+      "body": "Stepping into Atatürk Evi, a replica of Atatürk's house in Thessaloniki. A journey through history and a tribute to the founder of modern Turkey! 🇹🇷",
+      "imageIds": [],
+      "tags": [
+        "AtatürkEvi",
+        "Atatürk"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 11,
+      "userId": 4,
+      "body": "Exploring Atatürk Orman Çiftliği, a lush green space with historical significance. From the zoo to the Atatürk Evi Museum, it's a delightful experience! 🌳",
+      "imageIds": [],
+      "tags": [
+        "Farm",
+        "AtatürkOrmanÇiftliği"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 12,
+      "userId": 4,
+      "body": "Visiting the ancient Aslanhane Camii, one of Ankara's oldest mosques. Its 13th-century architecture and Seljuk decorations are truly mesmerizing! 🕌",
+      "imageIds": [],
+      "tags": [
+        "Mosque",
+        "AslanhaneCamii"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 13,
+      "userId": 5,
+      "body": "Stepping into the Second Grand National Assembly Building, now a museum. Reliving the early days of the Turkish Republic and its rich history! 🇹🇷",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "TBMM"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 14,
+      "userId": 5,
+      "body": "Exploring the First Grand National Assembly Building, a historic site in Ankara. A journey through the early years of the Turkish Republic! 🇹🇷",
+      "imageIds": [],
+      "tags": [
+        "TBMM",
+        "HistoricalSite"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 15,
+      "userId": 5,
+      "body": "Discovering the PTT Pul Müzesi, a treasure trove of stamps from around the world. A philatelist's dream come true! 🌏",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "PTTPulMüzesi"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 16,
+      "userId": 6,
+      "body": "Visiting the Türkiye İş Bankası Museum, a journey through the country's economic history. From historical artifacts to old bank safes, it's fascinating! 💰",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "İşBankasıMüzesi"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 17,
+      "userId": 6,
+      "body": "Stepping into Ankara Palas, a historic guesthouse with a rich past. Its architecture and interior design take you back to the early 20th century! 🏰",
+      "imageIds": [],
+      "tags": [
+        "AnkaraPalas",
+        "HistoricalBuilding"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 18,
+      "userId": 6,
+      "body": "Exploring the contemporary art at Müze Evliyagil, Ankara's first modern and contemporary art museum. From sculptures to paintings, it's a feast for the eyes! 🎨",
+      "imageIds": [],
+      "tags": [
+        "Museum",
+        "MüzeEvliyagil"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 19,
+      "userId": 7,
+      "body": "Soaring high at Atakule, Ankara's iconic tower. Enjoying breathtaking city views and a unique dining experience! 😍",
+      "imageIds": [],
+      "tags": [
+        "Skyline",
+        "Atakule"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    },
+    {
+      "postId": 20,
+      "userId": 7,
+      "body": "Uncovering the ancient Roma Hamamı, a hidden gem in Ankara's city center. Stepping into a bygone era and imagining the Roman baths! 🛁",
+      "imageIds": [],
+      "tags": [
+        "AncientSite",
+        "RomaHamamı"
+      ],
+      "createdAt": "2025-05-07",
+      "updatedAt": null,
+      "likeCount": 0
+    }
+  ],
+  "page": {
+    "size": 20,
+    "number": 0,
+    "totalElements": 23,
+    "totalPages": 2
+  }
+}

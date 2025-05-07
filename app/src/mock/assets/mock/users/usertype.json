@@ -1,0 +1,47 @@
+{
+  "content": [
+    {
+      "languages": [],
+      "registrationDate": "2025-05-07",
+      "userType": "GUIDE_USER",
+      "email": "orhangg@gmail.com",
+      "lastName": "Gezdirmeci",
+      "firstName": "Orhan",
+      "id": 2
+    },
+    {
+      "languages": [],
+      "registrationDate": "2025-05-07",
+      "userType": "GUIDE_USER",
+      "email": "yilmazz2022@gemail.com",
+      "lastName": "Deluro",
+      "firstName": "Ozan",
+      "id": 4
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 20,
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalElements": 2,
+  "totalPages": 1,
+  "last": true,
+  "first": true,
+  "size": 20,
+  "number": 0,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "empty": false
+}

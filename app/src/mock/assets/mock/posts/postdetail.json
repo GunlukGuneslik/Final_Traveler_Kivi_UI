@@ -1,0 +1,15 @@
+{
+  "postId": 1,
+  "userId": 1,
+  "body": "Hello everyone!\\nThis is my first post in the app.",
+  "imageIds": [
+    "176c4d414-3d76-4d0e-ad49-c393712b14c5"
+  ],
+  "tags": [
+    "hello",
+    "firstPost"
+  ],
+  "createdAt": "2025-05-07",
+  "updatedAt": null,
+  "likeCount": 0
+}

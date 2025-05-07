@@ -1,0 +1,146 @@
+[
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "REGULAR_USER",
+    "email": "jakemotta@gmail.com",
+    "lastName": "Motta",
+    "firstName": "Jake",
+    "id": 1
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "GUIDE_USER",
+    "email": "orhangg@gmail.com",
+    "lastName": "Gezdirmeci",
+    "firstName": "Orhan",
+    "id": 2
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "ADMIN",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Korkusuz",
+    "firstName": "Mustafa",
+    "id": 3
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "GUIDE_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Deluro",
+    "firstName": "Ozan",
+    "id": 4
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Yanami",
+    "firstName": "Buro",
+    "id": 5
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Numan",
+    "firstName": "Ozan",
+    "id": 6
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Brick",
+    "firstName": "Larry",
+    "id": 7
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-06",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Tonhall",
+    "firstName": "Ash",
+    "id": 8
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "REGULAR_USER",
+    "email": "jakemotta@gmail.com",
+    "lastName": "Motta",
+    "firstName": "Jake",
+    "id": 9
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "GUIDE_USER",
+    "email": "orhangg@gmail.com",
+    "lastName": "Gezdirmeci",
+    "firstName": "Orhan",
+    "id": 10
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "ADMIN",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Korkusuz",
+    "firstName": "Mustafa",
+    "id": 11
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "GUIDE_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Deluro",
+    "firstName": "Ozan",
+    "id": 12
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Yanami",
+    "firstName": "Buro",
+    "id": 13
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Numan",
+    "firstName": "Ozan",
+    "id": 14
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Brick",
+    "firstName": "Larry",
+    "id": 15
+  },
+  {
+    "languages": [],
+    "registrationDate": "2025-05-07",
+    "userType": "REGULAR_USER",
+    "email": "yilmazz2022@gemail.com",
+    "lastName": "Tonhall",
+    "firstName": "Ash",
+    "id": 16
+  }
+]
