@@ -9,12 +9,13 @@
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
         android:text="Tour Catalog"
         android:textColor="@color/brown"
         android:textSize="30dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/searchViewForAttendedTours"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/AttendedToursPageReturnButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,9 +34,9 @@
     <SearchView
         android:id="@+id/searchViewForAttendedTours"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="8dp"
-        android:layout_weight="5"
+        android:layout_weight="1"
         android:background="@drawable/search_view_map_page_bg"
         android:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +45,7 @@
     </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLaunchTourCatalog"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
