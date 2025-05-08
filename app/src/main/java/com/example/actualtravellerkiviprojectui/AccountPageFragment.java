@@ -1,15 +1,19 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static android.view.View.GONE;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +59,11 @@ public class AccountPageFragment extends Fragment {
     private Button settingsButton;
     private Button attendedToursButton;
     private Button upcomingToursButton;
+
+    private LinearLayout launchTourWindowForGuideUsers;
+
+    private Button catalogButton;
+    private Button createButton;
     ActivityResultLauncher<Intent> resultLauncher;
 
 
@@ -128,6 +137,32 @@ public class AccountPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
+
+        launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
+        if (currentUser.userType != UserDTO.UserType.GUIDE_USER) {
+            //TODO: burası test edilecek eğer düzgün durmuyorsa telefonda gone yerine invisible yapılacak!
+            launchTourWindowForGuideUsers.setVisibility(GONE);
+        } else {
+            catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
+            catalogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
+                    intent.putExtra("User", currentUser);
+                    startActivity(intent);
+                }
+            });
+
+            createButton = view.findViewById(R.id.launchTourWindowCreateButton);
+            createButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
+                    intent.putExtra("User", currentUser);
+                    startActivity(intent);
+                }
+            });
+        }
 
         profilePhoto = view.findViewById(R.id.userProfilePhoto);
         // profilePhoto.setImageResource(userProfilePhoto);

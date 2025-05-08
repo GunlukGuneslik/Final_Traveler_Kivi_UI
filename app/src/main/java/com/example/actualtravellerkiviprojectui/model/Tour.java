@@ -29,7 +29,7 @@ public class Tour implements Parcelable {
     public Tour(String destination, Date date, double rate, int popularity, String tourLanguage, ArrayList<PlaceModel> places, UserDTO guide, int tourImage, String details, ArrayList<String> comments) {
         this.tourName = destination;
         this.rate = rate;
-        this.date       = date;
+        this.date = date;
         this.tourLanguage = tourLanguage;
         this.popularity = popularity;
         this.places = places;
