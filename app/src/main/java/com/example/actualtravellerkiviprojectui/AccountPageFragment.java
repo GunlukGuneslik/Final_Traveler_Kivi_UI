@@ -209,18 +209,19 @@ public class AccountPageFragment extends Fragment {
         try {
             postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> {
                 try {
+                    Log.i("request", "Post request.");
                     posts.add(SocialMediaPostModel.fromPostDTO(post));
                 } catch (IOException e) {
                     //
                     String text = "Error fetching post.";
                     Log.w("retrofit", text);
-                    Toast.makeText(getContext(), text, 2);
+                    Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
                 }
             });
         } catch (IOException e) {
             String text = "Error fetching feed.";
             Log.w("retrofit", text);
-            Toast.makeText(getContext(), text, 2);
+            Toast.makeText(getContext(), text, Toast.LENGTH_LONG);
         }
     }
 }
