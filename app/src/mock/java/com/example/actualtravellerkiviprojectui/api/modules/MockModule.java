@@ -18,6 +18,7 @@ import retrofit2.mock.NetworkBehavior;
 public class MockModule {
     public static MockRetrofit provideMockRetrofit(Retrofit retrofit) {
         NetworkBehavior behavior = NetworkBehavior.create();
+        behavior.setFailurePercent(0);
         return new MockRetrofit.Builder(retrofit)
                 .networkBehavior(behavior)
                 .build();
