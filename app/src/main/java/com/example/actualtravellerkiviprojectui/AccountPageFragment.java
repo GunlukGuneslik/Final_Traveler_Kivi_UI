@@ -36,6 +36,13 @@ import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.EditText;
+import androidx.appcompat.app.AlertDialog;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +53,7 @@ public class AccountPageFragment extends Fragment {
     private static final UserService userService = ServiceLocator.getUserService();
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
+    private SharedPreferences prefs;
 
     ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -100,6 +108,14 @@ public class AccountPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = requireContext()
+                .getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+
+        // 2) API’dan currentUser’ı çekiyor
+        currentUser = getCurrentUser();
+
+        // 3) userName’i hem pref’ten hem de API’den gelen default’la tek satırda atıyor
+        userName = prefs.getString("username", currentUser.firstName);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -113,7 +129,7 @@ public class AccountPageFragment extends Fragment {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        userName = currentUser.firstName;
+
 
         resultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -168,7 +184,11 @@ public class AccountPageFragment extends Fragment {
         // profilePhoto.setImageResource(userProfilePhoto);
 
         userProfileName = view.findViewById(R.id.userProfileNameTextView);
-        userProfileName.setText(userName);
+        userProfileName = view.findViewById(R.id.userProfileNameTextView);
+
+        String displayName = prefs.getString("username", userName);// to change the name @eftelya
+        userProfileName.setText(displayName);
+
 
         settingsButton = view.findViewById(R.id.AccountPageSettingsButton);
         settingsButton.setOnClickListener(v -> {
@@ -182,14 +202,14 @@ public class AccountPageFragment extends Fragment {
                         return true;
                     case R.id.ChangeName:
                         //@author Eftelya
-                        Toast.makeText(getContext(), "Change Name",Toast.LENGTH_SHORT).show();
-                        //TODO
+                        showChangeNameDialog();
                         return true;
+
                     case R.id.ChangeLanguages:
                         //@author Eftelya
-                        Toast.makeText(getContext(), "Change Languages",Toast.LENGTH_SHORT).show();
-                        //TODO
+                        showChangeLanguageDialog();
                         return true;
+
                 }
                 return false;
             });
@@ -262,4 +282,65 @@ public class AccountPageFragment extends Fragment {
             Toast.makeText(getContext(), text, Toast.LENGTH_LONG);
         }
     }
+    // --- Change Name Dialog ---@author:Eftelya
+    private void showChangeNameDialog() {
+        final EditText input = new EditText(requireContext());
+        input.setHint("Yeni isminiz");
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Change Name")
+                .setView(input)
+                .setPositiveButton("Kaydet", (dlg, which) -> {
+                    String yeniIsim = input.getText().toString().trim();
+                    prefs.edit()
+                            .putString("username", yeniIsim)
+                            .apply();
+                    userProfileName.setText(yeniIsim);
+                    Toast.makeText(getContext(), "İsim güncellendi", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("İptal", null)
+                .show();
+    }
+
+    // --- Change Language Dialog ---@author:Eftelya
+    private void showChangeLanguageDialog() {
+        String[] labels = {"English", "Türkçe", "Deutsch"};
+        String[] codes  = {"en", "tr", "de"};
+        int checkedItem = getSavedLangIndex();
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Select Language")
+                .setSingleChoiceItems(labels, checkedItem, (dlg, which) -> {
+                    // anında kaydet
+                    prefs.edit()
+                            .putString("lang", codes[which])
+                            .apply();
+                })
+                .setPositiveButton("Uygula", (dlg, which) -> {
+                    String lang = prefs.getString("lang", "en");
+                    applyLocale(lang);
+                })
+                .setNegativeButton("İptal", null)
+                .show();
+    }
+
+    private int getSavedLangIndex() {
+        String kod = prefs.getString("lang", "en");
+        switch (kod) {
+            case "tr": return 1;
+            case "de": return 2;
+            default:   return 0;
+        }
+    }
+
+    private void applyLocale(String langCode) {
+        Locale locale = new Locale(langCode);
+        Locale.setDefault(locale);
+        Resources res = requireContext().getResources();
+        Configuration cfg = res.getConfiguration();
+        cfg.setLocale(locale);
+        res.updateConfiguration(cfg, res.getDisplayMetrics());
+        requireActivity().recreate();
+    }
+
 }

@@ -7,18 +7,16 @@
     android:orientation="vertical"
     android:background="@color/light_green">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         app:navigationIcon="@drawable/icon_close"
-    app:title="New Post"
-    app:titleTextColor="@color/dark_gray"
-    app:menu="@menu/menu_add_post" />
+        app:title="New Post"
+        app:titleTextColor="@color/dark_gray"
+        app:menu="@menu/menu_add_post" />
 
-    <!-- 2) Fotoğraf Önizleme -->
     <ImageView
         android:id="@+id/ivPreview"
         android:layout_width="match_parent"
@@ -28,7 +26,6 @@
         android:scaleType="centerCrop"
         android:background="@color/gray"
         android:contentDescription="Post image preview" />
-
 
     <EditText
         android:id="@+id/etCaption"
@@ -42,7 +39,22 @@
         android:textColorHint="@color/gray"
         android:padding="12dp" />
 
-    <!-- 4) Paylaş Butonu -->
+
+    <EditText
+        android:id="@+id/etHashtags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="#tag1 #tag2"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/dark_gray"
+        android:textColorHint="@color/gray"
+        android:padding="12dp"
+        android:inputType="text" />
+
+
+
     <Button
         android:id="@+id/btnShare"
         android:layout_width="match_parent"

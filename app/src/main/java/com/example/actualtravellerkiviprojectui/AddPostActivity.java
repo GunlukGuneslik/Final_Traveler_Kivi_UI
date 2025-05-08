@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui;
-
+import java.time.LocalDate;
+import java.util.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -20,11 +22,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
+import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddPostActivity extends AppCompatActivity {
 
     private Uri selectedImageUri;
     private ImageView ivPreview;
     private EditText etCaption;
+    private EditText etHashtags;
     private Button btnShare;
     private ActivityResultLauncher<Intent> pickImageLauncher;
 
@@ -44,6 +54,7 @@ public class AddPostActivity extends AppCompatActivity {
 
         ivPreview = findViewById(R.id.ivPreview);
         etCaption = findViewById(R.id.etCaption);
+        etHashtags  = findViewById(R.id.etHashtags);
         btnShare  = findViewById(R.id.btnShare);
 
 
@@ -99,6 +110,27 @@ public class AddPostActivity extends AppCompatActivity {
 
 
     private void sharePost() {
-        // Örnek: Uri ve caption’ı bir API'ye yolla
+        String caption = etCaption.getText().toString().trim();
+        String rawTags = etHashtags.getText().toString().trim();
+
+        // Parse hashtags
+        List<String> tags = new ArrayList<>();
+        if (!rawTags.isEmpty()) {
+            for (String t : rawTags.split("\\s+")) {
+                if (!t.startsWith("#")) t = "#" + t;
+                tags.add(t.toLowerCase());
+            }
+        }
+
+        // TODO: send 'caption', 'tags' and 'selectedImageUri' to backend via PostService
+        // e.g. postService.createPost(new PostCreateDTO(userId, caption, tags)).enqueue(...);
+
+        // For now, just show a confirmation and close
+        Toast.makeText(this,
+                "Post shared: " + caption + " " + tags,
+                Toast.LENGTH_SHORT).show();
+        finish();
     }
+
+
 }
