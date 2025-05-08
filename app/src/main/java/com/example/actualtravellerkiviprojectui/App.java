@@ -1,15 +1,20 @@
 package com.example.actualtravellerkiviprojectui;
 
 import android.app.Application;
+import android.content.Context;
 
-import com.example.actualtravellerkiviprojectui.api.mock.Utils;
+import java.lang.ref.WeakReference;
 
 public class App extends Application {
+    private static WeakReference<Context> mContext;
+
+    public static Context getContext() {
+        return mContext.get();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.FLAVOR.equals("mock")) {
-            Utils.init(this);
-        }
+        mContext = new WeakReference<>(this);
     }
 }
