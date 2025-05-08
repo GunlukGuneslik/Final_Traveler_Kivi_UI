@@ -38,7 +38,7 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
 
         previouslyCreatedToursByGuideUser = loadCreatedOldTours();
 
-        returnButton = findViewById(R.id.AttendedToursPageReturnButton);
+        returnButton = findViewById(R.id.TourCatalogPageReturnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
