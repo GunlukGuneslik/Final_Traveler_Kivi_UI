@@ -33,6 +33,7 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isDebuggable = true
+            isDefault = true
         }
     }
 
@@ -49,7 +50,7 @@ android {
             applicationIdSuffix = ".mock"
             versionNameSuffix = "-mock"
             resValue("string", "app_name", "Traveller Kivi Mock")
-
+            isDefault = true
         }
     }
 

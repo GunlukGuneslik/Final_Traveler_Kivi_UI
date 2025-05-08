@@ -8,6 +8,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.init(this);  // Initialize here
+        if (BuildConfig.FLAVOR.equals("mock")) {
+            Utils.init(this);
+        }
     }
 }

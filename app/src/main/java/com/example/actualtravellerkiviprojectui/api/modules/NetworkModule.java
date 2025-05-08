@@ -7,6 +7,9 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+/**
+ * NetworkModule is only used in {@link com.example.actualtravellerkiviprojectui.api.ServiceLocator}
+ */
 public class NetworkModule {
     private static final String BASE_URL = "https://kivi.local:45976/";
 

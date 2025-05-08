@@ -8,8 +8,12 @@ import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import retrofit2.Retrofit;
 import retrofit2.mock.MockRetrofit;
 
+/**
+ * ServiceLocator is used to retrieve a reference to common service objects.
+ * Services are initialized lazily.
+ * See: dependency injection, singleton pattern.
+ */
 public class ServiceLocator {
-    private static final boolean USE_MOCK = true;
 
     private static Retrofit retrofit;
     private static MockRetrofit mockRetrofit;
@@ -35,27 +39,22 @@ public class ServiceLocator {
 
     public static synchronized UserService getUserService() {
         if (userService == null) {
-            userService = BuildConfig.FLAVOR.equals("mock")
-                    ? MockModule.provideMockUserService(getMockRetrofit())
-                    : NetworkModule.provideUserService(getRetrofit());
+            userService = MockModule.provideMockUserService(getMockRetrofit());
         }
         return userService;
     }
 
     public static synchronized PostService getPostService() {
         if (postService == null) {
-            postService = BuildConfig.FLAVOR.equals("mock")
-                    ? MockModule.provideMockPostService(getMockRetrofit())
-                    : NetworkModule.providePostService(getRetrofit());
+            postService = MockModule.provideMockPostService(getMockRetrofit())
+            ;
         }
         return postService;
     }
 
     public static synchronized EventService getEventService() {
         if (eventService == null) {
-            eventService = BuildConfig.FLAVOR.equals("mock")
-                    ? MockModule.provideMockEventService(getMockRetrofit())
-                    : NetworkModule.provideEventService(getRetrofit());
+            eventService = MockModule.provideMockEventService(getMockRetrofit());
         }
         return eventService;
     }
