@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui.api.modules;
 
+import com.example.actualtravellerkiviprojectui.App;
+import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.UserService;
@@ -11,7 +13,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  * NetworkModule is only used in {@link com.example.actualtravellerkiviprojectui.api.ServiceLocator}
  */
 public class NetworkModule {
-    private static final String BASE_URL = "https://kivi.local:45976/";
+    private static final String BASE_URL = App.getContext().getResources().getString(R.string.kivi_api_url);
 
     public static Retrofit provideRetrofit() {
         return new Retrofit.Builder()
