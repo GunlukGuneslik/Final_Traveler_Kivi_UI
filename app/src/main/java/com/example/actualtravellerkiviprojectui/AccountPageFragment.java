@@ -177,13 +177,16 @@ public class AccountPageFragment extends Fragment {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.ChangeTheAccountPhoto:
+                        //@author Güneş
                         pickImage();
                         return true;
                     case R.id.ChangeName:
+                        //@author Eftelya
                         Toast.makeText(getContext(), "Change Name",Toast.LENGTH_SHORT).show();
                         //TODO
                         return true;
                     case R.id.ChangeLanguages:
+                        //@author Eftelya
                         Toast.makeText(getContext(), "Change Languages",Toast.LENGTH_SHORT).show();
                         //TODO
                         return true;
