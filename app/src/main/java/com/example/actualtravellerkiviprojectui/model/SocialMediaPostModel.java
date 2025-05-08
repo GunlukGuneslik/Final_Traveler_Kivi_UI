@@ -54,13 +54,9 @@ public class SocialMediaPostModel implements Parcelable {
     }
 
     @NonNull
-    public static SocialMediaPostModel fromPostDTO(PostDTO postDTO) {
+    public static SocialMediaPostModel fromPostDTO(PostDTO postDTO) throws IOException {
         UserDTO owner = null;
-        try {
-            owner = userService.getUser(postDTO.userId).execute().body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        owner = userService.getUser(postDTO.userId).execute().body();
         SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageIds, postDTO.likeCount, LocalDate.parse(postDTO.createdAt));
         return created;
     }
