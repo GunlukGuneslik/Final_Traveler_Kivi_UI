@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,10 +204,23 @@ public class AccountPageFragment extends Fragment {
     //TODO: complete this method so that it fills the array with user's posts.
     //TODO: currently for prototyping. use proper callback methods.
     private void fillSocialMediaPosts(){
+        // TODO: should add a way to refresh the feed which will also act as a retry method on failed feed request.
+        // TODO: should also retry the failed posts but idk how
         try {
-            postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> posts.add(SocialMediaPostModel.fromPostDTO(post)));
+            postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> {
+                try {
+                    posts.add(SocialMediaPostModel.fromPostDTO(post));
+                } catch (IOException e) {
+                    //
+                    String text = "Error fetching post.";
+                    Log.w("retrofit", text);
+                    Toast.makeText(getContext(), text, 2);
+                }
+            });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            String text = "Error fetching feed.";
+            Log.w("retrofit", text);
+            Toast.makeText(getContext(), text, 2);
         }
     }
 }
