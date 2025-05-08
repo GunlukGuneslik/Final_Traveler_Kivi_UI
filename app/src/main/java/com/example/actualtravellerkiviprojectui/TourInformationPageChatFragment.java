@@ -3,40 +3,41 @@ package com.example.actualtravellerkiviprojectui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+
+import com.example.actualtravellerkiviprojectui.adapter.Chat_RecyclerViewAdapter;
+
+import java.util.ArrayList;
 
 /**
+ * @author zeynep
  * A simple {@link Fragment} subclass.
  * Use the {@link TourInformationPageChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class TourInformationPageChatFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ArrayList<String> messages = new ArrayList<>();
+    private Chat_RecyclerViewAdapter adapter;
+    private String currentUserId;
 
     public TourInformationPageChatFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TourInformationPageChatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static TourInformationPageChatFragment newInstance(String param1, String param2) {
         TourInformationPageChatFragment fragment = new TourInformationPageChatFragment();
         Bundle args = new Bundle();
@@ -58,7 +59,27 @@ public class TourInformationPageChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tour_information_page_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_tour_information_page_chat, container, false);
+
+        RecyclerView recyclerView = view.findViewById(R.id.chatRecyclerView);
+        EditText editTextMessage = view.findViewById(R.id.editTextChat);
+        ImageButton buttonSend = view.findViewById(R.id.imageButtonSend);
+
+        adapter = new Chat_RecyclerViewAdapter(getContext(),messages,this,currentUserId);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
+        buttonSend.setOnClickListener(v -> {
+            String text = editTextMessage.getText().toString().trim();
+            if (!text.isEmpty()) {
+                //Message message = new Message(currentUserId, text, System.currentTimeMillis());
+                //messages.add(message);
+                adapter.notifyItemInserted(messages.size() - 1);
+                recyclerView.scrollToPosition(messages.size() - 1);
+                editTextMessage.setText("");
+            }
+        });
+
+        return view;
     }
 }

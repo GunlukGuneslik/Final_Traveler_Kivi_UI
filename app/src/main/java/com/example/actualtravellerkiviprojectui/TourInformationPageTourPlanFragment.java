@@ -24,9 +24,6 @@ import java.util.Locale;
 
 /**
  * @author zeynep
- * A simple {@link Fragment} subclass.
- * Use the {@link TourInformationPageTourPlanFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class TourInformationPageTourPlanFragment extends Fragment {
     private Tour currentTour;
