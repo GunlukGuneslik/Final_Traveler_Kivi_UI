@@ -19,9 +19,7 @@ import com.example.actualtravellerkiviprojectui.model.Tour;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link TourInformationPageCommentsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * @author zeynep
  */
 public class TourInformationPageCommentsFragment extends Fragment {
 

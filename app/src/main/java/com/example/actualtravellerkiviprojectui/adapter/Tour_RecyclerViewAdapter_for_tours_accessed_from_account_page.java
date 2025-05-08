@@ -54,6 +54,7 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
                 intent.putExtra("tour", currentTour);
+                //intent.putExtra("user",currentUser);
                 v.getContext().startActivity(intent);
             }
         });

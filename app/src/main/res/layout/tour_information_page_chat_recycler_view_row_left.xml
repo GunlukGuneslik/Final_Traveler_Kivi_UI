@@ -22,22 +22,5 @@
 
         </TextView>
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/right_chat_linear_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/message_background_sender"
-        android:padding="8dp"
-        android:layout_marginStart="80dp">
 
-        <TextView
-            android:id="@+id/right_chat_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="17sp">
-
-        </TextView>
-    </LinearLayout>
 </RelativeLayout>

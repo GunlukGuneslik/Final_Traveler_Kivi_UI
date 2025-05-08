@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green"
     tools:context=".TourInformationPageChatFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomLayoutChat"/>
@@ -39,7 +41,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
             app:tint="@color/light_brown"
-            android:background="@color/white"/>
+            android:background="@color/green"/>
 
     </RelativeLayout>
 </RelativeLayout>
