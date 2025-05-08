@@ -70,7 +70,8 @@
                 android:id="@+id/tourRateTourInformationPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
                 android:text="Rate: 5.4"
                 app:layout_constraintStart_toEndOf="@+id/StarImage"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +86,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tourLanguageTextViewTourInfoPage"/>
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/addToMyToursButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_margin="8dp"
@@ -118,11 +119,10 @@
                 android:id="@+id/guideNameTextViewTourInformationPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="57dp"
+                android:layout_marginEnd="65dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginEnd="31dp"
                 android:layout_marginBottom="12dp"
-                android:text="Guide name"
+                android:text="Guide"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

@@ -69,6 +69,25 @@ public class TourInformationPageActivity extends AppCompatActivity {
         //@author Güneş
         currentTour = getIntent().getParcelableExtra("tour");
 
+        Button addToMyToursButton = findViewById(R.id.addToMyToursButton);
+        //eğer tarih geçmişsse button yok olmalı
+        //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
+        //     addToMyToursButton.setVisibility(View.GONE);
+        //}
+        addToMyToursButton.setOnClickListener(v -> {
+            boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
+            //current user turlarına eklenmeli burada
+            if (isAdded) {
+                addToMyToursButton.setText("Add to my tours");
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+            } else {
+                addToMyToursButton.setText("Remove from my tours");
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+            }
+        });
+
+
+
         //test ediyorum
         if (currentTour == null) {
             // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
@@ -115,6 +134,13 @@ public class TourInformationPageActivity extends AppCompatActivity {
         buttonMaps= findViewById(R.id.button6);
         buttonChat = findViewById(R.id.button7);
         buttonComments = findViewById(R.id.button8);
+        //chat butonu işlevsiz eğer kullanıcı kayıtlı değilse
+        //if(!currentUser.getTours().contain(currentTour)){
+        //    buttonChat.setEnabled(false);
+        //}
+        //else{
+        //    buttonChat.setEnabled(true);
+        //}
 
         tourPlanFragment = new TourInformationPageTourPlanFragment();
         chatFragment = new TourInformationPageChatFragment();
