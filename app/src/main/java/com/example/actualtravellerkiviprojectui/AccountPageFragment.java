@@ -115,27 +115,23 @@ public class AccountPageFragment extends Fragment {
         }
         userName = currentUser.firstName;
 
-        resultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    try {
-                        // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
-                        Uri imageUri = result.getData().getData();
-                        profilePhoto.setImageURI(imageUri);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "No image sellected",Toast.LENGTH_SHORT).show();
-                    }
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                try {
+                    // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
+                    Uri imageUri = result.getData().getData();
+                    profilePhoto.setImageURI(imageUri);
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "No image sellected", Toast.LENGTH_SHORT).show();
                 }
             }
-        );
+        });
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
 
         launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
@@ -181,13 +177,11 @@ public class AccountPageFragment extends Fragment {
                         pickImage();
                         return true;
                     case R.id.ChangeName:
-                        //@author Eftelya
-                        Toast.makeText(getContext(), "Change Name",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Change Name", Toast.LENGTH_SHORT).show();
                         //TODO
                         return true;
                     case R.id.ChangeLanguages:
-                        //@author Eftelya
-                        Toast.makeText(getContext(), "Change Languages",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Change Languages", Toast.LENGTH_SHORT).show();
                         //TODO
                         return true;
                 }
@@ -239,22 +233,18 @@ public class AccountPageFragment extends Fragment {
     }
 
 
-    //TODO: complete this method so that it fills the array with user's posts.
-    //TODO: currently for prototyping. use proper callback methods.
-    private void fillSocialMediaPosts(){
+    //TODO: is this a good place for this method?
+    private void fillSocialMediaPosts() {
         // TODO: should add a way to refresh the feed which will also act as a retry method on failed feed request.
         // TODO: should also retry the failed posts but idk how
         try {
             postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> {
-                try {
-                    Log.i("request", "Post request.");
-                    posts.add(SocialMediaPostModel.fromPostDTO(post));
-                } catch (IOException e) {
-                    //
-                    String text = "Error fetching post.";
-                    Log.w("retrofit", text);
-                    Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
-                }
+                Log.i("request", "Post request.");
+                SocialMediaPostModel.fromPostDTO(post).thenAccept(posts::add).exceptionally(e -> {
+                    e.printStackTrace();
+                    return null;
+                });
+
             });
         } catch (IOException e) {
             String text = "Error fetching feed.";
