@@ -3,8 +3,6 @@ package com.example.actualtravellerkiviprojectui.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
@@ -15,6 +13,7 @@ import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author zeynep
@@ -53,12 +52,18 @@ public class SocialMediaPostModel implements Parcelable {
         numberOfLikes = in.readInt();
     }
 
-    @NonNull
-    public static SocialMediaPostModel fromPostDTO(PostDTO postDTO) throws IOException {
-        UserDTO owner = null;
-        owner = userService.getUser(postDTO.userId).execute().body();
-        SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageIds, postDTO.likeCount, LocalDate.parse(postDTO.createdAt));
-        return created;
+    public static CompletableFuture<SocialMediaPostModel> fromPostDTO(PostDTO postDTO) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                UserDTO owner = userService.getUser(postDTO.userId).execute().body();
+                if (owner == null) {
+                    throw new RuntimeException("Failed to fetch user with ID: " + postDTO.userId);
+                }
+                return new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageIds, postDTO.likeCount, LocalDate.parse(postDTO.createdAt));
+            } catch (IOException e) {
+                throw new RuntimeException("Error fetching user data", e);
+            }
+        });
     }
 
     @Override
