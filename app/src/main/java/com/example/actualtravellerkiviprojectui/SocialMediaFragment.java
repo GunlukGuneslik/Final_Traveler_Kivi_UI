@@ -1,9 +1,11 @@
 package com.example.actualtravellerkiviprojectui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
@@ -42,15 +44,6 @@ public class SocialMediaFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SocialMediaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SocialMediaFragment newInstance(String param1, String param2) {
         SocialMediaFragment fragment = new SocialMediaFragment();
         Bundle args = new Bundle();
@@ -77,6 +70,14 @@ public class SocialMediaFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         socialMediaAdapter = new SocialMediaPost_RecyclerViewAdapter(getContext(),socialMediaPostModels,this);
         fillSocialMediaPosts();
+        Button addPostButton = view.findViewById(R.id.addPostImageButton);
+        addPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddPostActivity.class);
+                startActivity(intent);
+            }
+        });
         searchView = view.findViewById(R.id.socialMediaSearchBar);
         searchView.clearFocus();
         searchView.setQueryHint("#...");

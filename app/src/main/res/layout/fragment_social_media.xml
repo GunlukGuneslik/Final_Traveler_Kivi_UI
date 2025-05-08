@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,17 +12,39 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/socialMediaSearchBar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="16dp"
-            android:elevation="10dp"
-            android:background="@drawable/search_view_social_media_page"
-            android:autofillHints="Enter a hashtag"
-            android:iconifiedByDefault="false"/>
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/socialMediaSearchBar"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="5dp"
+                android:autofillHints="Enter a hashtag"
+                android:background="@drawable/search_view_social_media_page"
+                android:elevation="10dp"
+                android:iconifiedByDefault="false">
+
+            </androidx.appcompat.widget.SearchView>
+
+            <ImageButton
+                android:id="@+id/addPostImageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="6dp"
+                android:contentDescription="add_post_btn"
+                android:background="@drawable/search_background"
+                android:backgroundTint="@color/brown"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@color/green" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/socialMediaRecyclerView"
