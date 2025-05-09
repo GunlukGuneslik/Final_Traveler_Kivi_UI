@@ -3,10 +3,10 @@ package com.example.actualtravellerkiviprojectui;
 import static android.view.View.GONE;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +36,11 @@ import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -122,6 +127,23 @@ public class AccountPageFragment extends Fragment {
                     // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
                     Uri imageUri = result.getData().getData();
                     profilePhoto.setImageURI(imageUri);
+
+                    userService.getAvatar(getCurrentUser().id).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            try {
+                                byte[] bytes = response.body().bytes();
+                                profilePhoto.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+
+                        }
+                    });
                 } catch (Exception e) {
                     Toast.makeText(getContext(), "No image sellected", Toast.LENGTH_SHORT).show();
                 }

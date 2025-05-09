@@ -5,6 +5,7 @@ import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -45,6 +46,7 @@ public interface UserService {
      * @return
      */
     @GET("users/{userId}/avatar")
-    Call<String> getAvatar(@Path("userId") int userId);
+    // important for large downloads
+    Call<ResponseBody> getAvatar(@Path("userId") int userId);
 
 }
