@@ -1,0 +1,16 @@
+package com.example.actualtravellerkiviprojectui.dto;
+
+
+import java.time.LocalDate;
+
+/* EventComment DTO.
+ * Also used for Event Chat posts
+ */
+public class EventCommentDTO {
+    public Integer id;
+    public Integer eventId;
+    public Integer ownerId;
+    public LocalDate commentDate;
+    public String commentBody;
+}
+
