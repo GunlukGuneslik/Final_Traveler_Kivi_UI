@@ -1,9 +1,12 @@
 package com.example.actualtravellerkiviprojectui.dto;
 
+/**
+ * An object identifying some image in the database
+ */
 public class ImageDTO {
-              private String id;
-                      private Integer contentLength;
-                      private String contentMimeType;
+    private String id;
+    private Integer contentLength;
+    private String contentMimeType;
 
     public String getId() {
         return id;
