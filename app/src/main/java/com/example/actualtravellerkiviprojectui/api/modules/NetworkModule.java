@@ -1,5 +1,9 @@
 package com.example.actualtravellerkiviprojectui.api.modules;
 
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.widget.ImageView;
+
 import com.example.actualtravellerkiviprojectui.App;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.api.EventService;
@@ -8,7 +12,9 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,10 +28,7 @@ public class NetworkModule {
     private static final String BASE_URL = App.getContext().getResources().getString(R.string.kivi_api_url);
 
     public static Retrofit provideRetrofit() {
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(JacksonConverterFactory.create())
-                .build();
+        return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
     }
 
     public static UserService provideUserService(Retrofit retrofit) {
@@ -67,5 +70,29 @@ public class NetworkModule {
             }
         });
         return future;
+    }
+
+    public static void setImageViewFromCall(ImageView imageView, Call<ResponseBody> call, Consumer<ResponseBody> callback) {
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> r) {
+                if (r.isSuccessful() && r.body() != null) {
+                    try {
+                        byte[] buf = r.body().bytes();
+                        imageView.setImageBitmap(BitmapFactory.decodeByteArray(buf, 0, buf.length));
+                        if (callback != null) {
+                            callback.accept(r.body());
+                        }
+                    } catch (IOException e) {
+                        Log.w("profilePhoto", e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.w("profilePhoto", t.getMessage());
+            }
+        });
     }
 }

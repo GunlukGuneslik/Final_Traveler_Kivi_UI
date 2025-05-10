@@ -30,6 +30,7 @@ public class SocialMediaPostModel implements Parcelable {
     public int sharedPhotoId;
     public int numberOfLikes;
     public LocalDate sharedDate;
+    public int postId;
 
 
     public SocialMediaPostModel(UserDTO owner, String photoDescription, List<String> hashtags,
@@ -58,7 +59,9 @@ public class SocialMediaPostModel implements Parcelable {
                 if (owner == null) {
                     throw new RuntimeException("Failed to fetch user with ID: " + postDTO.userId);
                 }
-                return new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, postDTO.createdAt);
+                SocialMediaPostModel post = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, postDTO.createdAt);
+                post.postId = postDTO.postId;
+                return post;
             } catch (IOException e) {
                 throw new RuntimeException("Error fetching user data", e);
             }
