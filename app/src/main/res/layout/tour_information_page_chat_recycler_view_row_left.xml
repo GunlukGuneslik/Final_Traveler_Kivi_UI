@@ -15,10 +15,19 @@
         android:layout_marginEnd="80dp">
 
         <TextView
+            android:id="@+id/messageLeftUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="username"/>
+
+        <TextView
             android:id="@+id/left_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp">
+            android:text="message"
+            android:padding="2dp"
+            android:textSize="18sp">
 
         </TextView>
     </LinearLayout>
