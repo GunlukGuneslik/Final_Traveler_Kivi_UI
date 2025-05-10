@@ -59,9 +59,9 @@ public class MockUserService implements UserService {
     }
 
     @Override
-    public Call<List<UserDTO>> getUserFollowed(int userId) {
+    public Call<List<UserDTO>> getUserFollowing(int userId) {
         return delegate.returningResponse(Utils.loadObject("mock/users/users.json", new TypeReference<List<UserDTO>>() {
-        })).getUserFollowed(userId);
+        })).getUserFollowing(userId);
     }
 
     @Override
