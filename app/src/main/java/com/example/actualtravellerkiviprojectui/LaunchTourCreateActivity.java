@@ -1,10 +1,13 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static android.view.View.INVISIBLE;
+
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
@@ -19,9 +22,13 @@ import java.util.Calendar;
 public class LaunchTourCreateActivity extends AppCompatActivity {
 
     public ArrayList<PlaceModel> placeModels;
-
+    private EditText tourNameEditText;
     private Button returnButton;
     private Button selectDateButton;
+
+    private Button lastButton;
+    private Button nextButton;
+    private Button launchTourButton;
     private int year; private int month; private int day; // these are going to be used for creating the tour object
 
     @Override
@@ -37,6 +44,32 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
             }
         });
 
+        lastButton = findViewById(R.id.CreateNewTourPageTurnButton);
+        lastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: EFTELYA
+            }
+        });
+
+        nextButton = findViewById(R.id.CreateNewTourPageNextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: EFTELYA
+            }
+        });
+
+        launchTourButton = findViewById(R.id.CreateNewTourPageLaunchButton);
+        launchTourButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: EFTELYA
+                //TODO: yeni bir tur olarak kaydedecek guide userın turlarına ve database sevisine
+            }
+        });
+        launchTourButton.setVisibility(INVISIBLE);
+
         selectDateButton = findViewById(R.id.CreateTourPageSelectDatePage);
         selectDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +84,8 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayoutForCreateNewTourPage, fragment)
                 .commit();
+
+        tourNameEditText = findViewById(R.id.EnterTourNameTextView);
     }
 
     private void openDialog() {

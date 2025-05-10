@@ -48,6 +48,14 @@ public class PlaceModel implements Parcelable{
         return location;
     }
 
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
+
+    public void setPlaceInformationText(String placeInformationText) {
+        this.placeInformationText = placeInformationText;
+    }
+
     // Parcelable Constructor
     protected PlaceModel(Parcel in) {
         placeName = in.readString();
