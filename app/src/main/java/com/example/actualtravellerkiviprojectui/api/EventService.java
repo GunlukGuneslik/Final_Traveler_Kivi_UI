@@ -4,7 +4,10 @@ package com.example.actualtravellerkiviprojectui.api;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventRatingDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventSkeletonDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 
 import java.util.List;
@@ -76,4 +79,61 @@ public interface EventService {
     
     @POST("api/events/{eventId}/chat")
     public Call<EventCommentDTO> postEventChatComment(@Path("eventId") Integer eventId, @Body EventCommentDTO comment);
+
+    /**
+     * Create a new event location
+     *
+     * @param dto The location data
+     * @return The created location
+     */
+    @POST("events/locations")
+    Call<EventLocationDTO> createEventLocation(@Body EventLocationCreateDTO dto);
+
+    /**
+     * Get an event location by ID
+     *
+     * @param locationId The location ID
+     * @return The location details
+     */
+    @GET("events/locations/{locationId}")
+    Call<EventLocationDTO> getEventLocation(@Path("locationId") Integer locationId);
+
+    /**
+     * Get all event locations
+     *
+     * @return List of all locations
+     */
+    @GET("events/locations")
+    Call<List<EventLocationDTO>> getAllEventLocations();
+
+    /**
+     * Update an existing event location
+     *
+     * @param locationId The location ID to update
+     * @param dto        The updated location data
+     * @return The updated location
+     */
+    @PUT("events/locations/{locationId}")
+    Call<EventLocationDTO> updateEventLocation(
+            @Path("locationId") Integer locationId,
+            @Body EventLocationCreateDTO dto);
+
+    /**
+     * Delete an event location
+     *
+     * @param locationId The location ID to delete
+     */
+    @DELETE("events/locations/{locationId}")
+    Call<Void> deleteEventLocation(@Path("locationId") Integer locationId);
+
+    /**
+     * Get an event skeleton by event ID
+     *
+     * @param eventId The event ID
+     * @return The event skeleton
+     */
+    @GET("events/{eventId}/skeleton")
+    Call<EventSkeletonDTO> getEventSkeleton(@Path("eventId") Integer eventId);
+
+
 }

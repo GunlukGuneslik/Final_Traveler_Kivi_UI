@@ -3,7 +3,7 @@ package com.example.actualtravellerkiviprojectui.dto.User;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,11 +17,12 @@ public class UserDTO implements Parcelable {
     }
 
     public Set<String> languages = new HashSet<>();
-    public LocalDate registrationDate;
+    public LocalDateTime registrationDate;
     public UserType userType;
     public String email;
     public String lastName;
     public String firstName;
+
     public Integer id;
     public static final Creator<UserDTO> CREATOR = new Creator<UserDTO>() {
         @Override

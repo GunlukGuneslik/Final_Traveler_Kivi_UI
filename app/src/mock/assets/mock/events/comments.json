@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "ownerId": 2,
+    "commentDate": "2025-05-10",
+    "commentBody": "This trip looks amazing. Has anyone done this route in rainy weather?"
+  },
+  {
+    "id": 2,
+    "ownerId": 4,
+    "commentDate": "2025-05-10",
+    "commentBody": "I've visited this location before and I highly recommend bringing proper hiking boots and rain gear."
+  },
+  {
+    "id": 3,
+    "ownerId": 1,
+    "commentDate": "2025-05-10",
+    "commentBody": "Quick question - are there any age restrictions for this tour?"
+  }
+]

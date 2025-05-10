@@ -1,0 +1,38 @@
+{
+  "id": 1,
+  "ownerId": 1,
+  "locations": [
+    {
+      "id": 1,
+      "location": {
+        "latitude": 48.856614,
+        "longtitude": 0.0
+      },
+      "title": "Eiffel Tower",
+      "description": "Famous landmark in Paris, France",
+      "keywords": [
+        "paris",
+        "tourism",
+        "landmark"
+      ],
+      "featured": true
+    },
+    {
+      "id": 2,
+      "location": {
+        "latitude": 40.748817,
+        "longtitude": 0.0
+      },
+      "title": "Empire State Building",
+      "description": "Iconic skyscraper in New York City",
+      "keywords": [
+        "nyc",
+        "skyscraper",
+        "landmark"
+      ],
+      "featured": true
+    }
+  ],
+  "type": "TOUR",
+  "details": "A beautiful 3-day hiking trip exploring the scenic trails of Mount Rainier National Park"
+}

@@ -2,21 +2,53 @@
   "content": [
     {
       "languages": [],
-      "registrationDate": "2025-05-07",
-      "userType": "GUIDE_USER",
-      "email": "orhangg@gmail.com",
-      "lastName": "Gezdirmeci",
-      "firstName": "Orhan",
-      "id": 2
+      "registrationDate": "2025-05-10T22:58:49.491957",
+      "userType": "REGULAR_USER",
+      "email": "jakemotta@gmail.com",
+      "lastName": "Motta",
+      "firstName": "Jake",
+      "username": "jakemotta",
+      "id": 1
     },
     {
       "languages": [],
-      "registrationDate": "2025-05-07",
-      "userType": "GUIDE_USER",
+      "registrationDate": "2025-05-10T22:58:49.545874",
+      "userType": "REGULAR_USER",
       "email": "yilmazz2022@gemail.com",
-      "lastName": "Deluro",
+      "lastName": "Yanami",
+      "firstName": "Buro",
+      "username": "BuroYanami",
+      "id": 5
+    },
+    {
+      "languages": [],
+      "registrationDate": "2025-05-10T22:58:49.558643",
+      "userType": "REGULAR_USER",
+      "email": "yilmazz2022@gemail.com",
+      "lastName": "Numan",
       "firstName": "Ozan",
-      "id": 4
+      "username": "OzanNuman",
+      "id": 6
+    },
+    {
+      "languages": [],
+      "registrationDate": "2025-05-10T22:58:49.56782",
+      "userType": "REGULAR_USER",
+      "email": "yilmazz2022@gemail.com",
+      "lastName": "Brick",
+      "firstName": "Larry",
+      "username": "LarryBrick",
+      "id": 7
+    },
+    {
+      "languages": [],
+      "registrationDate": "2025-05-10T22:58:49.582361",
+      "userType": "REGULAR_USER",
+      "email": "yilmazz2022@gemail.com",
+      "lastName": "Tonhall",
+      "firstName": "Ash",
+      "username": "AshTonhall",
+      "id": 8
     }
   ],
   "pageable": {
@@ -31,10 +63,9 @@
     "paged": true,
     "unpaged": false
   },
-  "totalElements": 2,
+  "totalElements": 5,
   "totalPages": 1,
   "last": true,
-  "first": true,
   "size": 20,
   "number": 0,
   "sort": {
@@ -42,6 +73,7 @@
     "unsorted": true,
     "empty": true
   },
-  "numberOfElements": 2,
+  "first": true,
+  "numberOfElements": 5,
   "empty": false
 }

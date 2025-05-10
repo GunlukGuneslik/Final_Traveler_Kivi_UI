@@ -1,6 +1,6 @@
 package com.example.actualtravellerkiviprojectui.api;
 
-import com.example.actualtravellerkiviprojectui.dto.ImageDTO;
+import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserStatsDTO;
 
@@ -11,7 +11,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -29,11 +28,9 @@ public interface UserService {
     @POST("users")
     Call<UserDTO> createUser(@Body UserDTO userCreateDTO);
 
-    @GET("users/{userId}/avatar")
-    Call<ImageDTO> getAvatarOfUser(@Path("userId") int userId);
 
     @GET("users/type/{userType}")
-    Call<List<UserDTO>> getUsersByType(@Path("userType") UserDTO.UserType userType);
+    Call<PagedModel<UserDTO>> getUsersByType(@Path("userType") UserDTO.UserType userType);
 
     @GET("users/{userId}/followers")
     Call<List<UserDTO>> getFollowersOfUser(@Path("userId") int userId);
@@ -61,10 +58,10 @@ public interface UserService {
 
     @POST("users/{userId}/avatar")
     @Multipart
-    Call<ResponseBody> setAvatar(@Path("userId") int userId, @Part("file") MultipartBody.Part image );
+    Call<UserDTO> setAvatar(@Path("userId") int userId, @Part("file") MultipartBody.Part image);
 
     @GET("users/{userId}/stats")
     Call<UserStatsDTO> getUserStats(@Path("userId") int userId);
     @GET("users/{userId}/checkPassword")
-    Call<UserStatsDTO> getUserStats(@Path("userId") int userId, @Query("password") String password);
+    Call<Boolean> checkPassword(@Path("userId") int userId, @Query("password") String password);
 }

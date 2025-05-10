@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "ownerId": 5,
+    "eventId": 1,
+    "rate": 9,
+    "comment": "Absolutely fantastic experience! Our guide was knowledgeable and the views were breathtaking.",
+    "date": "2025-05-10T22:04:34.949764"
+  },
+  {
+    "id": 2,
+    "ownerId": 3,
+    "eventId": 1,
+    "rate": 7,
+    "comment": "Overall good trip but the accommodations weren't as described. The hiking routes were excellent though.",
+    "date": "2025-05-10T22:04:34.98795"
+  },
+  {
+    "id": 3,
+    "ownerId": 2,
+    "eventId": 1,
+    "rate": 10,
+    "comment": "Perfect in every way! This was the highlight of my year - would absolutely recommend to anyone!",
+    "date": "2025-05-10T22:04:35.007353"
+  },
+  {
+    "id": 4,
+    "ownerId": 4,
+    "eventId": 1,
+    "rate": 6,
+    "comment": "The trip was okay but overpriced for what was offered. Some activities were rushed.",
+    "date": "2025-05-10T22:04:35.029354"
+  }
+]

@@ -14,7 +14,7 @@ public class EventDTO {
     public LocalDate startDate;
     public LocalDate endDate;
     public Set<Integer> ratingIds = new HashSet<>();
-    public List<Integer> locationIds = new ArrayList<>();
+    public List<EventLocationDTO> locationIds = new ArrayList<>();
     public List<Integer> userIds = new ArrayList<>();
     public Integer ownerId;
     public String name;

@@ -3,14 +3,16 @@ package com.example.actualtravellerkiviprojectui.api.mock;
 import androidx.annotation.NonNull;
 
 import com.example.actualtravellerkiviprojectui.api.UserService;
-import com.example.actualtravellerkiviprojectui.dto.ImageDTO;
+import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserStatsDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
 import java.util.List;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.mock.BehaviorDelegate;
@@ -35,27 +37,26 @@ public class MockUserService implements UserService {
 
     @Override
     public Call<List<UserDTO>> getAllUsers() {
-        return null;
+        return delegate.returningResponse(Utils.loadObject("mock/users/users.json", new TypeReference<List<UserDTO>>() {
+        })).getAllUsers();
     }
 
     @Override
     public Call<UserDTO> createUser(UserDTO userCreateDTO) {
-        return null;
+        return getUserResponse().createUser(userCreateDTO);
     }
 
-    @Override
-    public Call<ImageDTO> getAvatarOfUser(int userId) {
-        return null;
-    }
 
     @Override
-    public Call<List<UserDTO>> getUsersByType(UserDTO.UserType userType) {
-        return null;
+    public Call<PagedModel<UserDTO>> getUsersByType(UserDTO.UserType userType) {
+        return delegate.returningResponse(Utils.loadObject("mock/users/usertype.json", new TypeReference<PagedModel<UserDTO>>() {
+        })).getUsersByType(userType);
     }
 
     @Override
     public Call<List<UserDTO>> getFollowersOfUser(int userId) {
-        return null;
+        return delegate.returningResponse(Utils.loadObject("mock/users/users.json", new TypeReference<List<UserDTO>>() {
+        })).getFollowersOfUser(userId);
     }
 
     @Override
@@ -67,6 +68,11 @@ public class MockUserService implements UserService {
     @Override
     public Call<UserDTO> followUser(int userId, int targetUserId) {
         return getUserResponse().followUser(userId, targetUserId);
+    }
+
+    @Override
+    public Call<UserDTO> unfollowUser(int userId, int targetUserId) {
+        return getUserResponse().unfollowUser(userId, targetUserId);
     }
 
     /**
@@ -86,5 +92,21 @@ public class MockUserService implements UserService {
         }
         ResponseBody avatarBody = ResponseBody.create(MediaType.parse("image/png"), bytes);
         return delegate.returningResponse(avatarBody).getAvatar(userId);
+    }
+
+    @Override
+    public Call<UserDTO> setAvatar(int userId, MultipartBody.Part image) {
+        return getUserResponse().setAvatar(userId, image);
+    }
+
+    @Override
+    public Call<UserStatsDTO> getUserStats(int userId) {
+        return delegate.returningResponse(Utils.loadObject("mock/users/userstats.json.json", new TypeReference<UserStatsDTO>() {
+        })).getUserStats(userId);
+    }
+
+    @Override
+    public Call<Boolean> checkPassword(int userId, String password) {
+        return delegate.returningResponse(true).checkPassword(userId, password);
     }
 }

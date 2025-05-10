@@ -58,7 +58,7 @@ public class SocialMediaPostModel implements Parcelable {
                 if (owner == null) {
                     throw new RuntimeException("Failed to fetch user with ID: " + postDTO.userId);
                 }
-                return new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, LocalDate.parse(postDTO.createdAt));
+                return new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, postDTO.createdAt);
             } catch (IOException e) {
                 throw new RuntimeException("Error fetching user data", e);
             }

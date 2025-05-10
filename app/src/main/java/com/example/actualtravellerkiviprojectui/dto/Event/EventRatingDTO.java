@@ -1,6 +1,6 @@
 package com.example.actualtravellerkiviprojectui.dto.Event;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * An object representing a rating submitted to a tour.
@@ -8,9 +8,10 @@ import java.time.LocalDate;
 public class EventRatingDTO {
 
     public Integer id;
+    public Integer ownerId;
     public Integer eventId;
     public Integer rate;
     public String comment;
-    public LocalDate date;
+    public LocalDateTime date;
 
 }

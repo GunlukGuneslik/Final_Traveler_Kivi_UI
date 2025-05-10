@@ -8,7 +8,6 @@ import java.time.LocalDate;
  */
 public class EventCommentDTO {
     public Integer id;
-    public Integer eventId;
     public Integer ownerId;
     public LocalDate commentDate;
     public String commentBody;

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 4,
+    "ownerId": 1,
+    "commentDate": "2025-05-10",
+    "commentBody": "Hi everyone! I just arrived at the meeting point. Anyone else here yet?"
+  },
+  {
+    "id": 5,
+    "ownerId": 5,
+    "commentDate": "2025-05-10",
+    "commentBody": "I'm running about 10 minutes late due to traffic. Please wait for me!"
+  },
+  {
+    "id": 6,
+    "ownerId": 3,
+    "commentDate": "2025-05-10",
+    "commentBody": "Just a reminder that we should all bring our own water bottles and sunscreen for today."
+  },
+  {
+    "id": 7,
+    "ownerId": 2,
+    "commentDate": "2025-05-10",
+    "commentBody": "The view from the north trail is incredible right now! Everyone should head this way."
+  },
+  {
+    "id": 8,
+    "ownerId": 4,
+    "commentDate": "2025-05-10",
+    "commentBody": "Does anyone have an extra power bank? Mine just died and I need to keep my phone charged for photos."
+  }
+]
