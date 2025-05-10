@@ -19,6 +19,10 @@ import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -66,26 +70,29 @@ public class TourInformationPageActivity extends AppCompatActivity {
             }
         });
 
-        //@author Güneş
         currentTour = getIntent().getParcelableExtra("tour");
 
         Button addToMyToursButton = findViewById(R.id.addToMyToursButton);
+        LocalDate currentDate = LocalDate.now();
+        Date today = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        //String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         //eğer tarih geçmişsse button yok olmalı
-        //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
-        //     addToMyToursButton.setVisibility(View.GONE);
-        //}
+        if(currentTour.getDate() != null && currentTour.getDate().before(today)) {
+             addToMyToursButton.setVisibility(View.GONE);
+        }
         addToMyToursButton.setOnClickListener(v -> {
             boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
             //current user turlarına eklenmeli burada
             if (isAdded) {
                 addToMyToursButton.setText("Add to my tours");
+                //currentUser.getTours().add(currentTour);
                 addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
             } else {
                 addToMyToursButton.setText("Remove from my tours");
+                //currentUser.getTours().remove(currentTour);
                 addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
             }
         });
-
 
 
         //test ediyorum
@@ -107,8 +114,8 @@ public class TourInformationPageActivity extends AppCompatActivity {
         // date
         tourDate = findViewById(R.id.TourDateTourInformationPage);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(currentTour.getDate());
-        tourDate.setText(formattedDate);
+        String formattedTourDate = dateFormat.format(currentTour.getDate());
+        tourDate.setText(formattedTourDate);
         //tour rate
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         tourRate.setText("Rate: " + currentTour.getRate());
