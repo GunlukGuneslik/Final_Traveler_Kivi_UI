@@ -1,4 +1,4 @@
-package com.example.actualtravellerkiviprojectui.dto;
+package com.example.actualtravellerkiviprojectui.dto.Event;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,15 +20,13 @@ public class EventDTO {
     public String name;
     public String details;
     public List<Integer> commentIds = new ArrayList<>();
+    public Integer skeletonId;
+
     public enum EventType {
-        TOUR,
-        MEETUP
+        TOUR, MEETUP
     }
+
     public enum Status {
-        SCHEDULED,
-        FINISHED,
-        CANCELLED,
+        SCHEDULED, FINISHED, CANCELLED,
     }
-
 }
-

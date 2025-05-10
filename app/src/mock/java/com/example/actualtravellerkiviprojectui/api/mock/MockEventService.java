@@ -1,8 +1,8 @@
 package com.example.actualtravellerkiviprojectui.api.mock;
 
 import com.example.actualtravellerkiviprojectui.api.EventService;
-import com.example.actualtravellerkiviprojectui.dto.EventCreateUpdate;
-import com.example.actualtravellerkiviprojectui.dto.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -45,7 +45,7 @@ public class MockEventService implements EventService {
     }
 
     @Override
-    public Call<EventDTO> updateEvent(int eventId, EventCreateUpdate update) {
+    public Call<EventDTO> updateEvent(int eventId, EventCreateDTO update) {
         return delegate.returningResponse(Utils.loadObject("mock/events/event_" + eventId + ".json", new TypeReference<EventDTO>() {
         })).updateEvent(eventId, update);
     }

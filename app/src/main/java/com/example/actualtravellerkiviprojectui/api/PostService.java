@@ -1,9 +1,9 @@
 package com.example.actualtravellerkiviprojectui.api;
 
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
-import com.example.actualtravellerkiviprojectui.dto.PostCreateDTO;
-import com.example.actualtravellerkiviprojectui.dto.PostDTO;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.util.List;
 

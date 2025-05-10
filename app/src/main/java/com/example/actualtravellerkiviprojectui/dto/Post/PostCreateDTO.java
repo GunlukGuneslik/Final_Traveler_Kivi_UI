@@ -1,4 +1,4 @@
-package com.example.actualtravellerkiviprojectui.dto;
+package com.example.actualtravellerkiviprojectui.dto.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,8 @@ public class PostCreateDTO {
 
     public String body;
 
-    public List<String> images = new ArrayList<>();
+    // null if no image
+    public byte[] image = null;
 
     public List<String> tags = new ArrayList<>();
 

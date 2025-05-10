@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.ImageDTO;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;

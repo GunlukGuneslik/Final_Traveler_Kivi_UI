@@ -1,4 +1,4 @@
-package com.example.actualtravellerkiviprojectui.dto;
+package com.example.actualtravellerkiviprojectui.dto.Event;
 
 /**
  * A point in the map.

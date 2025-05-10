@@ -31,7 +31,7 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.io.IOException;

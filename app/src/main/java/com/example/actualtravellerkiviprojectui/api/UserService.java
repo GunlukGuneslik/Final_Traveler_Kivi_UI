@@ -1,7 +1,7 @@
 package com.example.actualtravellerkiviprojectui.api;
 
 import com.example.actualtravellerkiviprojectui.dto.ImageDTO;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.util.List;
 

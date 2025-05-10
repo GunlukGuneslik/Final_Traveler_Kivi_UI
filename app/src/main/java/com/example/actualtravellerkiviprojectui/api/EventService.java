@@ -1,8 +1,8 @@
 package com.example.actualtravellerkiviprojectui.api;
 
 
-import com.example.actualtravellerkiviprojectui.dto.EventCreateUpdate;
-import com.example.actualtravellerkiviprojectui.dto.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public interface EventService {
      * Updates an event.
      */
     @PUT("api/events/{eventId}")
-    Call<EventDTO> updateEvent(@Path("eventId") int eventId, EventCreateUpdate update);
+    Call<EventDTO> updateEvent(@Path("eventId") int eventId, EventCreateDTO update);
 
     /**
      * Deletes an event.

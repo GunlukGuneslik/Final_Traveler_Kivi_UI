@@ -1,4 +1,4 @@
-package com.example.actualtravellerkiviprojectui.dto;
+package com.example.actualtravellerkiviprojectui.dto.User;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -23,11 +23,6 @@ public class UserDTO implements Parcelable {
     public String lastName;
     public String firstName;
     public Integer id;
-
-    public UserDTO() {
-
-    }
-
     public static final Creator<UserDTO> CREATOR = new Creator<UserDTO>() {
         @Override
         public UserDTO createFromParcel(Parcel in) {
@@ -40,15 +35,22 @@ public class UserDTO implements Parcelable {
         }
     };
 
+    public UserDTO() {
+
+    }
+    public String username;
+
     protected UserDTO(Parcel in) {
         email = in.readString();
         lastName = in.readString();
         firstName = in.readString();
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
+        if (in.readByte() == 0) { id = null; } else { id = in.readInt(); }
+        username = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -56,16 +58,10 @@ public class UserDTO implements Parcelable {
         dest.writeString(email);
         dest.writeString(lastName);
         dest.writeString(firstName);
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
+        if (id == null) { dest.writeByte((byte) 0); } else {
             dest.writeByte((byte) 1);
             dest.writeInt(id);
         }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+        dest.writeString(username);
     }
 }

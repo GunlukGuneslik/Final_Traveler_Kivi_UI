@@ -7,6 +7,8 @@ import com.example.actualtravellerkiviprojectui.api.mock.MockEventService;
 import com.example.actualtravellerkiviprojectui.api.mock.MockPostService;
 import com.example.actualtravellerkiviprojectui.api.mock.MockUserService;
 
+import java.util.concurrent.TimeUnit;
+
 import retrofit2.Retrofit;
 import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;

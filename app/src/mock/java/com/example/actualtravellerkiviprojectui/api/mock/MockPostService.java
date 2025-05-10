@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
-import com.example.actualtravellerkiviprojectui.dto.PostCreateDTO;
-import com.example.actualtravellerkiviprojectui.dto.PostDTO;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;

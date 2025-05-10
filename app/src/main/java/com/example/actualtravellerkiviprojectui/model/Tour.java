@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.util.ArrayList;
 import java.util.Date;

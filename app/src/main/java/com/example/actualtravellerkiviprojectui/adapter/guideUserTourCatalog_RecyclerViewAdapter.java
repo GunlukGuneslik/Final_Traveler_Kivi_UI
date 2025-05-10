@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.ChangeTourDetailsPage;
 import com.example.actualtravellerkiviprojectui.R;
-import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
