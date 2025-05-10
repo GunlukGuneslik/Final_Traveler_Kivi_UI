@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.SocialMediaFragment;
 import com.example.actualtravellerkiviprojectui.TourInformationPageChatFragment;
+import com.example.actualtravellerkiviprojectui.model.Message;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
@@ -25,13 +26,13 @@ import java.util.Locale;
  */
 public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    private ArrayList<String> messages;
+    private ArrayList<Message> messages;
     private String currentUserId;
     private static final int RIGHT = 1;
     private static final int LEFT = 2;
     TourInformationPageChatFragment tourInformationPageChatFragment;
 
-    public Chat_RecyclerViewAdapter(Context context, ArrayList<String> messages, TourInformationPageChatFragment fragment, String id) {
+    public Chat_RecyclerViewAdapter(Context context, ArrayList<Message> messages, TourInformationPageChatFragment fragment, String id) {
         this.context = context;
         this.messages = messages;
         tourInformationPageChatFragment = fragment;
@@ -42,7 +43,7 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     //I will update this part
     @Override
     public int getItemViewType(int position) {
-        String message = messages.get(position);
+        Message message = messages.get(position);
         return 0;
         //return message.getSenderId().equals(currentUserId) ? TYPE_RIGHT : TYPE_LEFT;
     }
@@ -64,11 +65,15 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        String message = messages.get(position);
+        Message message = messages.get(position);
+        //User user = message.getUserId();
+        //String userName = user.getName();
         if (holder instanceof RightViewHolder) {
-            ((RightViewHolder) holder).textMessage.setText(message);
+            //((RightViewHolder) holder).textUserName.setText(userName);
+            ((RightViewHolder) holder).textMessage.setText(message.getText());
         } else {
-            ((LeftViewHolder) holder).textMessage.setText(message);
+            //((LeftViewHolder) holder).textUserName.setText(userName);
+            ((LeftViewHolder) holder).textMessage.setText(message.getText());
         }
     }
 
@@ -81,19 +86,23 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public class RightViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage;
+        TextView textUserName;
 
         public RightViewHolder(@NonNull View itemView) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.right_chat_text_view);
+            textUserName = itemView.findViewById(R.id.messageRightUserName);
         }
     }
 
     public class LeftViewHolder extends RecyclerView.ViewHolder {
         TextView textMessage;
+        TextView textUserName;
 
         public LeftViewHolder(@NonNull View itemView) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.left_chat_text_view);
+            textMessage = itemView.findViewById(R.id.messageLeftUserName);
         }
     }
 
