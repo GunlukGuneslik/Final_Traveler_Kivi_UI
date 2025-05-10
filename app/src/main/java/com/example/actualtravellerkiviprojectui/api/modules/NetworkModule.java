@@ -72,6 +72,13 @@ public class NetworkModule {
         return future;
     }
 
+    /**
+     * Sets a {@link ImageView} object's image to the result of a {@link Call} object.
+     *
+     * @param imageView
+     * @param call      This is from the methods returning {@code  Call<ResponseBody>}.
+     * @param callback  This is when you NEED the returned IMAGE. Contact Yusuf.
+     */
     public static void setImageViewFromCall(ImageView imageView, Call<ResponseBody> call, Consumer<ResponseBody> callback) {
         call.enqueue(new Callback<ResponseBody>() {
             @Override

@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * @author zeynep
+ * @deprecated use {@link PostDTO} for representing {@literal Post} entitites from now on
  */
 public class SocialMediaPostModel implements Parcelable {
     private static final UserService userService = ServiceLocator.getUserService();
