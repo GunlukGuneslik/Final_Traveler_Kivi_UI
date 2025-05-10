@@ -5,13 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class LaunchTourCreateActivity extends AppCompatActivity {
+
+    public ArrayList<PlaceModel> placeModels;
 
     private Button returnButton;
     private Button selectDateButton;
@@ -37,6 +44,13 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
                 openDialog();
             }
         });
+
+        placeModels = new ArrayList<>();
+
+        CreateTourAddPlaceFragment fragment = new CreateTourAddPlaceFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayoutForCreateNewTourPage, fragment)
+                .commit();
     }
 
     private void openDialog() {
