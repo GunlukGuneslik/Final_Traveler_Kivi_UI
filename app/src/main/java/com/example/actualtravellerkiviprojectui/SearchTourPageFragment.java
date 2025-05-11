@@ -146,7 +146,8 @@ public class SearchTourPageFragment extends Fragment {
             public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     List<Tour> recommended = response.body();
-                    recommendedAdapter = new TourAdapter(recommended);
+                    recommendedAdapter = new TourAdapter(requireContext(), recommended);
+
                     rvRecommended.setAdapter(recommendedAdapter);
                     recommendedTitle.setVisibility(View.VISIBLE);
                     rvRecommended.setVisibility(View.VISIBLE);

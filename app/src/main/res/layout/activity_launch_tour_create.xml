@@ -82,6 +82,30 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+        <ImageView
+            android:id="@+id/tourImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/circular_image_shape"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/anitkabir"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/CreateTourPageSelectDatePage" />
+
+        <Button
+            android:id="@+id/selectTourImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/brown"
+            android:text="Select Tour Image"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tourImageView" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

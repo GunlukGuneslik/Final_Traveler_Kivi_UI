@@ -106,6 +106,9 @@ public interface EventService {
     @GET("events/locations")
     Call<List<EventLocationDTO>> getAllEventLocations();
 
+    @GET("events/locations")
+    Call<List<EventLocationDTO>> getRecommendedTours();
+
     /**
      * Update an existing event location
      *
