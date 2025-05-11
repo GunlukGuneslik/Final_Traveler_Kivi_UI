@@ -59,20 +59,21 @@ public class SearchTourPageFragment extends Fragment {
         super.onViewCreated(view, bs);
 
         // View binding
-        etSearch         = view.findViewById(R.id.etSearch);
-        btnSearch        = view.findViewById(R.id.btnSearch);
-        spinnerFilter    = view.findViewById(R.id.spinnerFilter);
-        spinnerSort      = view.findViewById(R.id.spinnerSort);
-        rvTours          = view.findViewById(R.id.rvTours);
-        rvRecommended    = view.findViewById(R.id.rvRecommendedTours);
+        etSearch = view.findViewById(R.id.etSearch);
+        btnSearch = view.findViewById(R.id.btnSearch);
+        spinnerFilter = view.findViewById(R.id.spinnerFilter);
+        spinnerSort = view.findViewById(R.id.spinnerSort);
+        rvTours = view.findViewById(R.id.rvTours);
+        rvRecommended = view.findViewById(R.id.rvRecommendedTours);
         recommendedTitle = view.findViewById(R.id.recommendedTitle);
 
         // Spinner ayarları
         spinnerFilter.setAdapter(new ArrayAdapter<>(
                 requireContext(), android.R.layout.simple_spinner_item,
                 new String[]{"All", "Ankara", "Istanbul", "Cappadocia"}));
+    }
 
-// Filtreleme fonksiyonu
+        // Filtreleme fonksiyonu
         private void applySearchFilterSort() {
             String q      = etSearch.getText().toString().trim().toLowerCase();
             String filt   = spinnerFilter.getSelectedItem().toString();
@@ -92,23 +93,21 @@ public class SearchTourPageFragment extends Fragment {
             filteredTours.clear();
             filteredTours.addAll(result);
             mainAdapter.notifyDataSetChanged();
-        }
 
+            // Normal tur listesi (dikey)
+            rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
+            mainAdapter = new TourAdapter(filteredTours);
+            rvTours.setAdapter(mainAdapter);
 
-        // Normal tur listesi (dikey)
-        rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mainAdapter = new TourAdapter(filteredTours);
-        rvTours.setAdapter(mainAdapter);
+            // Önerilen turlar listesi (dikey)
+            rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+            recommendedAdapter = new TourAdapter(new ArrayList<>());
+            rvRecommended.setAdapter(recommendedAdapter);
 
-        // Önerilen turlar listesi (dikey)
-        rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        recommendedAdapter = new TourAdapter(new ArrayList<>());
-        rvRecommended.setAdapter(recommendedAdapter);
+            btnSearch.setOnClickListener(v -> applySearchFilterSort());
 
-        btnSearch.setOnClickListener(v -> applySearchFilterSort());
-
-        loadTours();              // Normal tur listesi
-        loadRecommendedTours();   // Önerilen tur listesi
+            loadTours();              // Normal tur listesi
+            loadRecommendedTours();   // Önerilen tur listesi
     }
 
     private void applySearchFilterSort() {

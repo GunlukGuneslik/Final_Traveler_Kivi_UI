@@ -26,8 +26,8 @@
                 android:src="@drawable/baseline_location_pin_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="Icon"
-                />
+                android:contentDescription="Icon" />
+
 
             <EditText
                 android:id="@+id/editTextPlaceName"
