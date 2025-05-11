@@ -64,7 +64,7 @@ public class MockEventService implements EventService {
      */
     @Override
     public Call<List<EventDTO>> getRecommendedTours() {
-        var mockEvents = Utils.loadObject("mock/events/all.json", new TypeReference<PagedModel<EventDTO>>() {
+        var mockEvents = Utils.loadObject("mock/events/all.json", new TypeReference<List<EventDTO>>() {
         });
         return delegate.returningResponse(mockEvents).getRecommendedTours();
     }

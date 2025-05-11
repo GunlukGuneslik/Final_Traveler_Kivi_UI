@@ -44,7 +44,6 @@ import com.example.actualtravellerkiviprojectui.state.UserState;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -182,7 +181,6 @@ public class AccountPageFragment extends Fragment {
         // profilePhoto.setImageResource(userProfilePhoto);
 
         userProfileName = view.findViewById(R.id.userProfileNameTextView);
-        userProfileName = view.findViewById(R.id.userProfileNameTextView);
 
         String displayName = prefs.getString("username", userName);// to change the name @eftelya
         userProfileName.setText(displayName);
@@ -207,7 +205,6 @@ public class AccountPageFragment extends Fragment {
                         //@author Eftelya
                         showChangeLanguageDialog();
                         return true;
-
                 }
                 return false;
             });
@@ -253,21 +250,18 @@ public class AccountPageFragment extends Fragment {
     }
 
 
-    //TODO: complete this method so that it fills the array with user's posts.
-//TODO: currently for prototyping. use proper callback methods.
+    //TODO: is this a good place for this method?
     private void fillSocialMediaPosts() {
         // TODO: should add a way to refresh the feed which will also act as a retry method on failed feed request.
         // TODO: should also retry the failed posts but idk how
         try {
             postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> {
-                try {
-                    Log.i("request", "Post request.");
-                    posts.add(SocialMediaPostModel.fromPostDTO(post).get());
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                Log.i("request", "Post request.");
+                SocialMediaPostModel.fromPostDTO(post).thenAccept(posts::add).exceptionally(e -> {
+                    e.printStackTrace();
+                    return null;
+                });
+
             });
         } catch (IOException e) {
             String text = "Error fetching feed.";

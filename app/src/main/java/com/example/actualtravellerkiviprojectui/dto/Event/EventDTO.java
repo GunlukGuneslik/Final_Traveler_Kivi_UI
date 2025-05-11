@@ -35,6 +35,10 @@ public class EventDTO implements Parcelable {
         SCHEDULED, FINISHED, CANCELLED,
     }
 
+    public EventDTO() {
+
+    }
+
     public static final Creator<EventDTO> CREATOR = new Creator<EventDTO>() {
         @Override
         public EventDTO createFromParcel(Parcel in) {
