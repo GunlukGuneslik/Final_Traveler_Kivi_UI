@@ -26,6 +26,8 @@ public class EventDTO implements Parcelable {
     public Integer skeletonId;
 
     public Integer imageId;
+    public String language;
+    public String rating;
 
     public enum EventType {
         TOUR, MEETUP

@@ -42,7 +42,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         nextButton = findViewById(R.id.CreateNewTourPageNextButton);
         backButton = findViewById(R.id.CreateNewTourPageTurnButton);
         launchButton = findViewById(R.id.CreateNewTourPageLaunchButton);
-        tourImageView = findViewById(R.id.imageView2);
+        tourImageView = findViewById(R.id.tourImageView);
 
         backButton.setVisibility(View.GONE);
         launchButton.setVisibility(View.GONE);

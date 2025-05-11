@@ -15,19 +15,31 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author zeynep
  */
 
 public class TourInformationPageActivity extends AppCompatActivity {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
 
-    private Tour currentTour;
+    private EventDTO currentTour;
     private TextView tourNameTextView;
     private TextView tourLanguage;
     private TextView tourDate;
@@ -78,34 +90,45 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
         //Tour name
         tourNameTextView = findViewById(R.id.tourNameTextViewTourInformationPage);
-        tourNameTextView.setText(currentTour.getTourName());
+        tourNameTextView.setText(currentTour.name);
         //Tour image
         tourImage = findViewById(R.id.TourImageTourInformationPage);
-        tourImage.setImageResource(currentTour.getTourImage());
+        NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
         // Tour language
         tourLanguage = findViewById(R.id.tourLanguageTextViewTourInfoPage);
-        tourLanguage.setText("Language: " + currentTour.getTourLanguage());
+        tourLanguage.setText("Language: " + currentTour.language);
         // date
         tourDate = findViewById(R.id.TourDateTourInformationPage);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(currentTour.getDate());
+        String formattedDate = dateFormat.format(currentTour.startDate);
         tourDate.setText(formattedDate);
         //tour rate
         tourRate = findViewById(R.id.tourRateTourInformationPage);
-        tourRate.setText("Rate: " + currentTour.getRate());
+        tourRate.setText("Rate: " + currentTour.rating);
 
-        guide = currentTour.getGuide();
+        userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                guide = response.body();
+            }
+
+            // TODO handle it
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable throwable) {
+                finish();
+            }
+        });
 
         // test ediyorum
         if (guide == null) {
-            Toast.makeText(this, "Error: Guied null.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error: Guide null.", Toast.LENGTH_SHORT).show();
             finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
         }
 
         // guide image
         guideImage = findViewById(R.id.guideImageTourInformationPage);
         // TODO: no images right now
-        //guideImage.setImageResource(guide.());
+        NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(guide.id), null);
         // guide name
         guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
         guideName.setText(guide.firstName);
