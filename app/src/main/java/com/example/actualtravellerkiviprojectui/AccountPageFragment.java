@@ -311,7 +311,7 @@ public class AccountPageFragment extends Fragment {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Select Language")
                 .setSingleChoiceItems(labels, checkedItem, (dlg, which) -> {
-                    // anında kaydet
+
                     prefs.edit()
                             .putString("lang", codes[which])
                             .apply();
