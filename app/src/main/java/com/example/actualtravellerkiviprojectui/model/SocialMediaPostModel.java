@@ -9,8 +9,8 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
-import com.example.actualtravellerkiviprojectui.dto.PostDTO;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -34,7 +34,7 @@ public class SocialMediaPostModel implements Parcelable {
 
 
     public SocialMediaPostModel(UserDTO owner, String photoDescription, List<String> hashtags,
-                                List<String> pictureIDs, int numberOfLikes, LocalDate sharedDate) {
+                                Integer pictureID, int numberOfLikes, LocalDate sharedDate) {
         this.owner = owner;
         this.photoDescription = photoDescription;
         this.hashtags = hashtags;
@@ -57,7 +57,7 @@ public class SocialMediaPostModel implements Parcelable {
     public static SocialMediaPostModel fromPostDTO(PostDTO postDTO) throws IOException {
         UserDTO owner = null;
         owner = userService.getUser(postDTO.userId).execute().body();
-        SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageIds, postDTO.likeCount, LocalDate.parse(postDTO.createdAt));
+        SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, postDTO.createdAt);
         return created;
     }
 
