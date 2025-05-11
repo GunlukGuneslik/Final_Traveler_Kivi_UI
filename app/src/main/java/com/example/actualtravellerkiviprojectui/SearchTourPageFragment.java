@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,65 +28,135 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SearchTourPageFragment extends Fragment {
+
     private static final UserService userService = ServiceLocator.getUserService();
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
 
+    private RecyclerView rvTours, rvRecommended;
+    private TextView recommendedTitle;
+    private TourAdapter mainAdapter, recommendedAdapter;
+
+    private List<Tour> allTours = new ArrayList<>();
+    private List<Tour> filteredTours = new ArrayList<>();
+
+    private EditText etSearch;
+    private Spinner spinnerFilter, spinnerSort;
+    private Button btnSearch;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inf, ViewGroup ctr, Bundle bs) {
-        return inf.inflate(R.layout.fragment_search_tour_page, ctr, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search_tour_page, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle bs) {
         super.onViewCreated(view, bs);
 
-        EditText etSearch      = view.findViewById(R.id.etSearch);
-        Button  btnSearch      = view.findViewById(R.id.btnSearch);
-        Spinner spinnerFilter  = view.findViewById(R.id.spinnerFilter);
-        Spinner spinnerSort    = view.findViewById(R.id.spinnerSort);
-        RecyclerView rvTours   = view.findViewById(R.id.rvTours);
+        // View binding
+        etSearch         = view.findViewById(R.id.etSearch);
+        btnSearch        = view.findViewById(R.id.btnSearch);
+        spinnerFilter    = view.findViewById(R.id.spinnerFilter);
+        spinnerSort      = view.findViewById(R.id.spinnerSort);
+        rvTours          = view.findViewById(R.id.rvTours);
+        rvRecommended    = view.findViewById(R.id.rvRecommendedTours);
+        recommendedTitle = view.findViewById(R.id.recommendedTitle);
 
-        rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
-        List<Tour> allTours      = loadTours();
-        List<Tour> filteredTours = new ArrayList<>(allTours);
-        TourAdapter adapter      = new TourAdapter(filteredTours);
-        rvTours.setAdapter(adapter);
-
+        // Spinner ayarları
         spinnerFilter.setAdapter(new ArrayAdapter<>(
                 requireContext(), android.R.layout.simple_spinner_item,
-                new String[]{"All","Location A","Location B"}));
-        spinnerSort.setAdapter(new ArrayAdapter<>(
-                requireContext(), android.R.layout.simple_spinner_item,
-                new String[]{"Date","Popularity"}));
+                new String[]{"All", "Ankara", "Istanbul", "Cappadocia"}));
 
-        btnSearch.setOnClickListener(v -> {
+// Filtreleme fonksiyonu
+        private void applySearchFilterSort() {
             String q      = etSearch.getText().toString().trim().toLowerCase();
             String filt   = spinnerFilter.getSelectedItem().toString();
             String sortBy = spinnerSort.getSelectedItem().toString();
 
             List<Tour> result = allTours.stream()
                     .filter(t -> t.getTourName().toLowerCase().contains(q))
-                    .filter(t -> filt.equals("All") || t.getTourName().equals(filt))
+                    .filter(t -> filt.equals("All") || t.getPlaces().contains(filt))
                     .collect(Collectors.toList());
 
             if (sortBy.equals("Date")) {
-                result.sort((t1,t2) -> t1.getDate().compareTo(t2.getDate()));
-            } else {
-                result.sort((t1,t2) ->
-                        Integer.compare(t2.getPopularity(), t1.getPopularity()));
+                result.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
+            } else if (sortBy.equals("Popularity")) {
+                result.sort((t1, t2) -> Integer.compare(t2.getPopularity(), t1.getPopularity()));
             }
 
             filteredTours.clear();
             filteredTours.addAll(result);
-            adapter.notifyDataSetChanged();
-        });
+            mainAdapter.notifyDataSetChanged();
+        }
+
+
+        // Normal tur listesi (dikey)
+        rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mainAdapter = new TourAdapter(filteredTours);
+        rvTours.setAdapter(mainAdapter);
+
+        // Önerilen turlar listesi (dikey)
+        rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recommendedAdapter = new TourAdapter(new ArrayList<>());
+        rvRecommended.setAdapter(recommendedAdapter);
+
+        btnSearch.setOnClickListener(v -> applySearchFilterSort());
+
+        loadTours();              // Normal tur listesi
+        loadRecommendedTours();   // Önerilen tur listesi
     }
 
-    // TODO: Test verisi; yerine gerçek API/DB çağıracaksın
-    private List<Tour> loadTours() {
-        ArrayList<Tour> tours = new ArrayList<>();
-        return tours;
+    private void applySearchFilterSort() {
+        String query    = etSearch.getText().toString().trim().toLowerCase();
+        String filter   = spinnerFilter.getSelectedItem().toString();
+        String sortBy   = spinnerSort.getSelectedItem().toString();
+
+        List<Tour> result = allTours.stream()
+                .filter(t -> t.getTourName().toLowerCase().contains(query))
+                .filter(t -> filter.equals("All") || t.getTourName().equals(filter))
+                .collect(Collectors.toList());
+
+        if (sortBy.equals("Date")) {
+            result.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
+        } else if (sortBy.equals("Popularity")) {
+            result.sort((t1, t2) -> Integer.compare(t2.getPopularity(), t1.getPopularity()));
+        }
+
+        filteredTours.clear();
+        filteredTours.addAll(result);
+        mainAdapter.notifyDataSetChanged();
+    }
+
+    private void loadTours() {
+        // Şimdilik test datası
+        allTours = new ArrayList<>();
+        filteredTours.clear();
+        filteredTours.addAll(allTours);
+        mainAdapter.notifyDataSetChanged();
+    }
+
+    private void loadRecommendedTours() {
+        eventService.getRecommendedTours(1).enqueue(new Callback<List<Tour>>() {
+            @Override
+            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    List<Tour> recommended = response.body();
+                    recommendedAdapter = new TourAdapter(recommended);
+                    rvRecommended.setAdapter(recommendedAdapter);
+                    recommendedTitle.setVisibility(View.VISIBLE);
+                    rvRecommended.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tour>> call, Throwable t) {
+                Toast.makeText(getContext(), "Önerilen turlar alınamadı", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

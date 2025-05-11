@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:id="@+id/cardTourSearch"
     card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="4dp"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:background="@color/white">
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/tourImage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            >
 
         <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:id="@+id/tourNameText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tour Name"
-            android:textSize="18sp"
-            android:textColor="@color/brown"/>
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingTop="8dp" />
 
         <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
+            android:id="@+id/guideNameText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="01 Jan 2025"
+            android:text="with Guide"
             android:textSize="14sp"
-            android:textColor="@color/light_brown"
-            android:layout_marginTop="4dp"/>
-
-        <TextView
-            android:id="@+id/tvGuide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Guide: Alice"
-            android:textSize="14sp"
-            android:textColor="@color/light_brown"
-            android:layout_marginTop="2dp"/>
+            android:textColor="@color/dark_gray" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

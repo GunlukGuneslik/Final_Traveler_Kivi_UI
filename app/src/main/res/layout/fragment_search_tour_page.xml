@@ -63,13 +63,42 @@
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
-    <!-- TOUR LIST -->
+    <!-- MAIN TOUR LIST -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTours"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
         app:layout_constraintTop_toBottomOf="@id/filter_sort_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recommendedTitle"/>
+
+    <!-- RECOMMENDED TOURS TITLE -->
+    <TextView
+        android:id="@+id/recommendedTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Recommended Tours"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_gray"
+        android:visibility="gone"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/rvTours"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- RECOMMENDED TOURS LIST (Vertical) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecommendedTours"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/recommendedTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
