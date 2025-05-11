@@ -12,14 +12,19 @@ import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 public interface EventService {
 
@@ -39,8 +44,14 @@ public interface EventService {
     /**
      * Returns paginated list of events.
      */
-    @GET("")
+    @GET("api/events")
     Call<PagedModel<EventDTO>> getPaginatedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
+
+    /**
+     * Returns a list of recommended events
+     */
+    @GET("api/events/recommended")
+    Call<PagedModel<EventDTO>> getRecommendedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
 
     /**
      * Gets an event according to id.
@@ -138,5 +149,12 @@ public interface EventService {
     @GET("events/{eventId}/skeleton")
     Call<EventSkeletonDTO> getEventSkeleton(@Path("eventId") Integer eventId);
 
+    @GET("events/{eventId}/photo")
+    @Streaming
+    Call<ResponseBody> getPhoto(@Path("eventId") int eventId);
+
+    @POST("events/{eventId}/photo")
+    @Multipart
+    Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("file") MultipartBody.Part image);
 
 }

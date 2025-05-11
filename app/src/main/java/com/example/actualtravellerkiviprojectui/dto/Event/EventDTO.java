@@ -22,6 +22,8 @@ public class EventDTO {
     public List<Integer> commentIds = new ArrayList<>();
     public Integer skeletonId;
 
+    public Integer imageId;
+
     public enum EventType {
         TOUR, MEETUP
     }

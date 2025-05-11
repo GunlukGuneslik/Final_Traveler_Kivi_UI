@@ -13,8 +13,12 @@ import com.example.actualtravellerkiviprojectui.dto.Event.EventSkeletonDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.mock.BehaviorDelegate;
 
@@ -55,6 +59,20 @@ public class MockEventService implements EventService {
         return delegate.returningResponse(mockEvents).getPaginatedEvents(size, page, sort);
     }
 
+    /**
+     * Returns a list of recommended events
+     *
+     * @param size
+     * @param page
+     * @param sort
+     */
+    @Override
+    public Call<PagedModel<EventDTO>> getRecommendedEvents(int size, int page, String sort) {
+        var mockEvents = Utils.loadObject("mock/events/paged.json", new TypeReference<PagedModel<EventDTO>>() {
+        });
+        return delegate.returningResponse(mockEvents).getPaginatedEvents(size, page, sort);
+    }
+
     @Override
     public Call<EventDTO> getEvent(int eventId) {
         return getEventDelegate().getEvent(eventId);
@@ -63,7 +81,7 @@ public class MockEventService implements EventService {
 
     @Override
     public Call<EventDTO> updateEvent(int eventId, EventCreateDTO update) {
-        return getEventDelegate().getEvent(eventId);
+        return getEventDelegate().updateEvent(eventId, update);
     }
 
     @Override
@@ -183,6 +201,24 @@ public class MockEventService implements EventService {
     public Call<EventSkeletonDTO> getEventSkeleton(Integer eventId) {
         return delegate.returningResponse(Utils.loadObject("mock/events/skeleton.json", new TypeReference<EventSkeletonDTO>() {
         })).getEventSkeleton(eventId);
+    }
+
+    @Override
+    public Call<ResponseBody> getPhoto(int eventId) {
+        byte[] bytes;
+        try {
+            bytes = Utils.loadMockJson("mock/events/eventimage.png").readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ResponseBody avatarBody = ResponseBody.create(MediaType.parse("image/png"), bytes);
+        return delegate.returningResponse(avatarBody).getPhoto(eventId);
+    }
+
+    @Override
+    public Call<EventDTO> setPhoto(int eventId, MultipartBody.Part image) {
+        return getEventDelegate().setPhoto(eventId, image);
+
     }
 
 }
