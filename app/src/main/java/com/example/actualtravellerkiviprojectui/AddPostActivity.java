@@ -1,6 +1,5 @@
 package com.example.actualtravellerkiviprojectui;
-import java.time.LocalDate;
-import java.util.*;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,21 +17,19 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-
 import com.example.actualtravellerkiviprojectui.api.PostService;
-import com.example.actualtravellerkiviprojectui.dto.Post.PostCreateDTO;
-import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddPostActivity extends AppCompatActivity {
+    private PostService postService = ServiceLocator.getPostService();
 
     private Uri selectedImageUri;
     private ImageView ivPreview;
@@ -57,31 +54,24 @@ public class AddPostActivity extends AppCompatActivity {
 
         ivPreview = findViewById(R.id.ivPreview);
         etCaption = findViewById(R.id.etCaption);
-        etHashtags  = findViewById(R.id.etHashtags);
-        btnShare  = findViewById(R.id.btnShare);
+        etHashtags = findViewById(R.id.etHashtags);
+        btnShare = findViewById(R.id.btnShare);
 
 
-        pickImageLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK
-                                && result.getData() != null) {
-                            Uri uri = result.getData().getData();
-                            ivPreview.setImageURI(uri);
-                            selectedImageUri = uri;
-                        }
-                    }
+        pickImageLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri uri = result.getData().getData();
+                    ivPreview.setImageURI(uri);
+                    selectedImageUri = uri;
                 }
-        );
+            }
+        });
 
 
         ivPreview.setOnClickListener(v -> {
-            Intent intent = new Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            );
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             pickImageLauncher.launch(intent);
         });
 
@@ -126,38 +116,21 @@ public class AddPostActivity extends AppCompatActivity {
         }
 
 
-        List<String> imageIds = new ArrayList<>();
+        int userId = UserState.getUserId(); // ← Bunu oturum açan kullanıcıya göre değiştir
 
+        // TODO: context?
+        NetworkModule.uploadImage(App.getContext(), selectedImageUri, part -> {
+            return postService.createPost(userId, caption, tags, part);
+        }, postDTO -> {
+            Toast.makeText(AddPostActivity.this, "Post başarıyla paylaşıldı!", Toast.LENGTH_SHORT).show();
+            finish();
+        }, throwable -> {
+            Toast.makeText(AddPostActivity.this,
+                    "Sunucu hatası: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
-        int userId = 1; // ← Bunu oturum açan kullanıcıya göre değiştir
-
-        // DTO oluştur
-        PostCreateDTO dto = new PostCreateDTO();
-        dto.userId = userId;
-        dto.body = caption;
-        dto.tags = tags;
-        dto.images = imageIds;
-
-
-        PostService postService = ServiceLocator.getPostService();
-        postService.createPost(dto).enqueue(new retrofit2.Callback<PostDTO>() {
-            @Override
-            public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(AddPostActivity.this, "Post başarıyla paylaşıldı!", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(AddPostActivity.this, "Post gönderilemedi!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PostDTO> call, Throwable t) {
-                Toast.makeText(AddPostActivity.this, "Sunucu hatası: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
         });
-    }
 
+    }
 
 
 }

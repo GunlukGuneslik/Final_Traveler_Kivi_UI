@@ -13,7 +13,6 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.mock.BehaviorDelegate;
@@ -76,8 +75,8 @@ public class MockPostService implements PostService {
     }
 
     @Override
-    public Call<PostDTO> createPost(RequestBody userId, RequestBody body, List<MultipartBody.Part> tags, List<MultipartBody.Part> images) {
-        return getPostDetail().createPost(userId, body, tags, images);
+    public Call<PostDTO> createPost(int userId, String body, List<String> tags, MultipartBody.Part image) {
+        return getPostDetail().createPost(userId, body, tags, image);
     }
 
     @Override

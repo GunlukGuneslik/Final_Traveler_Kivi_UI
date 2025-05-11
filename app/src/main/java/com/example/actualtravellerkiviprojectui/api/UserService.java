@@ -58,7 +58,7 @@ public interface UserService {
 
     @POST("users/{userId}/avatar")
     @Multipart
-    Call<UserDTO> setAvatar(@Path("userId") int userId, @Part("file") MultipartBody.Part image);
+    Call<UserDTO> setAvatar(@Path("userId") int userId, @Part("image") MultipartBody.Part image);
 
     @GET("users/{userId}/stats")
     Call<UserStatsDTO> getUserStats(@Path("userId") int userId);

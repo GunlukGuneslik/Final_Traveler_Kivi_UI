@@ -1,7 +1,10 @@
 package com.example.actualtravellerkiviprojectui.api.modules;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
@@ -15,8 +18,8 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -39,10 +42,7 @@ public class NetworkModule {
     private static final String BASE_URL = App.getContext().getResources().getString(R.string.kivi_api_url);
 
     public static Retrofit provideRetrofit() {
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(JacksonConverterFactory.create())
-                .build();
+        return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
     }
 
     public static UserService provideUserService(Retrofit retrofit) {
@@ -117,46 +117,38 @@ public class NetworkModule {
         });
     }
 
-    public static <T> void uploadImage(
-            Context context,
-            Uri imageUri,
-            Function<MultipartBody.Part, Call<T>> apiCall,
-            Consumer<T> onSuccess,
-            Consumer<Throwable> onError) {
+    public static <T> void uploadImage(Context context, Uri imageUri, Function<MultipartBody.Part, Call<T>> apiCall, Consumer<T> onSuccess, Consumer<Throwable> onError) {
 
         try {
             // Properly convert Uri to actual file data
             File fileDir = context.getCacheDir();
-            File file = new File(fileDir, "avatar_upload.jpg");
+            File file = new File(fileDir, UUID.randomUUID().toString() + ".png");
 
-            try (InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
-                 OutputStream outputStream = new FileOutputStream(file)) {
+            Bitmap bitmap = null;
+            ContentResolver contentResolver = context.getContentResolver();
+            try {
 
-                if (inputStream == null) {
+                ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, imageUri);
+                bitmap = ImageDecoder.decodeBitmap(source);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try (OutputStream outputStream = new FileOutputStream(file)) {
+                if (bitmap == null) {
                     onError.accept(new IOException("Cannot read input file"));
                     return;
                 }
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
 
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
                 outputStream.flush();
             }
 
             // Create request body for file
-            RequestBody requestFile = RequestBody.create(
-                    MediaType.parse("multipart/form-data"),
-                    file
-            );
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/png"), file);
 
             // Create MultipartBody.Part
-            MultipartBody.Part filePart = MultipartBody.Part.createFormData(
-                    "file",
-                    file.getName(),
-                    requestFile
-            );
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
             // Execute the request
             Call<T> call = apiCall.apply(filePart);

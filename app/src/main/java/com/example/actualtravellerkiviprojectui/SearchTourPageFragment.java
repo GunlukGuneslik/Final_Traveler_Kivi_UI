@@ -23,9 +23,9 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,8 +43,8 @@ public class SearchTourPageFragment extends Fragment {
     private TextView recommendedTitle;
     private TourAdapter mainAdapter, recommendedAdapter;
 
-    private List<Tour> allTours = new ArrayList<>();
-    private List<Tour> filteredTours = new ArrayList<>();
+    private List<EventDTO> allTours = new ArrayList<>();
+    private List<EventDTO> filteredTours = new ArrayList<>();
 
     private EditText etSearch;
     private Spinner spinnerFilter, spinnerSort;
@@ -76,12 +76,12 @@ public class SearchTourPageFragment extends Fragment {
 
         // Normal tur listesi (dikey)
         rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mainAdapter = new TourAdapter(filteredTours);
+        mainAdapter = new TourAdapter(getContext(), allTours);
         rvTours.setAdapter(mainAdapter);
 
         // Önerilen turlar listesi (dikey)
         rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        recommendedAdapter = new TourAdapter(new ArrayList<>());
+        recommendedAdapter = new TourAdapter(getContext(), new ArrayList<>());
         rvRecommended.setAdapter(recommendedAdapter);
 
         btnSearch.setOnClickListener(v -> applySearchFilterSort());
@@ -95,15 +95,15 @@ public class SearchTourPageFragment extends Fragment {
         String filter = spinnerFilter.getSelectedItem().toString();
         String sortBy = spinnerSort.getSelectedItem().toString();
 
-        List<Tour> result = allTours.stream()
-                .filter(t -> t.getTourName().toLowerCase().contains(query))
-                .filter(t -> filter.equals("All") || t.getTourName().equals(filter))
+        List<EventDTO> result = allTours.stream()
+                .filter(t -> t.name.toLowerCase().contains(query))
+                .filter(t -> filter.equals("All") || t.name.equals(filter))
                 .collect(Collectors.toList());
 
         if (sortBy.equals("Date")) {
-            result.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
+            result.sort(Comparator.comparing(t -> t.startDate));
         } else if (sortBy.equals("Popularity")) {
-            result.sort((t1, t2) -> Integer.compare(t2.getPopularity(), t1.getPopularity()));
+            result.sort((t1, t2) -> Integer.compare(t2.userIds.size(), t1.userIds.size()));
         }
 
         filteredTours.clear();

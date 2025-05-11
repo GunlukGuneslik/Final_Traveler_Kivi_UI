@@ -1,14 +1,12 @@
 package com.example.actualtravellerkiviprojectui.api;
 
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
-import com.example.actualtravellerkiviprojectui.dto.Post.PostCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -49,11 +47,10 @@ public interface PostService {
     @POST("posts/create")
     @Multipart
     Call<PostDTO> createPost(
-            @Part("userId") RequestBody userId,
-            @Part("body") RequestBody body,
-            @Part List<MultipartBody.Part> tags,
-            @Part List<MultipartBody.Part> images
-
+            @Part("userId") int userId,
+            @Part("body") String body,
+            @Part("tags") List<String> tags,
+            @Part MultipartBody.Part image
     );
 
     @GET("posts/{postId}/photo")

@@ -152,6 +152,6 @@ public interface EventService {
 
     @POST("events/{eventId}/photo")
     @Multipart
-    Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("file") MultipartBody.Part image);
+    Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("image") MultipartBody.Part image);
 
 }
