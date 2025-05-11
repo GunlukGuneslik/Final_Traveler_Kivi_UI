@@ -2,26 +2,29 @@ package com.example.actualtravellerkiviprojectui;
 
 import static android.view.View.GONE;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,12 +43,6 @@ import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.EditText;
-import androidx.appcompat.app.AlertDialog;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import java.util.Locale;
 
 /**
@@ -116,7 +113,7 @@ public class AccountPageFragment extends Fragment {
                 .getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
 
         // 2) API’dan currentUser’ı çekiyor
-        currentUser = getCurrentUser();
+        currentUser = UserState.getUser(userService);
 
         // 3) userName’i hem pref’ten hem de API’den gelen default’la tek satırda atıyor
         userName = prefs.getString("username", currentUser.firstName);
@@ -125,36 +122,27 @@ public class AccountPageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        try {
-            currentUser = getCurrentUser();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
-        userName = currentUser.username;
 
-        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                try {
-                    // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
-                    Uri imageUri = result.getData().getData();
-                    int curId = UserState.getUserId();
-                    NetworkModule.uploadImage(getContext(), imageUri, filePart -> userService.setAvatar(curId, filePart),
-                            userDetail -> {
-                                // Handle success - update UI with the returned UserDetail
-                                profilePhoto.setImageURI(imageUri);
-                                Toast.makeText(getContext(), "Profile picture updated!", Toast.LENGTH_LONG).show();
-                            }, error -> {
-                                // Handle error
-                                Log.e("Avatar", "Upload failed", error);
-                                Toast.makeText(getContext(), "Failed to upload profile picture!", Toast.LENGTH_LONG).show();
-                            });
-                } catch (Exception e) {
-                    Log.e("Avatar", "No image selected", e);
-                }
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            try {
+                // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
+                Uri imageUri = result.getData().getData();
+                int curId = UserState.getUserId();
+                NetworkModule.uploadImage(getContext(), imageUri, filePart -> userService.setAvatar(curId, filePart),
+                        userDetail -> {
+                            // Handle success - update UI with the returned UserDetail
+                            profilePhoto.setImageURI(imageUri);
+                            Toast.makeText(getContext(), "Profile picture updated!", Toast.LENGTH_LONG).show();
+                        }, error -> {
+                            // Handle error
+                            Log.e("Avatar", "Upload failed", error);
+                            Toast.makeText(getContext(), "Failed to upload profile picture!", Toast.LENGTH_LONG).show();
+                        });
+            } catch (Exception e) {
+                Log.e("Avatar", "No image selected", e);
             }
-        );
+        });
     }
 
 
@@ -265,8 +253,8 @@ public class AccountPageFragment extends Fragment {
 
 
     //TODO: complete this method so that it fills the array with user's posts.
-    //TODO: currently for prototyping. use proper callback methods.
-    private void fillSocialMediaPosts(){
+//TODO: currently for prototyping. use proper callback methods.
+    private void fillSocialMediaPosts() {
         // TODO: should add a way to refresh the feed which will also act as a retry method on failed feed request.
         // TODO: should also retry the failed posts but idk how
         try {
@@ -287,6 +275,7 @@ public class AccountPageFragment extends Fragment {
             Toast.makeText(getContext(), text, Toast.LENGTH_LONG);
         }
     }
+
     // --- Change Name Dialog ---@author:Eftelya
     private void showChangeNameDialog() {
         final EditText input = new EditText(requireContext());
@@ -310,7 +299,7 @@ public class AccountPageFragment extends Fragment {
     // --- Change Language Dialog ---@author:Eftelya
     private void showChangeLanguageDialog() {
         String[] labels = {"English", "Türkçe", "Deutsch"};
-        String[] codes  = {"en", "tr", "de"};
+        String[] codes = {"en", "tr", "de"};
         int checkedItem = getSavedLangIndex();
 
         new AlertDialog.Builder(requireContext())
@@ -332,9 +321,12 @@ public class AccountPageFragment extends Fragment {
     private int getSavedLangIndex() {
         String kod = prefs.getString("lang", "en");
         switch (kod) {
-            case "tr": return 1;
-            case "de": return 2;
-            default:   return 0;
+            case "tr":
+                return 1;
+            case "de":
+                return 2;
+            default:
+                return 0;
         }
     }
 

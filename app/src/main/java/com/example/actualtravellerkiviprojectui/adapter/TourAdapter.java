@@ -14,21 +14,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
-import com.example.actualtravellerkiviprojectui.model.Tour;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder> {
 
+    private final UserService userService = ServiceLocator.getUserService();
+    private final PostService postService = ServiceLocator.getPostService();
+    private final EventService eventService = ServiceLocator.getEventService();
     private Context context;
-    private List<Tour> tourList;
+    private List<EventDTO> tourList;
 
-    public TourAdapter(Context context, List<Tour> tourList) {
+    public TourAdapter(Context context, List<EventDTO> tourList) {
         this.context = context;
         this.tourList = tourList;
     }
 
-    public void setTours(List<Tour> newList) {
+    public void setTours(List<EventDTO> newList) {
         this.tourList = newList;
         notifyDataSetChanged();
     }
@@ -36,16 +46,22 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     @NonNull
     @Override
     public TourViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_recommended_tour, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_tour, parent, false);
         return new TourViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TourViewHolder holder, int position) {
-        Tour tour = tourList.get(position);
-        holder.tourName.setText(tour.getTourName());
-        holder.guideName.setText("with " + tour.getGuide().firstName);
-        holder.tourImage.setImageResource(tour.getTourImage());
+        EventDTO tour = tourList.get(position);
+        holder.tourName.setText(tour.name);
+        UserDTO owner = null;
+        try {
+            owner = userService.getUser(tour.ownerId).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        holder.guideName.setText("with " + owner.firstName);
+        NetworkModule.setImageViewFromCall(holder.tourImage, eventService.getPhoto(tour.id), null);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, TourInformationPageActivity.class);

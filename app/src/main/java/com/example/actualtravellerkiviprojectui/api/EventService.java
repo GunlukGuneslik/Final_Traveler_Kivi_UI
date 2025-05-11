@@ -8,7 +8,6 @@ import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventRatingDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventSkeletonDTO;
-import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 
 import java.util.List;
 
@@ -45,13 +44,13 @@ public interface EventService {
      * Returns paginated list of events.
      */
     @GET("api/events")
-    Call<PagedModel<EventDTO>> getPaginatedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
+    Call<List<EventDTO>> getPaginatedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
 
     /**
      * Returns a list of recommended events
      */
     @GET("api/events/recommended")
-    Call<PagedModel<EventDTO>> getRecommendedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
+    Call<List<EventDTO>> getRecommendedTours();
 
     /**
      * Gets an event according to id.
@@ -117,8 +116,6 @@ public interface EventService {
     @GET("events/locations")
     Call<List<EventLocationDTO>> getAllEventLocations();
 
-    @GET("events/locations")
-    Call<List<EventLocationDTO>> getRecommendedTours();
 
     /**
      * Update an existing event location

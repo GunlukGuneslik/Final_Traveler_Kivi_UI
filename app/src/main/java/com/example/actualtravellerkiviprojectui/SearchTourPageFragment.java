@@ -22,6 +22,7 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
 import java.util.ArrayList;
@@ -71,49 +72,28 @@ public class SearchTourPageFragment extends Fragment {
         spinnerFilter.setAdapter(new ArrayAdapter<>(
                 requireContext(), android.R.layout.simple_spinner_item,
                 new String[]{"All", "Ankara", "Istanbul", "Cappadocia"}));
-    }
 
-        // Filtreleme fonksiyonu
-        private void applySearchFilterSort() {
-            String q      = etSearch.getText().toString().trim().toLowerCase();
-            String filt   = spinnerFilter.getSelectedItem().toString();
-            String sortBy = spinnerSort.getSelectedItem().toString();
 
-            List<Tour> result = allTours.stream()
-                    .filter(t -> t.getTourName().toLowerCase().contains(q))
-                    .filter(t -> filt.equals("All") || t.getPlaces().contains(filt))
-                    .collect(Collectors.toList());
+        // Normal tur listesi (dikey)
+        rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mainAdapter = new TourAdapter(filteredTours);
+        rvTours.setAdapter(mainAdapter);
 
-            if (sortBy.equals("Date")) {
-                result.sort((t1, t2) -> t1.getDate().compareTo(t2.getDate()));
-            } else if (sortBy.equals("Popularity")) {
-                result.sort((t1, t2) -> Integer.compare(t2.getPopularity(), t1.getPopularity()));
-            }
+        // Önerilen turlar listesi (dikey)
+        rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        recommendedAdapter = new TourAdapter(new ArrayList<>());
+        rvRecommended.setAdapter(recommendedAdapter);
 
-            filteredTours.clear();
-            filteredTours.addAll(result);
-            mainAdapter.notifyDataSetChanged();
+        btnSearch.setOnClickListener(v -> applySearchFilterSort());
 
-            // Normal tur listesi (dikey)
-            rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
-            mainAdapter = new TourAdapter(filteredTours);
-            rvTours.setAdapter(mainAdapter);
-
-            // Önerilen turlar listesi (dikey)
-            rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-            recommendedAdapter = new TourAdapter(new ArrayList<>());
-            rvRecommended.setAdapter(recommendedAdapter);
-
-            btnSearch.setOnClickListener(v -> applySearchFilterSort());
-
-            loadTours();              // Normal tur listesi
-            loadRecommendedTours();   // Önerilen tur listesi
+        loadTours();              // Normal tur listesi
+        loadRecommendedTours();   // Önerilen tur listesi
     }
 
     private void applySearchFilterSort() {
-        String query    = etSearch.getText().toString().trim().toLowerCase();
-        String filter   = spinnerFilter.getSelectedItem().toString();
-        String sortBy   = spinnerSort.getSelectedItem().toString();
+        String query = etSearch.getText().toString().trim().toLowerCase();
+        String filter = spinnerFilter.getSelectedItem().toString();
+        String sortBy = spinnerSort.getSelectedItem().toString();
 
         List<Tour> result = allTours.stream()
                 .filter(t -> t.getTourName().toLowerCase().contains(query))
@@ -140,11 +120,12 @@ public class SearchTourPageFragment extends Fragment {
     }
 
     private void loadRecommendedTours() {
-        eventService.getRecommendedTours(1).enqueue(new Callback<List<Tour>>() {
+        eventService.getRecommendedTours().enqueue(new Callback<List<EventDTO>>() {
             @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    List<Tour> recommended = response.body();
+            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
+                if (response.isSuccessful() && response.body() != null &&
+                    !response.body().isEmpty()) {
+                    List<EventDTO> recommended = response.body();
                     recommendedAdapter = new TourAdapter(requireContext(), recommended);
 
                     rvRecommended.setAdapter(recommendedAdapter);
@@ -154,7 +135,7 @@ public class SearchTourPageFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
+            public void onFailure(Call<List<EventDTO>> call, Throwable t) {
                 Toast.makeText(getContext(), "Önerilen turlar alınamadı", Toast.LENGTH_SHORT).show();
             }
         });

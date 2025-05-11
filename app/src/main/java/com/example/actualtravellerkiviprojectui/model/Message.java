@@ -2,6 +2,7 @@ package com.example.actualtravellerkiviprojectui.model;
 
 /**
  * @author zeynep
+ * @deprecated use {@link com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO} instead
  */
 public class Message {
     private final String userId;
