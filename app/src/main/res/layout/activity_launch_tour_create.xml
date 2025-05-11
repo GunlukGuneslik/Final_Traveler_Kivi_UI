@@ -128,7 +128,6 @@
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/brown"
                 android:text="next"
-                android:drawableRight="@drawable/baseline_arrow_forward_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
