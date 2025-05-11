@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.actualtravellerkiviprojectui">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -32,11 +31,12 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="google_maps_key" />
-        <activity android:name="com.example.actualtravellerkiviprojectui.AddPostActivity"/>
+        <activity
+            android:name=".AddPostActivity"
+            android:exported="false" />
         <activity
             android:name=".TourInformationPageActivity"
             android:exported="false" />
-
         <activity
             android:name=".CreateAccountActivity"
             android:exported="false" />
