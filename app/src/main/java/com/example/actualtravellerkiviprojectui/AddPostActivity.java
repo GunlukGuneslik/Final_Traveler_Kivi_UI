@@ -23,6 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
@@ -113,7 +116,7 @@ public class AddPostActivity extends AppCompatActivity {
         String caption = etCaption.getText().toString().trim();
         String rawTags = etHashtags.getText().toString().trim();
 
-        // Parse hashtags
+        // Hashtagleri parse et (# işareti zorunlu değil, ekliyoruz)
         List<String> tags = new ArrayList<>();
         if (!rawTags.isEmpty()) {
             for (String t : rawTags.split("\\s+")) {
@@ -122,15 +125,39 @@ public class AddPostActivity extends AppCompatActivity {
             }
         }
 
-        // TODO: send 'caption', 'tags' and 'selectedImageUri' to backend via PostService
-        // e.g. postService.createPost(new PostCreateDTO(userId, caption, tags)).enqueue(...);
 
-        // For now, just show a confirmation and close
-        Toast.makeText(this,
-                "Post shared: " + caption + " " + tags,
-                Toast.LENGTH_SHORT).show();
-        finish();
+        List<String> imageIds = new ArrayList<>();
+
+
+        int userId = 1; // ← Bunu oturum açan kullanıcıya göre değiştir
+
+        // DTO oluştur
+        PostCreateDTO dto = new PostCreateDTO();
+        dto.userId = userId;
+        dto.body = caption;
+        dto.tags = tags;
+        dto.images = imageIds;
+
+
+        PostService postService = ServiceLocator.getPostService();
+        postService.createPost(dto).enqueue(new retrofit2.Callback<PostDTO>() {
+            @Override
+            public void onResponse(Call<PostDTO> call, Response<PostDTO> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(AddPostActivity.this, "Post başarıyla paylaşıldı!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(AddPostActivity.this, "Post gönderilemedi!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PostDTO> call, Throwable t) {
+                Toast.makeText(AddPostActivity.this, "Sunucu hatası: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
+
 
 
 }
