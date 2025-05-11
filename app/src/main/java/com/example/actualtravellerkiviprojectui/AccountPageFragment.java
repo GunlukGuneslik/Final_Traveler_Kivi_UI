@@ -44,6 +44,7 @@ import com.example.actualtravellerkiviprojectui.state.UserState;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -261,12 +262,11 @@ public class AccountPageFragment extends Fragment {
             postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> {
                 try {
                     Log.i("request", "Post request.");
-                    posts.add(SocialMediaPostModel.fromPostDTO(post));
-                } catch (IOException e) {
-                    //
-                    String text = "Error fetching post.";
-                    Log.w("retrofit", text);
-                    Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
+                    posts.add(SocialMediaPostModel.fromPostDTO(post).get());
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             });
         } catch (IOException e) {

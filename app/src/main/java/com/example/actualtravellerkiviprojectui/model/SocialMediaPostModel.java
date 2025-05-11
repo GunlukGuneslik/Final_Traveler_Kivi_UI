@@ -3,8 +3,6 @@ package com.example.actualtravellerkiviprojectui.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
@@ -15,9 +13,11 @@ import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author zeynep
+ * @deprecated use {@link PostDTO} for representing {@literal Post} entitites from now on
  */
 public class SocialMediaPostModel implements Parcelable {
     private static final UserService userService = ServiceLocator.getUserService();
@@ -31,6 +31,7 @@ public class SocialMediaPostModel implements Parcelable {
     public int sharedPhotoId;
     public int numberOfLikes;
     public LocalDate sharedDate;
+    public int postId;
 
 
     public SocialMediaPostModel(UserDTO owner, String photoDescription, List<String> hashtags,
@@ -38,8 +39,7 @@ public class SocialMediaPostModel implements Parcelable {
         this.owner = owner;
         this.photoDescription = photoDescription;
         this.hashtags = hashtags;
-        this.profilePhotoId = profilePhotoId;
-        this.sharedPhotoId = sharedPhotoId;
+        this.sharedPhotoId = pictureID;
         this.numberOfLikes = numberOfLikes;
         this.sharedDate = sharedDate;
     }
@@ -53,12 +53,20 @@ public class SocialMediaPostModel implements Parcelable {
         numberOfLikes = in.readInt();
     }
 
-    @NonNull
-    public static SocialMediaPostModel fromPostDTO(PostDTO postDTO) throws IOException {
-        UserDTO owner = null;
-        owner = userService.getUser(postDTO.userId).execute().body();
-        SocialMediaPostModel created = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, postDTO.createdAt);
-        return created;
+    public static CompletableFuture<SocialMediaPostModel> fromPostDTO(PostDTO postDTO) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                UserDTO owner = userService.getUser(postDTO.userId).execute().body();
+                if (owner == null) {
+                    throw new RuntimeException("Failed to fetch user with ID: " + postDTO.userId);
+                }
+                SocialMediaPostModel post = new SocialMediaPostModel(owner, "a nice photo", postDTO.tags, postDTO.imageId, postDTO.likeCount, postDTO.createdAt);
+                post.postId = postDTO.postId;
+                return post;
+            } catch (IOException e) {
+                throw new RuntimeException("Error fetching user data", e);
+            }
+        });
     }
 
     @Override
