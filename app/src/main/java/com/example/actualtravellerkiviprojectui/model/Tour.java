@@ -6,12 +6,16 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * @deprecated please directly use {@link EventDTO} objects directly.
+ */
 public class Tour implements Parcelable {
     private final String tourName;
     private String tourLanguage;
