@@ -5,8 +5,10 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
-
+/**
+ * @deprecated migrate to EventDTO and EventLocationDTOs
+ */
+@Deprecated
 public class PlaceModel implements Parcelable{
 
     private String placeName;
@@ -46,6 +48,14 @@ public class PlaceModel implements Parcelable{
     }
     public LatLng getLocation() {
         return location;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
+
+    public void setPlaceInformationText(String placeInformationText) {
+        this.placeInformationText = placeInformationText;
     }
 
     // Parcelable Constructor

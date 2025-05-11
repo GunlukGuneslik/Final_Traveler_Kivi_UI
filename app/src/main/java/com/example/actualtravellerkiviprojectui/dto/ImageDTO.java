@@ -1,31 +1,16 @@
 package com.example.actualtravellerkiviprojectui.dto;
 
+/**
+ * An object identifying some image in the database
+ * This has no uses probably.
+ */
 public class ImageDTO {
-              private String id;
-                      private Integer contentLength;
-                      private String contentMimeType;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public Integer id;
 
-    public Integer getContentLength() {
-        return contentLength;
-    }
+    public String contentId;
 
-    public void setContentLength(Integer contentLength) {
-        this.contentLength = contentLength;
-    }
-
-    public String getContentMimeType() {
-        return contentMimeType;
-    }
-
-    public void setContentMimeType(String contentMimeType) {
-        this.contentMimeType = contentMimeType;
-    }
+    public Long contentLength;
+    public String contentMimeType = "image/png";
 }

@@ -28,7 +28,7 @@ public class Utils {
         }
     }
 
-    private static InputStream loadMockJson(String path) {
+    public static InputStream loadMockJson(String path) {
         Context context = App.getContext();
         if (context == null) {
             throw new IllegalStateException("MockFileLoader not initialized.");

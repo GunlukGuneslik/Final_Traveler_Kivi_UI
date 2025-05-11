@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "location": {
+    "latitude": 48.856614,
+    "longtitude": 0.0
+  },
+  "title": "Eiffel Tower",
+  "description": "Famous landmark in Paris, France",
+  "keywords": [
+    "paris",
+    "tourism",
+    "landmark"
+  ],
+  "featured": true
+}

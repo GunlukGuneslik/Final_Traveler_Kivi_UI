@@ -11,6 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
@@ -19,8 +24,13 @@ import java.util.ArrayList;
  * @author Güneş
  */
 public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter<Account_Page_Posts_RecyclerViewAdapter.postViewHolder> {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+
     Context context;
     ArrayList<SocialMediaPostModel> posts;
+
     public Account_Page_Posts_RecyclerViewAdapter(Context context, ArrayList<SocialMediaPostModel> posts) {
         this.context = context;
         this.posts = posts;
@@ -38,7 +48,10 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull Account_Page_Posts_RecyclerViewAdapter.postViewHolder holder, int position) {
         holder.hastag.setText(String.join(", ", posts.get(position).getHashtags()));
         holder.sharedDate.setText(posts.get(position).getSharedDate());
-        holder.imageView.setImageResource(posts.get(position).getSharedPhotoId());
+
+        // ! Important example of setting ImageView objects
+        NetworkModule.setImageViewFromCall(holder.imageView, postService.getPhoto(posts.get(position).postId), null);
+
         holder.description.setText(posts.get(position).getPhotoDescription());
     }
 
@@ -47,11 +60,12 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
         return posts.size();
     }
 
-    public static class postViewHolder extends RecyclerView.ViewHolder{
+    public static class postViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView hastag;
         TextView description;
         TextView sharedDate;
+
         public postViewHolder(@NonNull View itemView) {
             super(itemView);
 

@@ -18,7 +18,7 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.google.android.gms.maps.model.LatLng;
 

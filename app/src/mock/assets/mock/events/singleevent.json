@@ -1,0 +1,62 @@
+{
+  "id": 1,
+  "eventType": "TOUR",
+  "status": "SCHEDULED",
+  "created": "2025-05-10",
+  "startDate": "2025-05-11",
+  "endDate": "2025-05-13",
+  "ratingIds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "location": {
+        "latitude": 48.856614,
+        "longtitude": 0.0
+      },
+      "title": "Eiffel Tower",
+      "description": "Famous landmark in Paris, France",
+      "keywords": [
+        "paris",
+        "tourism",
+        "landmark"
+      ],
+      "featured": true
+    },
+    {
+      "id": 2,
+      "location": {
+        "latitude": 40.748817,
+        "longtitude": 0.0
+      },
+      "title": "Empire State Building",
+      "description": "Iconic skyscraper in New York City",
+      "keywords": [
+        "nyc",
+        "skyscraper",
+        "landmark"
+      ],
+      "featured": true
+    }
+  ],
+  "userIds": [
+    2,
+    3,
+    4
+  ],
+  "ownerId": 1,
+  "name": "Hiking Trip to Mount Rainier",
+  "details": "A beautiful 3-day hiking trip exploring the scenic trails of Mount Rainier National Park",
+  "commentIds": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "skeletonId": 1
+}

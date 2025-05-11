@@ -1,15 +1,12 @@
 {
-  "postId": 1,
-  "userId": 1,
-  "body": "Hello everyone!\\nThis is my first post in the app.",
-  "imageIds": [
-    "176c4d414-3d76-4d0e-ad49-c393712b14c5"
-  ],
+  "postId": 8,
+  "userId": 3,
+  "body": "Stepping into the fascinating world of Rahmi M. Koç Müzesi), Ankara's first industrial museum. From transportation to science, it's a captivating experience! 🚀",
+  "imageId": 8,
   "tags": [
-    "hello",
-    "firstPost"
+    "Museum",
+    "RahmiKoçMüzesi"
   ],
-  "createdAt": "2025-05-07",
-  "updatedAt": null,
+  "createdAt": "2025-05-10",
   "likeCount": 0
 }

@@ -1,0 +1,96 @@
+[
+  {
+    "id": 2,
+    "eventType": "MEETUP",
+    "status": "SCHEDULED",
+    "created": "2025-05-10",
+    "startDate": "2025-05-17",
+    "endDate": "2025-05-17",
+    "ratingIds": [],
+    "locations": [
+      {
+        "id": 3,
+        "location": {
+          "latitude": 51.507351,
+          "longtitude": 0.0
+        },
+        "title": "Big Ben",
+        "description": "Famous clock tower in London",
+        "keywords": [
+          "london",
+          "clock",
+          "landmark"
+        ],
+        "featured": true
+      }
+    ],
+    "userIds": [],
+    "ownerId": 2,
+    "name": "Tokyo Travel Enthusiasts Gathering",
+    "details": "Monthly meetup for travelers interested in Japan. Share tips, experiences and plan future trips together.",
+    "commentIds": [],
+    "skeletonId": 2
+  },
+  {
+    "id": 3,
+    "eventType": "TOUR",
+    "status": "SCHEDULED",
+    "created": "2025-05-10",
+    "startDate": "2025-06-09",
+    "endDate": "2025-06-14",
+    "ratingIds": [],
+    "locations": [
+      {
+        "id": 4,
+        "location": {
+          "latitude": 27.175015,
+          "longtitude": 0.0
+        },
+        "title": "Taj Mahal",
+        "description": "Iconic marble mausoleum in Agra, India",
+        "keywords": [
+          "mausoleum",
+          "landmark",
+          "india"
+        ],
+        "featured": true
+      },
+      {
+        "id": 5,
+        "location": {
+          "latitude": -33.856784,
+          "longtitude": 0.0
+        },
+        "title": "Sydney Opera House",
+        "description": "Famous performing arts center in Sydney",
+        "keywords": [
+          "sydney",
+          "landmark",
+          "arts"
+        ],
+        "featured": true
+      },
+      {
+        "id": 6,
+        "location": {
+          "latitude": 40.431908,
+          "longtitude": 0.0
+        },
+        "title": "Great Wall of China",
+        "description": "Ancient wall built across northern China",
+        "keywords": [
+          "china",
+          "landmark",
+          "ancient"
+        ],
+        "featured": true
+      }
+    ],
+    "userIds": [],
+    "ownerId": 3,
+    "name": "Culinary Tour of Barcelona",
+    "details": "Explore Barcelona's rich food culture through its markets, restaurants and cooking classes",
+    "commentIds": [],
+    "skeletonId": 3
+  }
+]

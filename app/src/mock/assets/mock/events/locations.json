@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "location": {
+      "latitude": 48.856614,
+      "longtitude": 0.0
+    },
+    "title": "Eiffel Tower",
+    "description": "Famous landmark in Paris, France",
+    "keywords": [
+      "paris",
+      "tourism",
+      "landmark"
+    ],
+    "featured": true
+  },
+  {
+    "id": 2,
+    "location": {
+      "latitude": 40.748817,
+      "longtitude": 0.0
+    },
+    "title": "Empire State Building",
+    "description": "Iconic skyscraper in New York City",
+    "keywords": [
+      "nyc",
+      "skyscraper",
+      "landmark"
+    ],
+    "featured": true
+  },
+  {
+    "id": 3,
+    "location": {
+      "latitude": 51.507351,
+      "longtitude": 0.0
+    },
+    "title": "Big Ben",
+    "description": "Famous clock tower in London",
+    "keywords": [
+      "london",
+      "clock",
+      "landmark"
+    ],
+    "featured": true
+  },
+  {
+    "id": 4,
+    "location": {
+      "latitude": 27.175015,
+      "longtitude": 0.0
+    },
+    "title": "Taj Mahal",
+    "description": "Iconic marble mausoleum in Agra, India",
+    "keywords": [
+      "mausoleum",
+      "landmark",
+      "india"
+    ],
+    "featured": true
+  },
+  {
+    "id": 5,
+    "location": {
+      "latitude": -33.856784,
+      "longtitude": 0.0
+    },
+    "title": "Sydney Opera House",
+    "description": "Famous performing arts center in Sydney",
+    "keywords": [
+      "sydney",
+      "landmark",
+      "arts"
+    ],
+    "featured": true
+  },
+  {
+    "id": 6,
+    "location": {
+      "latitude": 40.431908,
+      "longtitude": 0.0
+    },
+    "title": "Great Wall of China",
+    "description": "Ancient wall built across northern China",
+    "keywords": [
+      "china",
+      "landmark",
+      "ancient"
+    ],
+    "featured": true
+  }
+]

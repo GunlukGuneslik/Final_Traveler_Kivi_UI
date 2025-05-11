@@ -14,8 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.actualtravellerkiviprojectui.adapter.Chat_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.model.Message;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * @author zeynep
@@ -30,7 +33,11 @@ public class TourInformationPageChatFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<String> messages = new ArrayList<>();
+    private EditText editTextMessage;
+    private ImageButton buttonSendChat;
+    private RecyclerView chatRecyclerView;
+
+    private ArrayList<Message> messages = new ArrayList<>();
     private Chat_RecyclerViewAdapter adapter;
     private String currentUserId;
 
@@ -61,21 +68,26 @@ public class TourInformationPageChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tour_information_page_chat, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.chatRecyclerView);
-        EditText editTextMessage = view.findViewById(R.id.editTextChat);
-        ImageButton buttonSend = view.findViewById(R.id.imageButtonSend);
+        editTextMessage = view.findViewById(R.id.editTextChat);
+        buttonSendChat = view.findViewById(R.id.imageButtonSend);
+        chatRecyclerView = view.findViewById(R.id.chatRecyclerView);
 
-        adapter = new Chat_RecyclerViewAdapter(getContext(),messages,this,currentUserId);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        messages = new ArrayList<>();
+        adapter = new Chat_RecyclerViewAdapter(requireContext(),messages,this,currentUserId);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        chatRecyclerView.setAdapter(adapter);
 
-        buttonSend.setOnClickListener(v -> {
+        buttonSendChat.setOnClickListener(v -> {
             String text = editTextMessage.getText().toString().trim();
             if (!text.isEmpty()) {
+                //currentUserId daha yok
                 //Message message = new Message(currentUserId, text, System.currentTimeMillis());
                 //messages.add(message);
-                adapter.notifyItemInserted(messages.size() - 1);
-                recyclerView.scrollToPosition(messages.size() - 1);
+
+                //Collections.sort(messages, Comparator.comparingLong(Message::getTimestamp));
+
+                //adapter.notifyItemInserted(messages.size() - 1);
+                //chatRecyclerView.scrollToPosition(messages.size() - 1);
                 editTextMessage.setText("");
             }
         });
