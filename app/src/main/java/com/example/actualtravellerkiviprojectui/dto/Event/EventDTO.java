@@ -17,7 +17,7 @@ public class EventDTO implements Parcelable {
     public LocalDate startDate;
     public LocalDate endDate;
     public Set<Integer> ratingIds = new HashSet<>();
-    public List<EventLocationDTO> locationIds = new ArrayList<>();
+    public List<EventLocationDTO> locations = new ArrayList<>();
     public List<Integer> userIds = new ArrayList<>();
     public Integer ownerId;
     public String name;
