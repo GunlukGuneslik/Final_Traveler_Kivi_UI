@@ -33,7 +33,10 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.dto.UserDTO;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -122,28 +125,33 @@ public class AccountPageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        currentUser = getCurrentUser();
-        // TODO: This Won't work and use proper callback.
         try {
-            //userProfilePhoto = Integer.valueOf(userService.getAvatar(currentUser.id).execute().body());
-            userProfilePhoto = 4;
-        } catch (Exception e) {
+            currentUser = getCurrentUser();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        userName = currentUser.username;
 
-        resultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    try {
-                        // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
-                        Uri imageUri = result.getData().getData();
-                        profilePhoto.setImageURI(imageUri);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "No image sellected",Toast.LENGTH_SHORT).show();
-                    }
+        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                try {
+                    // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
+                    Uri imageUri = result.getData().getData();
+                    int curId = UserState.getUserId();
+                    NetworkModule.uploadImage(getContext(), imageUri, filePart -> userService.setAvatar(curId, filePart),
+                            userDetail -> {
+                                // Handle success - update UI with the returned UserDetail
+                                profilePhoto.setImageURI(imageUri);
+                                Toast.makeText(getContext(), "Profile picture updated!", Toast.LENGTH_LONG).show();
+                            }, error -> {
+                                // Handle error
+                                Log.e("Avatar", "Upload failed", error);
+                                Toast.makeText(getContext(), "Failed to upload profile picture!", Toast.LENGTH_LONG).show();
+                            });
+                } catch (Exception e) {
+                    Log.e("Avatar", "No image selected", e);
                 }
             }
         );
@@ -251,12 +259,8 @@ public class AccountPageFragment extends Fragment {
     }
 
     //TODO: Complete this method. Will add callback and fail methods
-    private UserDTO getCurrentUser() {
-        try {
-            return userService.getUser(1).execute().body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private UserDTO getCurrentUser() throws IOException {
+        return userService.getUser(UserState.getUserId()).execute().body();
     }
 
 

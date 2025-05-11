@@ -64,4 +64,8 @@ public interface UserService {
     Call<UserStatsDTO> getUserStats(@Path("userId") int userId);
     @GET("users/{userId}/checkPassword")
     Call<Boolean> checkPassword(@Path("userId") int userId, @Query("password") String password);
+
+    @GET("users/{userId}/resetPassword")
+    Call<UserDTO> resetPassword(@Path("userId") int userId);
+
 }

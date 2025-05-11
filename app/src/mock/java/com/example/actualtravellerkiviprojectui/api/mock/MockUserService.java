@@ -101,12 +101,17 @@ public class MockUserService implements UserService {
 
     @Override
     public Call<UserStatsDTO> getUserStats(int userId) {
-        return delegate.returningResponse(Utils.loadObject("mock/users/userstats.json.json", new TypeReference<UserStatsDTO>() {
+        return delegate.returningResponse(Utils.loadObject("mock/users/userstats.json", new TypeReference<UserStatsDTO>() {
         })).getUserStats(userId);
     }
 
     @Override
     public Call<Boolean> checkPassword(int userId, String password) {
         return delegate.returningResponse(true).checkPassword(userId, password);
+    }
+
+    @Override
+    public Call<UserDTO> resetPassword(int userId) {
+        return getUserResponse().resetPassword(userId);
     }
 }
