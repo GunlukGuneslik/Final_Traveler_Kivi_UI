@@ -84,6 +84,15 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
             mapFragment.getMapAsync(this);
         }
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // fragment_create_tour_add_place_from_map.xml içindeki <fragment> tag’ini yükleyecek
+        return inflater.inflate(
+                R.layout.fragment_create_tour_add_place_from_map,
+                container,
+                false
+        );
+    }
 
 
     @Override

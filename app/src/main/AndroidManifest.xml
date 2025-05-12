@@ -44,7 +44,8 @@
             android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+
+            android:name=".LaunchTourCreateActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +63,7 @@
             android:name=".UpcomingToursActivity"
             android:exported="false" />
         <activity
-            android:name=".LaunchTourCreateActivity"
+            android:name=".ApplicationPagesActivity"
             android:exported="false" />
         <activity
             android:name=".LaunchTourCatalogeActivity"
@@ -71,8 +72,11 @@
             android:name=".WelcomePageActivity"
             android:exported="false" /> <!-- Change the name in the activity block bellow this comment according to which activity you want to check on emulator -->
         <activity
-            android:name=".ApplicationPagesActivity"
-            android:exported="true"></activity>
+
+            android:name=".SignInActivity"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>
