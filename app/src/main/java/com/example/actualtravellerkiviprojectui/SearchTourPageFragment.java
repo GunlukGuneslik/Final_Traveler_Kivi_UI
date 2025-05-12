@@ -76,7 +76,7 @@ public class SearchTourPageFragment extends Fragment {
 
         // Normal tur listesi (dikey)
         rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mainAdapter = new TourAdapter(getContext(), allTours);
+        mainAdapter = new TourAdapter(getContext(), filteredTours);
         rvTours.setAdapter(mainAdapter);
 
         // Önerilen turlar listesi (dikey)
@@ -112,12 +112,27 @@ public class SearchTourPageFragment extends Fragment {
     }
 
     private void loadTours() {
-        // Şimdilik test datası
-        allTours = new ArrayList<>();
-        filteredTours.clear();
-        filteredTours.addAll(allTours);
-        mainAdapter.notifyDataSetChanged();
+        eventService.getAllEvents().enqueue(new Callback<List<EventDTO>>() {
+            @Override
+            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    allTours.clear();
+                    allTours.addAll(response.body());
+
+                    // İlk görünümde hepsini göster
+                    filteredTours.clear();
+                    filteredTours.addAll(allTours);
+                    mainAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<EventDTO>> call, Throwable t) {
+                Toast.makeText(getContext(), "Turlar yüklenemedi", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     private void loadRecommendedTours() {
         eventService.getRecommendedTours().enqueue(new Callback<List<EventDTO>>() {
