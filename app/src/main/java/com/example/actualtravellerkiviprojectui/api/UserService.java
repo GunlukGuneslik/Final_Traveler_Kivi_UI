@@ -22,7 +22,7 @@ public interface UserService {
     @GET("users/{userId}")
     Call<UserDTO> getUser(@Path("userId") Integer userId);
 
-    @GET("users/{email}")
+    @GET("users/byEmail/{email}")
     Call<UserDTO> getUserByEmail(@Path("email") String email);
 
     @GET("users")
@@ -68,7 +68,7 @@ public interface UserService {
     @GET("users/{userId}/checkPassword")
     Call<Boolean> checkPassword(@Path("userId") int userId, @Query("password") String password);
 
-    @GET("users/{userId}/resetPassword")
+    @POST("users/{userId}/resetPassword")
     Call<UserDTO> resetPassword(@Path("userId") int userId);
 
 }

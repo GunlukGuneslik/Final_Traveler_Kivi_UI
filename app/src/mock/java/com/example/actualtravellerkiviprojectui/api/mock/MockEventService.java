@@ -3,11 +3,13 @@ package com.example.actualtravellerkiviprojectui.api.mock;
 import androidx.annotation.NonNull;
 
 import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventRatingCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventRatingDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventSkeletonDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
@@ -99,7 +101,7 @@ public class MockEventService implements EventService {
     }
 
     @Override
-    public Call<EventCommentDTO> postEventComment(Integer eventId, EventCommentDTO comment) {
+    public Call<EventCommentDTO> postEventComment(Integer eventId, EventCommentCreateDTO comment) {
         return delegate.returningResponse(Utils.loadObject("mock/events/singlecomment.json", new TypeReference<EventCommentDTO>() {
         })).postEventComment(eventId, comment);
     }
@@ -112,7 +114,7 @@ public class MockEventService implements EventService {
     }
 
     @Override
-    public Call<EventRatingDTO> postEventRating(Integer eventId, EventRatingDTO rating) {
+    public Call<EventRatingDTO> postEventRating(Integer eventId, EventRatingCreateDTO rating) {
         return delegate.returningResponse(Utils.loadObject("mock/events/singlerating.json", new TypeReference<EventRatingDTO>() {
         })).postEventRating(eventId, rating);
     }
@@ -200,6 +202,12 @@ public class MockEventService implements EventService {
     }
 
     @Override
+    public Call<EventSkeletonDTO> getEventSkeletonById(Integer skeletonId) {
+        return delegate.returningResponse(Utils.loadObject("mock/events/skeleton.json", new TypeReference<EventSkeletonDTO>() {
+        })).getEventSkeletonById(skeletonId);
+    }
+
+    @Override
     public Call<ResponseBody> getPhoto(int eventId) {
         byte[] bytes;
         try {
@@ -218,7 +226,7 @@ public class MockEventService implements EventService {
     }
 
     @Override
-    public Call<List<EventDTO>> getAttendedEvents(Integer id) {
+    public Call<List<EventDTO>> getAttendedEvents(Integer userId) {
         var mockEvents = Utils.loadObject("mock/events/all.json", new TypeReference<List<EventDTO>>() {
         });
         return delegate.returningResponse(mockEvents).getRecommendedTours();
