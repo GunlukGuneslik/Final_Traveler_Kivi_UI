@@ -22,6 +22,9 @@ public interface UserService {
     @GET("users/{userId}")
     Call<UserDTO> getUser(@Path("userId") Integer userId);
 
+    @GET("users/{email}")
+    Call<UserDTO> getUserByEmail(@Path("email") String email);
+
     @GET("users")
     Call<List<UserDTO>> getAllUsers();
 

@@ -36,6 +36,11 @@ public class MockUserService implements UserService {
     }
 
     @Override
+    public Call<UserDTO> getUserByEmail(String email) {
+        return getUserResponse().getUserByEmail(email);
+    }
+
+    @Override
     public Call<List<UserDTO>> getAllUsers() {
         return delegate.returningResponse(Utils.loadObject("mock/users/users.json", new TypeReference<List<UserDTO>>() {
         })).getAllUsers();

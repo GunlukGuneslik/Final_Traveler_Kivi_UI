@@ -1,9 +1,6 @@
 package com.example.actualtravellerkiviprojectui;
 
 
-
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,6 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.state.UserState;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author: Eftelya
@@ -26,11 +32,11 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         // View’lar
-        emailEt    = findViewById(R.id.emailEditText);
+        emailEt = findViewById(R.id.emailEditText);
         passwordEt = findViewById(R.id.passwordEditText);
-        Button   signInBtn   = findViewById(R.id.signInBtn);
-        Button   signUpBtn   = findViewById(R.id.goToSignUpBtn);
-        TextView forgotLink  = findViewById(R.id.forgotPasswordTxt);
+        Button signInBtn = findViewById(R.id.signInBtn);
+        Button signUpBtn = findViewById(R.id.goToSignUpBtn);
+        TextView forgotLink = findViewById(R.id.forgotPasswordTxt);
 
         // Sign-In
 
@@ -43,49 +49,46 @@ public class SignInActivity extends AppCompatActivity {
                 return;
             }
 
-            com.example.actualtravellerkiviprojectui.api.UserService userService =
-                    com.example.actualtravellerkiviprojectui.api.ServiceLocator.getUserService();
+            UserService userService = ServiceLocator.getUserService();
 
-            userService.getAllUsers().enqueue(new retrofit2.Callback<java.util.List<com.example.actualtravellerkiviprojectui.dto.User.UserDTO>>() {
-                @Override
-                public void onResponse(retrofit2.Call<java.util.List<com.example.actualtravellerkiviprojectui.dto.User.UserDTO>> call,
-                                       retrofit2.Response<java.util.List<com.example.actualtravellerkiviprojectui.dto.User.UserDTO>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        for (com.example.actualtravellerkiviprojectui.dto.User.UserDTO user : response.body()) {
-                            if (user.email.equals(email)) {
-                                userService.checkPassword(user.id, password).enqueue(new retrofit2.Callback<Boolean>() {
-                                    @Override
-                                    public void onResponse(retrofit2.Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                                        if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
-                                            startActivity(new Intent(SignInActivity.this, ApplicationPagesActivity.class));
-                                            finish();
-                                        } else {
-                                            Toast.makeText(SignInActivity.this, "Şifre yanlış", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
+            userService.getUserByEmail(email).enqueue(new Callback<UserDTO>() {
+                                                          @Override
+                                                          public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                                                              UserDTO user = response.body();
+                                                              if (!response.isSuccessful() && user == null) {
+                                                                  Toast.makeText(SignInActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                                                              }
+                                                              userService.checkPassword(user.id, password).enqueue(new retrofit2.Callback<Boolean>() {
+                                                                  @Override
+                                                                  public void onResponse(retrofit2.Call<Boolean> call, retrofit2.Response<Boolean> response) {
+                                                                      if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
+                                                                          UserState.setUserId(user.id);
+                                                                          startActivity(new Intent(SignInActivity.this, ApplicationPagesActivity.class));
+                                                                          finish();
+                                                                      } else {
+                                                                          Toast.makeText(SignInActivity.this, "Şifre yanlış", Toast.LENGTH_SHORT).show();
+                                                                      }
+                                                                  }
 
-                                    @Override
-                                    public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
-                                        Toast.makeText(SignInActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                return;
-                            }
-                        }
-                        Toast.makeText(SignInActivity.this, "Email bulunamadı", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(SignInActivity.this, "Kullanıcılar alınamadı", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                                                                  @Override
+                                                                  public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
+                                                                      Toast.makeText(SignInActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
+                                                                  }
+                                                              });
+                                                          }
 
-                @Override
-                public void onFailure(retrofit2.Call<java.util.List<com.example.actualtravellerkiviprojectui.dto.User.UserDTO>> call, Throwable t) {
-                    Toast.makeText(SignInActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
-                }
-            });
+                                                          @Override
+                                                          public void onFailure(Call<UserDTO> call, Throwable throwable) {
+                                                              Toast.makeText(SignInActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
+
+                                                          }
+                                                      }
+
+            );
+
 
             if (emailEt.getText().toString().isEmpty() ||
-                    passwordEt.getText().toString().isEmpty()) {
+                passwordEt.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldur", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Demo: giriş başarılı!", Toast.LENGTH_SHORT).show();
@@ -93,11 +96,9 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         // Sign-Up (şimdilik sadece Toast)
-        signUpBtn.setOnClickListener(v ->
-                Toast.makeText(this,"Sign-Up ekranı henüz yok",Toast.LENGTH_SHORT).show());
+        signUpBtn.setOnClickListener(v -> Toast.makeText(this, "Sign-Up ekranı henüz yok", Toast.LENGTH_SHORT).show());
 
         // Forgot Password
-        forgotLink.setOnClickListener(v ->
-                startActivity(new Intent(this, RecoveryPasswordActivity.class)));
+        forgotLink.setOnClickListener(v -> startActivity(new Intent(this, RecoveryPasswordActivity.class)));
     }
 }
