@@ -72,6 +72,8 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        activity = (LaunchTourCreateActivity) getActivity();
+        placeModels = activity.placeModels;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
