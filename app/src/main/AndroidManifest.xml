@@ -60,7 +60,7 @@
             android:name=".UpcomingToursActivity"
             android:exported="false" />
         <activity
-            android:name=".LaunchTourCreateActivity"
+            android:name=".ApplicationPagesActivity"
             android:exported="false" />
         <activity
             android:name=".LaunchTourCatalogeActivity"
@@ -69,7 +69,7 @@
             android:name=".WelcomePageActivity"
             android:exported="false" /> <!-- Change the name in the activity block bellow this comment according to which activity you want to check on emulator -->
         <activity
-            android:name=".ApplicationPagesActivity"
+            android:name=".LaunchTourCreateActivity"
             android:exported="true">
 
         </activity>
