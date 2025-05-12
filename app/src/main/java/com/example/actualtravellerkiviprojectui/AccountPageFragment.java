@@ -289,6 +289,7 @@ public class AccountPageFragment extends Fragment {
     }
 
     // --- Change Language Dialog ---@author:Eftelya
+    // TODO : backendle bağlanması gerek.
     private void showChangeLanguageDialog() {
         String[] labels = {"English", "Türkçe", "Deutsch"};
         String[] codes = {"en", "tr", "de"};
@@ -310,6 +311,7 @@ public class AccountPageFragment extends Fragment {
                 .show();
     }
 
+    // TODO: backendle bağlanması gerek. profile settingste change language e göre çıkan turlar otomatik filtrelenecek.
     private int getSavedLangIndex() {
         String kod = prefs.getString("lang", "en");
         switch (kod) {
