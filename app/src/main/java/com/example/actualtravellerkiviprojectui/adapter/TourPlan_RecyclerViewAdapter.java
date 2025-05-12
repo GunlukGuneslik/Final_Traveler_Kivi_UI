@@ -1,27 +1,29 @@
 package com.example.actualtravellerkiviprojectui.adapter;
 
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageTourPlanFragment;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 
+import java.util.List;
 
-import java.util.ArrayList;
 /**
  * @author zeynep
  */
 public class TourPlan_RecyclerViewAdapter extends RecyclerView.Adapter<TourPlan_RecyclerViewAdapter.TourPlanViewHolder> {
     Context context;
-    ArrayList<PlaceModel> places;
+    List<EventLocationDTO> places;
     TourInformationPageTourPlanFragment tourInformationPageTourPlanFragment;
 
-    public TourPlan_RecyclerViewAdapter(Context context, ArrayList<PlaceModel> places, TourInformationPageTourPlanFragment fragment) {
+    public TourPlan_RecyclerViewAdapter(Context context, List<EventLocationDTO> places, TourInformationPageTourPlanFragment fragment) {
         this.context = context;
         this.places = places;
         tourInformationPageTourPlanFragment = fragment;
@@ -37,7 +39,7 @@ public class TourPlan_RecyclerViewAdapter extends RecyclerView.Adapter<TourPlan_
 
     @Override
     public void onBindViewHolder(@NonNull TourPlan_RecyclerViewAdapter.TourPlanViewHolder holder, int position) {
-        holder.placeName.setText(places.get(position).getPlaceName());
+        holder.placeName.setText(places.get(position).title);
     }
 
     @Override

@@ -1,36 +1,34 @@
 package com.example.actualtravellerkiviprojectui;
 
-import static android.content.Intent.getIntent;
-
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.actualtravellerkiviprojectui.adapter.TourPlan_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.model.Tour;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
+import com.example.actualtravellerkiviprojectui.adapter.TourPlan_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.List;
 
 /**
  * @author zeynep
  */
 public class TourInformationPageTourPlanFragment extends Fragment {
-    private Tour currentTour;
+    private EventDTO currentTour;
     private RecyclerView recyclerView;
     private TourPlan_RecyclerViewAdapter adapter;
 
-    private ArrayList<PlaceModel> places = new ArrayList<>();
+    private List<EventLocationDTO> places = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,18 +72,31 @@ public class TourInformationPageTourPlanFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tour_information_page_tour_plan, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewTourPlan);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        currentTour = getActivity().getIntent().getParcelableExtra("tour");
+        try {
+            currentTour = ServiceLocator.getEventService().getEvent(getActivity().getIntent().getIntExtra("tourId", -1)).execute().body();
+        } catch (IOException e) {
+            // TODO: handle better
+            return null;
+        }
         tourDetails = view.findViewById(R.id.textView17);
-        tourDetails.setText("Tour Details: " + currentTour.getDetails());
-        places = currentTour.getPlaces();
-        adapter = new TourPlan_RecyclerViewAdapter(getContext(),places,this);
+        tourDetails.setText("Tour Details: " + currentTour.details);
+        places = currentTour.locations;
+        adapter = new TourPlan_RecyclerViewAdapter(getContext(), places, this);
         recyclerView.setAdapter(adapter);
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void cleanUp(Throwable t) {
+        Toast.makeText(getContext(), "Error fetching the tour", Toast.LENGTH_SHORT).show();
+        // Ensure the fragment is still attached to the activity before calling finish
+        if (isAdded() && getActivity() != null) {
+            // Return to the previous activity
+            getActivity().finish();
+        }
     }
 }

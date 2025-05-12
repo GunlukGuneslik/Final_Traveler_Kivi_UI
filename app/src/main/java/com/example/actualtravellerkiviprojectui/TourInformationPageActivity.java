@@ -26,12 +26,6 @@ import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -112,24 +106,14 @@ public class TourInformationPageActivity extends AppCompatActivity {
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         tourRate.setText("Rate: " + currentTour.rating);
 
-        userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
-            @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                guide = response.body();
-            }
-
-            // TODO handle it
-            @Override
-            public void onFailure(Call<UserDTO> call, Throwable throwable) {
-                finish();
-            }
-        });
-
-        // test ediyorum
-        if (guide == null) {
-            Toast.makeText(this, "Error: Guide null.", Toast.LENGTH_SHORT).show();
+        try {
+            guide = userService.getUser(currentTour.ownerId).execute().body();
+        } catch (IOException e) {
+            Toast.makeText(this, "Error: Couldn't get the guide.", Toast.LENGTH_SHORT).show();
             finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+            return;
         }
+
 
         // guide image
         guideImage = findViewById(R.id.guideImageTourInformationPage);
@@ -144,9 +128,13 @@ public class TourInformationPageActivity extends AppCompatActivity {
         buttonMaps = findViewById(R.id.button6);
         buttonChat = findViewById(R.id.button7);
         buttonComments = findViewById(R.id.button8);
-
-        UserDTO currentUser = UserState.getUser(userService);
-
+        UserDTO currentUser;
+        try {
+            currentUser = UserState.getUser(userService);
+        } catch (Exception e) {
+            finish();
+            return;
+        }
         //chat butonu işlevsiz eğer kullanıcı kayıtlı değilse
         try {
             if (!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour)) {
@@ -155,7 +143,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
                 buttonChat.setEnabled(true);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Toast.makeText(this, "Error getting the events", Toast.LENGTH_SHORT).show();
         }
 
         Button addToMyToursButton = findViewById(R.id.button4);
@@ -201,4 +189,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
     private void openFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_tour_information, fragment).commit();
     }
+
+
 }
