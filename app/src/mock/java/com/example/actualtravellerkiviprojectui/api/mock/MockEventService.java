@@ -53,7 +53,7 @@ public class MockEventService implements EventService {
     }
 
     @Override
-    public Call<List<EventDTO>> getPaginatedEvents(int size, int page, String sort) {
+    public Call<PagedModel<EventDTO>> getPaginatedEvents(int size, int page, String sort) {
         var mockEvents = Utils.loadObject("mock/events/paged.json", new TypeReference<PagedModel<EventDTO>>() {
         });
         return delegate.returningResponse(mockEvents).getPaginatedEvents(size, page, sort);
