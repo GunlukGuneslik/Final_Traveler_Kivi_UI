@@ -22,7 +22,9 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -80,23 +82,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
         //@author Güneş
         currentTour = getIntent().getParcelableExtra("tour");
 
-        Button addToMyToursButton = findViewById(R.id.button4);
-        //eğer tarih geçmişsse button yok olmalı
-        //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
-        //     addToMyToursButton.setVisibility(View.GONE);
-        //}
-        addToMyToursButton.setOnClickListener(v -> {
-            boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
-            //current user turlarına eklenmeli burada
-            if (isAdded) {
-                addToMyToursButton.setText("Add to my tours");
-                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
-            } else {
-                addToMyToursButton.setText("Remove from my tours");
-                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
-            }
-        });
-
         //test ediyorum
         if (currentTour == null) {
             // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
@@ -115,8 +100,18 @@ public class TourInformationPageActivity extends AppCompatActivity {
             tourLanguage.setText("Language: " + currentTour.language);
             // date
             tourDate = findViewById(R.id.TourDateTourInformationPage);
-            String formattedDate = currentTour.startDate.toString();
-            tourDate.setText(formattedDate);
+//            String formattedDate = currentTour.startDate.toString();
+//            tourDate.setText(formattedDate);
+
+            if (currentTour.startDate != null) {
+                String formattedDate = currentTour.startDate.toString();
+                // veya DateTimeFormatter kullanıyorsanız:
+                // String formattedDate = tourDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                tourDate.setText(formattedDate);
+            } else {
+                tourDate.setText("null");
+            }
+
             //tour rate
             tourRate = findViewById(R.id.tourRateTourInformationPage);
             tourRate.setText("Rate: " + currentTour.rating);
@@ -154,13 +149,46 @@ public class TourInformationPageActivity extends AppCompatActivity {
             buttonChat = findViewById(R.id.button7);
             buttonComments = findViewById(R.id.button8);
 
+            UserDTO currentUser = UserState.getUser(userService);
+
             //chat butonu işlevsiz eğer kullanıcı kayıtlı değilse
-            //if(!currentUser.getTours().contain(currentTour)){
-            //    buttonChat.setEnabled(false);
+            try {
+                if(!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour)){
+                    buttonChat.setEnabled(false);
+                }
+                else{
+                    buttonChat.setEnabled(true);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            Button addToMyToursButton = findViewById(R.id.button4);
+            //eğer tarih geçmişsse button yok olmalı
+            //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
+            //     addToMyToursButton.setVisibility(View.GONE);
             //}
-            //else{
-            //    buttonChat.setEnabled(true);
-            //}
+            addToMyToursButton.setOnClickListener(v -> {
+                boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
+                //current user turlarına eklenmeli burada
+                if (isAdded) {
+                    addToMyToursButton.setText("Add to my tours");
+                    try {
+                        eventService.getAttendedEvents(currentUser.id).execute().body().add(currentTour);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+                } else {
+                    addToMyToursButton.setText("Remove from my tours");
+                    try {
+                        eventService.getAttendedEvents(currentUser.id).execute().body().remove(currentTour);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+                }
+            });
 
             tourPlanFragment = new TourInformationPageTourPlanFragment();
             chatFragment = new TourInformationPageChatFragment();
