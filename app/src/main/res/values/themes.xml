@@ -12,6 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="DialogTheme"
+
     </style>
+
+    <style name="DialogTheme" parent = "Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorAccent">@color/brown</item>
+    </style>
+
 </resources>
