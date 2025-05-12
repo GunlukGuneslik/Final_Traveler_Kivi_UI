@@ -49,7 +49,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
     private TextView guideName;
     private ImageView guideImage;
 
-
     Button buttonTourPlan, buttonMaps, buttonChat, buttonComments;
 
     private Fragment mapsFragment;
@@ -81,75 +80,100 @@ public class TourInformationPageActivity extends AppCompatActivity {
         //@author Güneş
         currentTour = getIntent().getParcelableExtra("tour");
 
+        Button addToMyToursButton = findViewById(R.id.button4);
+        //eğer tarih geçmişsse button yok olmalı
+        //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
+        //     addToMyToursButton.setVisibility(View.GONE);
+        //}
+        addToMyToursButton.setOnClickListener(v -> {
+            boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
+            //current user turlarına eklenmeli burada
+            if (isAdded) {
+                addToMyToursButton.setText("Add to my tours");
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+            } else {
+                addToMyToursButton.setText("Remove from my tours");
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+            }
+        });
+
         //test ediyorum
         if (currentTour == null) {
             // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
             Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT).show();
             finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
         }
+        else {
+            //Tour name
+            tourNameTextView = findViewById(R.id.tourNameTextViewTourInformationPage);
+            tourNameTextView.setText(currentTour.name);
+            //Tour image
+            tourImage = findViewById(R.id.TourImageTourInformationPage);
+            NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
+            // Tour language
+            tourLanguage = findViewById(R.id.tourLanguageTextViewTourInfoPage);
+            tourLanguage.setText("Language: " + currentTour.language);
+            // date
+            tourDate = findViewById(R.id.TourDateTourInformationPage);
+            String formattedDate = currentTour.startDate.toString();
+            tourDate.setText(formattedDate);
+            //tour rate
+            tourRate = findViewById(R.id.tourRateTourInformationPage);
+            tourRate.setText("Rate: " + currentTour.rating);
 
-        //Tour name
-        tourNameTextView = findViewById(R.id.tourNameTextViewTourInformationPage);
-        tourNameTextView.setText(currentTour.name);
-        //Tour image
-        tourImage = findViewById(R.id.TourImageTourInformationPage);
-        NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
-        // Tour language
-        tourLanguage = findViewById(R.id.tourLanguageTextViewTourInfoPage);
-        tourLanguage.setText("Language: " + currentTour.language);
-        // date
-        tourDate = findViewById(R.id.TourDateTourInformationPage);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String formattedDate = dateFormat.format(currentTour.startDate);
-        tourDate.setText(formattedDate);
-        //tour rate
-        tourRate = findViewById(R.id.tourRateTourInformationPage);
-        tourRate.setText("Rate: " + currentTour.rating);
+            userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
+                @Override
+                public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                    guide = response.body();
+                }
 
-        userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
-            @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                guide = response.body();
+                // TODO handle it
+                @Override
+                public void onFailure(Call<UserDTO> call, Throwable throwable) {
+                    finish();
+                }
+            });
+
+            // test ediyorum
+            if (guide == null) {
+                Toast.makeText(this, "Error: Guide null.", Toast.LENGTH_SHORT).show();
+                finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
             }
 
-            // TODO handle it
-            @Override
-            public void onFailure(Call<UserDTO> call, Throwable throwable) {
-                finish();
-            }
-        });
+            // guide image
+            guideImage = findViewById(R.id.guideImageTourInformationPage);
+            // TODO: no images right now
+            NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(guide.id), null);
+            // guide name
+            guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
+            guideName.setText(guide.firstName);
 
-        // test ediyorum
-        if (guide == null) {
-            Toast.makeText(this, "Error: Guide null.", Toast.LENGTH_SHORT).show();
-            finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+
+            buttonTourPlan = findViewById(R.id.button5);
+            buttonMaps = findViewById(R.id.button6);
+            buttonChat = findViewById(R.id.button7);
+            buttonComments = findViewById(R.id.button8);
+
+            //chat butonu işlevsiz eğer kullanıcı kayıtlı değilse
+            //if(!currentUser.getTours().contain(currentTour)){
+            //    buttonChat.setEnabled(false);
+            //}
+            //else{
+            //    buttonChat.setEnabled(true);
+            //}
+
+            tourPlanFragment = new TourInformationPageTourPlanFragment();
+            chatFragment = new TourInformationPageChatFragment();
+            commentsFragment = new TourInformationPageCommentsFragment();
+            mapsFragment = new TourInformationPageMapsFragment();
+
+            openFragment(tourPlanFragment);
+
+            buttonTourPlan.setOnClickListener(v -> openFragment(tourPlanFragment));
+            buttonMaps.setOnClickListener(v -> openFragment(mapsFragment));
+            buttonChat.setOnClickListener(v -> openFragment(chatFragment));
+            buttonComments.setOnClickListener(v -> openFragment(commentsFragment));
         }
-
-        // guide image
-        guideImage = findViewById(R.id.guideImageTourInformationPage);
-        // TODO: no images right now
-        NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(guide.id), null);
-        // guide name
-        guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
-        guideName.setText(guide.firstName);
-
-
-        buttonTourPlan = findViewById(R.id.button5);
-        buttonMaps= findViewById(R.id.button6);
-        buttonChat = findViewById(R.id.button7);
-        buttonComments = findViewById(R.id.button8);
-
-        tourPlanFragment = new TourInformationPageTourPlanFragment();
-        chatFragment = new TourInformationPageChatFragment();
-        commentsFragment = new TourInformationPageCommentsFragment();
-        mapsFragment = new TourInformationPageMapsFragment();
-
-        openFragment(tourPlanFragment);
-
-        buttonTourPlan.setOnClickListener(v -> openFragment(tourPlanFragment));
-        buttonMaps.setOnClickListener(v -> openFragment(mapsFragment));
-        buttonChat.setOnClickListener(v -> openFragment(chatFragment));
-        buttonComments.setOnClickListener(v -> openFragment(commentsFragment));
     }
 
     private void openFragment(Fragment fragment){
