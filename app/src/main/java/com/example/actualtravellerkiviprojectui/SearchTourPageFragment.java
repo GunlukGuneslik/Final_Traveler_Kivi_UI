@@ -23,7 +23,9 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -68,10 +70,21 @@ public class SearchTourPageFragment extends Fragment {
         rvRecommended = view.findViewById(R.id.rvRecommendedTours);
         recommendedTitle = view.findViewById(R.id.recommendedTitle);
 
-        // Spinner ayarları
-        spinnerFilter.setAdapter(new ArrayAdapter<>(
-                requireContext(), android.R.layout.simple_spinner_item,
-                new String[]{"All", "Ankara", "Istanbul", "Cappadocia"}));
+        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.spinner_item_background_brown,
+                new String[]{"All", "City", "Guide"}
+        );
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFilter.setAdapter(filterAdapter);
+
+        ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.spinner_item_background_brown, // Seçili öğe
+                new String[]{"Date", "Popularity"}
+        );
+        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Açılır liste (normal)
+        spinnerSort.setAdapter(sortAdapter);
 
 
         // Normal tur listesi (dikey)
@@ -86,7 +99,7 @@ public class SearchTourPageFragment extends Fragment {
 
         btnSearch.setOnClickListener(v -> applySearchFilterSort());
 
-        loadTours();              // Normal tur listesi
+        //loadTours();              // Normal tur listesi
         loadRecommendedTours();   // Önerilen tur listesi
     }
 
@@ -94,11 +107,35 @@ public class SearchTourPageFragment extends Fragment {
         String query = etSearch.getText().toString().trim().toLowerCase();
         String filter = spinnerFilter.getSelectedItem().toString();
         String sortBy = spinnerSort.getSelectedItem().toString();
+        // TODO: Use async
+        List<EventDTO> result =
+        allTours.stream()
+                .filter(t -> {
+                    if (query.isEmpty()) return true;
 
-        List<EventDTO> result = allTours.stream()
-                .filter(t -> t.name.toLowerCase().contains(query))
-                .filter(t -> filter.equals("All") || t.name.equals(filter))
-                .collect(Collectors.toList());
+                    switch (filter) {
+                        case "City":
+                            if (!t.locations.isEmpty()) {
+                                String locationTitle = t.locations.get(0).title;
+                                return locationTitle != null && locationTitle.toLowerCase().contains(query);
+                            }
+                            return false;
+
+                        case "Guide":
+                            if (t.ownerId == null) return false;
+                            UserDTO guide = null;
+                            try {
+                                guide = userService.getUser(t.ownerId).execute().body();
+                            } catch (IOException e) {
+                            }
+                            return (guide.username != null && guide.username.toLowerCase().contains(query)) || (guide.firstName != null && guide.firstName.toLowerCase().contains(query)) || (guide.lastName != null && guide.lastName.toLowerCase().contains(query));
+
+
+                        case "All":
+                        default:
+                            return t.name != null && t.name.toLowerCase().contains(query);
+                    }
+                }).collect(Collectors.toList());
 
         if (sortBy.equals("Date")) {
             result.sort(Comparator.comparing(t -> t.startDate));
@@ -110,6 +147,7 @@ public class SearchTourPageFragment extends Fragment {
         filteredTours.addAll(result);
         mainAdapter.notifyDataSetChanged();
     }
+
 
     private void loadTours() {
         eventService.getAllEvents().enqueue(new Callback<List<EventDTO>>() {
@@ -138,8 +176,7 @@ public class SearchTourPageFragment extends Fragment {
         eventService.getRecommendedTours().enqueue(new Callback<List<EventDTO>>() {
             @Override
             public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null &&
-                    !response.body().isEmpty()) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     List<EventDTO> recommended = response.body();
                     recommendedAdapter = new TourAdapter(requireContext(), recommended);
 

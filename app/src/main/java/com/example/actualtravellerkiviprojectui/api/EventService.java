@@ -154,4 +154,5 @@ public interface EventService {
     @Multipart
     Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("image") MultipartBody.Part image);
 
+    Call<List<EventDTO>> getAttendedEvents(Integer id);
 }

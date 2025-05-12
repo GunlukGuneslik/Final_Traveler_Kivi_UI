@@ -27,6 +27,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:hint="Search tours..."
+                android:inputType="text"
                 android:background="@drawable/search_background"
                 android:padding="8dp"
                 android:textColor="@color/black"/>
@@ -53,14 +54,20 @@
                 android:id="@+id/spinnerFilter"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:backgroundTint="@color/brown"
+                android:popupBackground="@color/brown"/>
 
             <Spinner
                 android:id="@+id/spinnerSort"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"/>
+                android:minHeight="48dp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/brown"
+                android:popupBackground="@color/brown"/>
         </LinearLayout>
 
         <!-- MAIN TOUR LIST -->

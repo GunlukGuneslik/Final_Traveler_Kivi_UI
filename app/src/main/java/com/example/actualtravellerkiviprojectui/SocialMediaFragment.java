@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.SocialMediaPost_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class SocialMediaFragment extends Fragment {
     private SearchView searchView;
     private SocialMediaPost_RecyclerViewAdapter socialMediaAdapter;
 
-    private ArrayList<SocialMediaPostModel> socialMediaPostModels = new ArrayList<>();
+    private ArrayList<PostDTO> socialMediaPostModels = new ArrayList<>();
 
     public SocialMediaFragment() {
         // Required empty public constructor
@@ -93,9 +94,9 @@ public class SocialMediaFragment extends Fragment {
     }
 
     private void filterList(String newText) {
-        ArrayList<SocialMediaPostModel> filteredList = new ArrayList<>();
-        for (SocialMediaPostModel post: socialMediaPostModels) {
-            if (post.getHashtags().stream().anyMatch(s -> s.toLowerCase().contains(newText.toLowerCase()))) {
+        ArrayList<PostDTO> filteredList = new ArrayList<>();
+        for (PostDTO post: socialMediaPostModels) {
+            if (post.tags.stream().anyMatch(s -> s.toLowerCase().contains(newText.toLowerCase()))) {
                 filteredList.add(post);
             }
         }

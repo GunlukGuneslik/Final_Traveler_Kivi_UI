@@ -217,4 +217,9 @@ public class MockEventService implements EventService {
 
     }
 
+    @Override
+    public Call<List<EventDTO>> getAttendedEvents(Integer id) {
+        return null;
+    }
+
 }

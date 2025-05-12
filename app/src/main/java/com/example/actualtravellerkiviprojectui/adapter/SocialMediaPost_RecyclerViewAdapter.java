@@ -13,8 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.SocialMediaFragment;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,17 +31,21 @@ import java.util.Locale;
  * @author zeynep
  */
 public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder> {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+
     Context context;
-    List<SocialMediaPostModel> socialMediaPostModels;
+    List<PostDTO> socialMediaPostModels;
     SocialMediaFragment socialMediaFragment;
 
-    public SocialMediaPost_RecyclerViewAdapter(Context context, List<SocialMediaPostModel> socialMediaPostModels, SocialMediaFragment fragment) {
+    public SocialMediaPost_RecyclerViewAdapter(Context context, List<PostDTO> socialMediaPostModels, SocialMediaFragment fragment) {
         this.context = context;
         this.socialMediaPostModels = socialMediaPostModels;
         socialMediaFragment = fragment;
     }
 
-    public void setFilteredList(List<SocialMediaPostModel> filteredList) {
+    public void setFilteredList(List<PostDTO> filteredList) {
         this.socialMediaPostModels = filteredList;
         notifyDataSetChanged();
     }
@@ -47,20 +60,26 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
 
     @Override
     public void onBindViewHolder(@NonNull SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder holder, int position) {
-        SocialMediaPostModel socialMediaPostModel = socialMediaPostModels.get(position);
-        holder.textViewUserName.setText(socialMediaPostModel.owner.firstName);
-        holder.textViewPhotoDescription.setText(socialMediaPostModel.getPhotoDescription());
-        holder.textViewHashtag.setText(socialMediaPostModel.getHashtags().get(0));
-        holder.textViewLikes.setText(socialMediaPostModel.getNumberOfLikes() + " likes");
-        holder.profileImageView.setImageResource(socialMediaPostModel.getProfilePhotoId());
-        holder.placeImageView.setImageResource(socialMediaPostModel.getSharedPhotoId());
+        PostDTO socialMediaPostModel = socialMediaPostModels.get(position);
+        UserDTO owner;
+        try {
+            owner = userService.getUser(socialMediaPostModel.userId).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        holder.textViewUserName.setText(owner.username);
+        holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
+        holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
+        holder.textViewLikes.setText(socialMediaPostModel.likeCount + " likes");
+        NetworkModule.setImageViewFromCall(holder.profileImageView,userService.getAvatar(owner.id), null);
+        holder.placeImageView.setImageResource(socialMediaPostModel.imageId);
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!holder.isClicked){
-                    socialMediaPostModels.get(holder.getAdapterPosition()).setNumberOfLikes(socialMediaPostModels.get(holder.getAdapterPosition()).getNumberOfLikes()+1);
+                    socialMediaPostModels.get(holder.getAdapterPosition()).likeCount++;
                     holder.heartButton.setImageResource(R.drawable.filledheart);
-                    holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", socialMediaPostModel.getNumberOfLikes()));
+                    holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", socialMediaPostModel.likeCount));
                     holder.isClicked = true;
                 }
             }
