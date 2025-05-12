@@ -65,7 +65,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, TourInformationPageActivity.class);
-            intent.putExtra("tour", tour);
+            intent.putExtra("tourId", tour.id);
             context.startActivity(intent);
         });
     }

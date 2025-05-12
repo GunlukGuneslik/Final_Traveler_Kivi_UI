@@ -2,6 +2,7 @@ package com.example.actualtravellerkiviprojectui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -80,134 +81,124 @@ public class TourInformationPageActivity extends AppCompatActivity {
         });
 
         //@author Güneş
-        currentTour = getIntent().getParcelableExtra("tour");
+
+        try {
+            currentTour = eventService.getEvent(getIntent().getIntExtra("tourId", -1)).execute().body();
+        } catch (Exception e) {
+            Log.w("event", "");
+        }
 
         //test ediyorum
         if (currentTour == null) {
             // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
             Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT).show();
             finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+            return;
         }
-        else {
-            //Tour name
-            tourNameTextView = findViewById(R.id.tourNameTextViewTourInformationPage);
-            tourNameTextView.setText(currentTour.name);
-            //Tour image
-            tourImage = findViewById(R.id.TourImageTourInformationPage);
-            NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
-            // Tour language
-            tourLanguage = findViewById(R.id.tourLanguageTextViewTourInfoPage);
-            tourLanguage.setText("Language: " + currentTour.language);
-            // date
-            tourDate = findViewById(R.id.TourDateTourInformationPage);
-//            String formattedDate = currentTour.startDate.toString();
-//            tourDate.setText(formattedDate);
 
-            if (currentTour.startDate != null) {
-                String formattedDate = currentTour.startDate.toString();
-                // veya DateTimeFormatter kullanıyorsanız:
-                // String formattedDate = tourDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-                tourDate.setText(formattedDate);
+        //Tour name
+        tourNameTextView = findViewById(R.id.tourNameTextViewTourInformationPage);
+        tourNameTextView.setText(currentTour.name);
+        //Tour image
+        tourImage = findViewById(R.id.TourImageTourInformationPage);
+        NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
+        // Tour language
+        tourLanguage = findViewById(R.id.tourLanguageTextViewTourInfoPage);
+        tourLanguage.setText("Language: " + currentTour.language);
+        // date
+        tourDate = findViewById(R.id.TourDateTourInformationPage);
+        tourDate.setText(currentTour.startDate.toString());
+        //tour rate
+        tourRate = findViewById(R.id.tourRateTourInformationPage);
+        tourRate.setText("Rate: " + currentTour.rating);
+
+        userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                guide = response.body();
+            }
+
+            // TODO handle it
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable throwable) {
+                finish();
+            }
+        });
+
+        // test ediyorum
+        if (guide == null) {
+            Toast.makeText(this, "Error: Guide null.", Toast.LENGTH_SHORT).show();
+            finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+        }
+
+        // guide image
+        guideImage = findViewById(R.id.guideImageTourInformationPage);
+        // TODO: no images right now
+        NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(guide.id), null);
+        // guide name
+        guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
+        guideName.setText(guide.firstName);
+
+
+        buttonTourPlan = findViewById(R.id.button5);
+        buttonMaps = findViewById(R.id.button6);
+        buttonChat = findViewById(R.id.button7);
+        buttonComments = findViewById(R.id.button8);
+
+        UserDTO currentUser = UserState.getUser(userService);
+
+        //chat butonu işlevsiz eğer kullanıcı kayıtlı değilse
+        try {
+            if (!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour)) {
+                buttonChat.setEnabled(false);
             } else {
-                tourDate.setText("null");
+                buttonChat.setEnabled(true);
             }
-
-            //tour rate
-            tourRate = findViewById(R.id.tourRateTourInformationPage);
-            tourRate.setText("Rate: " + currentTour.rating);
-
-            userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
-                @Override
-                public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                    guide = response.body();
-                }
-
-                // TODO handle it
-                @Override
-                public void onFailure(Call<UserDTO> call, Throwable throwable) {
-                    finish();
-                }
-            });
-
-            // test ediyorum
-            if (guide == null) {
-                Toast.makeText(this, "Error: Guide null.", Toast.LENGTH_SHORT).show();
-                finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
-            }
-
-            // guide image
-            guideImage = findViewById(R.id.guideImageTourInformationPage);
-            // TODO: no images right now
-            NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(guide.id), null);
-            // guide name
-            guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
-            guideName.setText(guide.firstName);
-
-
-            buttonTourPlan = findViewById(R.id.button5);
-            buttonMaps = findViewById(R.id.button6);
-            buttonChat = findViewById(R.id.button7);
-            buttonComments = findViewById(R.id.button8);
-
-            UserDTO currentUser = UserState.getUser(userService);
-
-            //chat butonu işlevsiz eğer kullanıcı kayıtlı değilse
-            try {
-                if(!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour)){
-                    buttonChat.setEnabled(false);
-                }
-                else{
-                    buttonChat.setEnabled(true);
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            Button addToMyToursButton = findViewById(R.id.button4);
-            //eğer tarih geçmişsse button yok olmalı
-            //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
-            //     addToMyToursButton.setVisibility(View.GONE);
-            //}
-            addToMyToursButton.setOnClickListener(v -> {
-                boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
-                //current user turlarına eklenmeli burada
-                if (isAdded) {
-                    addToMyToursButton.setText("Add to my tours");
-                    try {
-                        eventService.getAttendedEvents(currentUser.id).execute().body().add(currentTour);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
-                } else {
-                    addToMyToursButton.setText("Remove from my tours");
-                    try {
-                        eventService.getAttendedEvents(currentUser.id).execute().body().remove(currentTour);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
-                }
-            });
-
-            tourPlanFragment = new TourInformationPageTourPlanFragment();
-            chatFragment = new TourInformationPageChatFragment();
-            commentsFragment = new TourInformationPageCommentsFragment();
-            mapsFragment = new TourInformationPageMapsFragment();
-
-            openFragment(tourPlanFragment);
-
-            buttonTourPlan.setOnClickListener(v -> openFragment(tourPlanFragment));
-            buttonMaps.setOnClickListener(v -> openFragment(mapsFragment));
-            buttonChat.setOnClickListener(v -> openFragment(chatFragment));
-            buttonComments.setOnClickListener(v -> openFragment(commentsFragment));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        Button addToMyToursButton = findViewById(R.id.button4);
+        //eğer tarih geçmişsse button yok olmalı
+        //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
+        //     addToMyToursButton.setVisibility(View.GONE);
+        //}
+        addToMyToursButton.setOnClickListener(v -> {
+            boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
+            //current user turlarına eklenmeli burada
+            if (isAdded) {
+                addToMyToursButton.setText("Add to my tours");
+                try {
+                    eventService.getAttendedEvents(currentUser.id).execute().body().add(currentTour);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+            } else {
+                addToMyToursButton.setText("Remove from my tours");
+                try {
+                    eventService.getAttendedEvents(currentUser.id).execute().body().remove(currentTour);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+            }
+        });
+
+        tourPlanFragment = new TourInformationPageTourPlanFragment();
+        chatFragment = new TourInformationPageChatFragment();
+        commentsFragment = new TourInformationPageCommentsFragment();
+        mapsFragment = new TourInformationPageMapsFragment();
+
+        openFragment(tourPlanFragment);
+
+        buttonTourPlan.setOnClickListener(v -> openFragment(tourPlanFragment));
+        buttonMaps.setOnClickListener(v -> openFragment(mapsFragment));
+        buttonChat.setOnClickListener(v -> openFragment(chatFragment));
+        buttonComments.setOnClickListener(v -> openFragment(commentsFragment));
     }
 
-    private void openFragment(Fragment fragment){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container_tour_information, fragment)
-                .commit();
+    private void openFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_tour_information, fragment).commit();
     }
 }
