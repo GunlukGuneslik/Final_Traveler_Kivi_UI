@@ -76,9 +76,9 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.heartButton.setImageResource(R.drawable.filledheart);
                 if(!holder.isClicked){
                     socialMediaPostModels.get(holder.getAdapterPosition()).likeCount++;
-                    holder.heartButton.setImageResource(R.drawable.filledheart);
                     holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", socialMediaPostModel.likeCount));
                     holder.isClicked = true;
                 }
