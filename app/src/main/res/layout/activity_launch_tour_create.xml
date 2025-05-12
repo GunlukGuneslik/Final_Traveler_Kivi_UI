@@ -50,6 +50,7 @@
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_margin="8dp"
+                android:padding="12dp"
                 android:background="@drawable/search_view_map_page_bg"
                 android:hint="Enter Tour Name"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +71,7 @@
                 app:layout_constraintTop_toBottomOf="@id/EnterTourNameTextView" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/SelectTimeButton"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/brown"
@@ -92,24 +93,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/selectTourImageButton"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:backgroundTint="@color/brown"
-                android:text="Select Tour Image"
-                android:textColor="@color/white"
-                android:textSize="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tourImageView" />
-
             <FrameLayout
                 android:id="@+id/frameLayoutForCreateNewTourPage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/CreateNewTourPageTurnButton"
-                app:layout_constraintTop_toBottomOf="@+id/selectTourImageButton" />
+                android:layout_marginBottom="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/SelectTimeButton" />
 
             <Button
                 android:id="@+id/CreateNewTourPageTurnButton"

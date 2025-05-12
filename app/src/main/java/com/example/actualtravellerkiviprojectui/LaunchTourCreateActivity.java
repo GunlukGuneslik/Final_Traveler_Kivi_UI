@@ -4,6 +4,7 @@ package com.example.actualtravellerkiviprojectui;
 import static android.view.View.INVISIBLE;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -41,11 +43,14 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
     private EditText tourNameEditText;
     private Button returnButton;
     private Button selectDateButton;
+    private Button selectTimeButton;
     Calendar calendar = Calendar.getInstance();
 
     private int year = calendar.get(Calendar.YEAR);
     private int month = calendar.get(Calendar.MONTH);
     private int day = calendar.get(Calendar.DAY_OF_MONTH); // these are going to be used for creating the tour object
+    private int hour;
+    private int minute;
     public String tourDescription = "";
     private Uri selectedImageUri;
     private Button nextButton, backButton, launchButton;
@@ -112,6 +117,15 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
                 openDialog();
             }
         });
+
+        selectTimeButton = findViewById(R.id.SelectTimeButton);
+        selectTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTimeDialog();
+            }
+        });
+
 
         tourNameEditText = findViewById(R.id.EnterTourNameTextView);
 
@@ -201,6 +215,17 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
             }
         }, year, month, day);
         dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        dialog.show();
+    }
+
+    private void openTimeDialog() {
+        TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int SelectedHour, int selectedMinute) {
+                hour = SelectedHour;
+                minute = selectedMinute;
+            }
+        }, 12, 00, true);
         dialog.show();
     }
 }

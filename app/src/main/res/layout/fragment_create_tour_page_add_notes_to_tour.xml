@@ -27,6 +27,8 @@
         android:background="@drawable/search_view_map_page_bg"
         android:maxLength="2000"
         android:textColor="@color/brown"
+        android:gravity="start|top"
+        android:padding="12dp"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/textViewTourNote"
         app:layout_constraintStart_toStartOf="parent"
