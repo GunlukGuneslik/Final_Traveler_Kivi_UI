@@ -38,13 +38,15 @@ public class MockPostService implements PostService {
     }
 
     @Override
-    public Call<PagedModel<PostDTO>> fetchAllPosts(int page, int size, String sort) {
-        return null;
+    public Call<List<PostDTO>> fetchAllPosts() {
+        return delegate.returningResponse(Utils.loadObject("mock/posts/listall.json", new TypeReference<List<PostDTO>>() {
+        })).fetchAllPosts();
     }
 
     @Override
     public Call<List<PostDTO>> fetchUserPosts(int userId) {
-        return null;
+        return delegate.returningResponse(Utils.loadObject("mock/posts/listall.json", new TypeReference<List<PostDTO>>() {
+        })).fetchUserPosts(1);
     }
 
     @Override

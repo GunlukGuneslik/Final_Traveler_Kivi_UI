@@ -20,8 +20,6 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
-import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
 import java.util.List;
@@ -65,20 +63,20 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         try {
             owner = userService.getUser(socialMediaPostModel.userId).execute().body();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return;
         }
         holder.textViewUserName.setText(owner.username);
         holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
         holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
         holder.textViewLikes.setText(socialMediaPostModel.likeCount + " likes");
         NetworkModule.setImageViewFromCall(holder.profileImageView,userService.getAvatar(owner.id), null);
-        holder.placeImageView.setImageResource(socialMediaPostModel.imageId);
+        NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(socialMediaPostModel.postId), null);
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.heartButton.setImageResource(R.drawable.filledheart);
                 if(!holder.isClicked){
                     socialMediaPostModels.get(holder.getAdapterPosition()).likeCount++;
-                    holder.heartButton.setImageResource(R.drawable.filledheart);
                     holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", socialMediaPostModel.likeCount));
                     holder.isClicked = true;
                 }

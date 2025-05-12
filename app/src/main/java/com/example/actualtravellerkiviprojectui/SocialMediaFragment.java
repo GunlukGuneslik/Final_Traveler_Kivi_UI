@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -15,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.SocialMediaPost_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.List;
 /**
  * @author zeynep
  */
@@ -34,7 +35,7 @@ public class SocialMediaFragment extends Fragment {
     private SearchView searchView;
     private SocialMediaPost_RecyclerViewAdapter socialMediaAdapter;
 
-    private ArrayList<PostDTO> socialMediaPostModels = new ArrayList<>();
+    private List<PostDTO> postDTOS = new ArrayList<>();
 
     public SocialMediaFragment() {
         // Required empty public constructor
@@ -64,7 +65,7 @@ public class SocialMediaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_social_media, container, false);
         recyclerView = view.findViewById(R.id.socialMediaRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        socialMediaAdapter = new SocialMediaPost_RecyclerViewAdapter(getContext(),socialMediaPostModels,this);
+        socialMediaAdapter = new SocialMediaPost_RecyclerViewAdapter(getContext(), postDTOS, this);
         fillSocialMediaPosts();
         ImageButton addPostButton = view.findViewById(R.id.addPostImageButton);
         addPostButton.setOnClickListener(new View.OnClickListener() {
@@ -94,8 +95,8 @@ public class SocialMediaFragment extends Fragment {
     }
 
     private void filterList(String newText) {
-        ArrayList<PostDTO> filteredList = new ArrayList<>();
-        for (PostDTO post: socialMediaPostModels) {
+        List<PostDTO> filteredList = new ArrayList<>();
+        for (PostDTO post : postDTOS) {
             if (post.tags.stream().anyMatch(s -> s.toLowerCase().contains(newText.toLowerCase()))) {
                 filteredList.add(post);
             }
@@ -111,7 +112,22 @@ public class SocialMediaFragment extends Fragment {
 
     //for testing now
     private void fillSocialMediaPosts(){
-
+        try {
+            postDTOS.clear();
+            ServiceLocator.getPostService().fetchAllPosts().execute().body().forEach(postDTOS::add);
+        } catch (IOException e) {
+            cleanUp(e);
+            return;
+        }
         recyclerView.setAdapter(socialMediaAdapter);
+    }
+
+    private void cleanUp(Throwable t) {
+        Snackbar.make(getView(), "Error fetching the tour. Please try again.", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Retry", v -> {
+                    // Retry the network call
+                    fillSocialMediaPosts();
+                })
+                .show();
     }
 }
