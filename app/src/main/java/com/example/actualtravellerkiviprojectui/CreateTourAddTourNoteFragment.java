@@ -8,53 +8,87 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.example.actualtravellerkiviprojectui.adapter.CreateTourPlaceDescriptionRecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
+
+import java.util.ArrayList;
 
 public class CreateTourAddTourNoteFragment extends Fragment {
-    private EditText tourNoteEditText;
-    private LaunchTourCreateActivity activity;
+    LaunchTourCreateActivity activity;
+    String tourDescription;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // grab a reference to your host Activity so we can get/set the tourDescription
-        activity = (LaunchTourCreateActivity) getActivity();
+    EditText editText;
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public CreateTourAddTourNoteFragment() {
+        // Required empty public constructor
     }
 
-    @Nullable
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment MapPageFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static CreateTourAddTourNoteFragment newInstance(String param1, String param2) {
+        CreateTourAddTourNoteFragment fragment = new CreateTourAddTourNoteFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        // Inflate the XML you pasted (make sure its filename matches below)
-        View view = inflater.inflate(
-                R.layout.fragment_create_tour_page_add_notes_to_tour,  // ← adjust if your file is named differently
-                container,
-                false
-        );
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
 
-        // EDITTEXT: be sure your XML has:
-        //   <EditText
-        //       android:id="@+id/tourNoteEditText"
-        //       … />
-        tourNoteEditText = view.findViewById(R.id.tourNoteEditText);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_create_tour_page_add_notes_to_tour, container, false);
 
-        // Pre-populate with any existing note
-        if (activity != null) {
-            tourNoteEditText.setText(activity.getTourDescription());
+        editText = view.findViewById(R.id.EditTextTourNotes);
+        activity = (LaunchTourCreateActivity) getActivity();
+        tourDescription = activity.tourDescription;
+
+        if (tourDescription != null) {
+            editText.setText(tourDescription);
         }
 
-        // Sync every change back to the activity
-        tourNoteEditText.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tourDescription = s.toString();
+                activity.tourDescription = tourDescription;
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
-                if (activity != null) {
-                    activity.updateTourDescription(s.toString().trim());
-                }
             }
         });
 

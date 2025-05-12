@@ -46,7 +46,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
     private int year = calendar.get(Calendar.YEAR);
     private int month = calendar.get(Calendar.MONTH);
     private int day = calendar.get(Calendar.DAY_OF_MONTH); // these are going to be used for creating the tour object
-    private String tourDescription = "";
+    public String tourDescription = "";
     private Uri selectedImageUri;
     private Button nextButton, backButton, launchButton;
     private ImageView tourImageView;
