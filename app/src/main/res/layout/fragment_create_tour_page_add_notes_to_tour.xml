@@ -8,14 +8,28 @@
     tools:context=".CreateTourAddTourNoteFragment">
 
     <TextView
-        android:id="@+id/textViewDescriptionsHeader"
+        android:id="@+id/textViewTourNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Tour Note"
         android:textColor="@color/brown"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/search_view_map_page_bg"
+        android:maxLength="2000"
+        android:textColor="@color/brown"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTourNote"></EditText>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
