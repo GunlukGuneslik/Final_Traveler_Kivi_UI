@@ -7,4 +7,8 @@ public class CoordinateDTO {
     public double latitude;
     public double longtitude;
 
+    public CoordinateDTO(double longtitude, double latitude) {
+        this.longtitude = longtitude;
+        this.latitude = latitude;
+    }
 }

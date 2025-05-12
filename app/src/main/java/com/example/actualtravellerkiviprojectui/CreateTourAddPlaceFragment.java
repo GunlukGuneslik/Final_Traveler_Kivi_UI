@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.actualtravellerkiviprojectui.dto.Event.CoordinateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,11 +29,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
 public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private LaunchTourCreateActivity activity;
-    private ArrayList<PlaceModel> placeModels;
+    private ArrayList<EventLocationCreateDTO> placeModels;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -101,8 +104,8 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                PlaceModel place = new PlaceModel(null, 0,0,null, cityName, district,latLng);
+                CoordinateDTO coordinate = new CoordinateDTO(latLng.latitude, latLng.longitude);
+                EventLocationCreateDTO place = new EventLocationCreateDTO(coordinate, false,null,"", "", district, cityName);
                 placeModels.add(place);
 
                 mMap.addMarker(new MarkerOptions().position(latLng));
@@ -115,8 +118,8 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
         } else {
 
             // Adding all available markers
-            for (PlaceModel current : placeModels) {
-                mMap.addMarker(new MarkerOptions().position(current.getLocation()).title(current.getPlaceName()));
+            for (EventLocationCreateDTO current : placeModels) {
+                mMap.addMarker(new MarkerOptions().position(new LatLng(current.location.latitude, current.location.longtitude)).title(current.title));
             }
         }
 

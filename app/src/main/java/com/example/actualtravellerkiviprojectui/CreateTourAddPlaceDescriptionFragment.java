@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.CreateTourPlaceDescriptionRecyclerViewAdapter;
 import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 
 public class CreateTourAddPlaceDescriptionFragment extends Fragment {
-    ArrayList<PlaceModel> placeModels;
+    ArrayList<EventLocationCreateDTO> placeModels;
     LaunchTourCreateActivity activity;
 
     RecyclerView recyclerView;

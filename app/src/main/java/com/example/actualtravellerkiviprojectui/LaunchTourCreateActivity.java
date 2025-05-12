@@ -1,11 +1,15 @@
 //@author:Eftelya
 package com.example.actualtravellerkiviprojectui;
 
+import static android.view.View.INVISIBLE;
+
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -15,22 +19,37 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class LaunchTourCreateActivity extends AppCompatActivity {
+    private static final UserService userService = ServiceLocator.getUserService();
+    UserDTO currentUser;
+    public ArrayList<EventLocationCreateDTO> placeModels = new ArrayList<>();
+    private EditText tourNameEditText;
+    private Button returnButton;
+    private Button selectDateButton;
+    Calendar calendar = Calendar.getInstance();
 
-    public ArrayList<PlaceModel> placeModels = new ArrayList<>();
+    private int year = calendar.get(Calendar.YEAR);
+    private int month = calendar.get(Calendar.MONTH);
+    private int day = calendar.get(Calendar.DAY_OF_MONTH); // these are going to be used for creating the tour object
     private String tourDescription = "";
     private Uri selectedImageUri;
-
     private Button nextButton, backButton, launchButton;
     private ImageView tourImageView;
-
     private int currentFragmentIndex = 0;
     private Fragment[] fragments;
 
@@ -39,9 +58,20 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_tour_create);
 
+        currentUser = UserState.getUser(userService);
+
+        returnButton = findViewById(R.id.CreateNewTourPageReturnButton);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         nextButton = findViewById(R.id.CreateNewTourPageNextButton);
         backButton = findViewById(R.id.CreateNewTourPageTurnButton);
         launchButton = findViewById(R.id.CreateNewTourPageLaunchButton);
+        launchButton.setVisibility(INVISIBLE);
         tourImageView = findViewById(R.id.tourImageView);
 
         backButton.setVisibility(View.GONE);
@@ -70,32 +100,42 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
             }
         });
 
+        selectDateButton = findViewById(R.id.CreateTourPageSelectDatePage);
+        selectDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+
+        tourNameEditText = findViewById(R.id.EnterTourNameTextView);
+
         launchButton.setOnClickListener(v -> {
             if (!placeModels.isEmpty()) {
-                String tourName = ((EditText) findViewById(R.id.EnterTourNameTextView)).getText().toString().trim();
+                String tourName = (tourNameEditText).getText().toString().trim();
                 String desc = getTourDescription();
-                ArrayList<PlaceModel> places = getSelectedPlaces();
-                Date tourDate = new Date();
+                ArrayList<EventLocationCreateDTO> places = getSelectedPlaces();
+                LocalDate tourDate = LocalDate.of(year, month, day);
+                //TODO: EFTELYA
                 String language = "English";
                 int popularity = 0;
-                double rate = 5.0;
+                double rate = 0;
                 UserDTO guide = new UserDTO(); // Test kullanıcısı
                 ArrayList<String> comments = new ArrayList<>();
 
-                Tour createdTour = new Tour(
+                EventCreateDTO createdTour = new EventCreateDTO(
+                        currentUser.id,
                         tourName,
-                        tourDate,
-                        rate,
-                        popularity,
-                        language,
-                        places,
-                        guide,
-                        0,
                         desc,
-                        comments
+                        tourDate,
+                        null,
+                        popularity,
+                        rate,
+                        language,
+                        places
                 );
 
-                Toast.makeText(this, "Tur oluşturuldu: " + createdTour.getTourName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tur oluşturuldu: " + createdTour.name, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -141,7 +181,21 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         return tourDescription;
     }
 
-    public ArrayList<PlaceModel> getSelectedPlaces() {
+    public ArrayList<EventLocationCreateDTO> getSelectedPlaces() {
         return placeModels;
+    }
+
+    private void openDialog() {
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
+                year = selectedYear;
+                month = selectedMonth;
+                day = selectedDayOfMonth;
+                selectDateButton.setText(selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear);
+            }
+        }, year, month, day);
+        dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        dialog.show();
     }
 }

@@ -20,19 +20,27 @@ public class EventCreateDTO {
      */
 
     public Integer ownerId;
-
     public EventDTO.EventType eventType;
-
     public String name;
-
     public String details;
-
     public LocalDate startDate;
-
-    public LocalDate endDate;
-
+    public double rate;
+    public int popularity;
+    public String language;
     public Integer skeletonId;
 
-    public List<Integer> locationIds = new ArrayList<>();
+    public List<EventLocationCreateDTO> locations = new ArrayList<>();
 
+    public EventCreateDTO(Integer ownerId, String name, String details, LocalDate startDate, Integer skeletonId, int popularity,
+                          double rate, String language, List<EventLocationCreateDTO> locations) {
+        this.ownerId = ownerId;
+        this.name = name;
+        this.details = details;
+        this.startDate = startDate;
+        this.skeletonId = skeletonId;
+        this.rate = rate;
+        this.language = language;
+        this.popularity = popularity;
+        this.locations = locations;
+    }
 }

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ import java.util.ArrayList;
 public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView.Adapter<CreateTourPlaceDescriptionRecyclerViewAdapter.MyViewHolder>{
 
     Context context;
-    private ArrayList<PlaceModel> placeModels;
-    public CreateTourPlaceDescriptionRecyclerViewAdapter(Context context, ArrayList<PlaceModel> placeModels) {
+    private ArrayList<EventLocationCreateDTO> placeModels;
+    public CreateTourPlaceDescriptionRecyclerViewAdapter(Context context, ArrayList<EventLocationCreateDTO> placeModels) {
         this.context = context;
         this.placeModels = placeModels;
     }
@@ -34,12 +35,12 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull CreateTourPlaceDescriptionRecyclerViewAdapter.MyViewHolder holder, int position) {
-        PlaceModel placeModel = placeModels.get(position);
-        if (placeModel.getPlaceName() != null) {
-            holder.placeName.setText(placeModel.getPlaceName());
+        EventLocationCreateDTO placeModel = placeModels.get(position);
+        if (placeModel.title != null) {
+            holder.placeName.setText(placeModel.title);
         }
-        if (placeModel.getPlaceInformationText() != null) {
-            holder.placeDescription.setText(placeModel.getPlaceInformationText());
+        if (placeModel.description != null) {
+            holder.placeDescription.setText(placeModel.description);
         }
 
         holder.placeName.addTextChangedListener(new TextWatcher() {
@@ -51,7 +52,7 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
             @Override
             public void afterTextChanged(Editable s) {
-                placeModel.setPlaceName(s.toString()); // Kullanıcının girdiğini PlaceModel'a kaydet
+                placeModel.title = s.toString(); // Kullanıcının girdiğini PlaceModel'a kaydet
             }
         });
 
@@ -64,7 +65,7 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
             @Override
             public void afterTextChanged(Editable s) {
-                placeModel.setPlaceInformationText(s.toString());
+                placeModel.description = s.toString();
             }
         });
 
