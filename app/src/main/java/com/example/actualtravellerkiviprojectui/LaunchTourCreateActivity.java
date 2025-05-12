@@ -74,13 +74,18 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         launchButton.setVisibility(INVISIBLE);
         tourImageView = findViewById(R.id.tourImageView);
 
+        // Initial visibility
         backButton.setVisibility(View.GONE);
         launchButton.setVisibility(View.GONE);
 
+        // Initialize fragments: Place -> Descriptions -> Notes
         fragments = new Fragment[]{
                 new CreateTourAddPlaceFragment(),
-                new CreateTourAddPlaceDescriptionFragment()
+                new CreateTourAddPlaceDescriptionFragment(),
+                new CreateTourAddTourNoteFragment()  // Add Notes fragment
         };
+
+
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
