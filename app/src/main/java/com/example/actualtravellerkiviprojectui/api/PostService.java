@@ -23,7 +23,7 @@ public interface PostService {
     Call<PagedModel<PostDTO>> fetchFeed(@Query(value = "userId") int userId, @Query("page") int page, @Query("size") int size, @Query("sort") String sort);
 
     @GET("posts/feed")
-    Call<PagedModel<PostDTO>> fetchAllPosts(@Query("page") int page, @Query("size") int size, @Query("sort") String sort);
+    Call<List<PostDTO>> fetchAllPosts();
 
     @GET("posts/{userId}")
     Call<List<PostDTO>> fetchUserPosts(@Path("userId") int userId);
