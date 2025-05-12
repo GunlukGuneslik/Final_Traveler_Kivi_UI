@@ -39,7 +39,7 @@ public class SignInActivity extends AppCompatActivity {
             String password = passwordEt.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Lütfen tüm alanları doldurunuz", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Fill all the information", Toast.LENGTH_SHORT).show();
                 return;
             }
 
