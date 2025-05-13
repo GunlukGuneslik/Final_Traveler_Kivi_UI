@@ -316,7 +316,7 @@ public class AccountPageFragment extends Fragment {
     }
     private void showChangePasswordDialog() {
 
-
+//TODO: backendle bağlancak.
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
         EditText etOld = dialogView.findViewById(R.id.etOldPassword);
         EditText etNew = dialogView.findViewById(R.id.etNewPassword);
