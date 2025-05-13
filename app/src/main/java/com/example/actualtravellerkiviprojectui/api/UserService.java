@@ -1,6 +1,7 @@
 package com.example.actualtravellerkiviprojectui.api;
 
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
+import com.example.actualtravellerkiviprojectui.dto.User.UserCreateUpdateDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserStatsDTO;
 
@@ -70,5 +71,8 @@ public interface UserService {
 
     @POST("users/{userId}/resetPassword")
     Call<UserDTO> resetPassword(@Path("userId") int userId);
+
+    @POST("users/{userId}/update")
+    Call<UserDTO> updateUser(@Path("userId") int userId, @Body UserCreateUpdateDTO updateDTO);
 
 }
