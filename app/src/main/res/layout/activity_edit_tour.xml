@@ -15,12 +15,13 @@
         <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
             android:padding="8dp">
 
             <Button
-                android:id="@+id/CreateNewTourPageReturnButton"
+                android:id="@+id/EditTourPageReturnButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -28,25 +29,26 @@
                 android:drawableTop="@drawable/baseline_arrow_back_24" />
 
             <TextView
-                android:id="@+id/CreateNewTourPageLabelTextView"
+                android:id="@+id/EditTourPageLabelTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:layout_margin="8dp"
                 android:text="Edit Tour"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/brown"
                 android:textSize="30sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:gravity="center_vertical"/>
         </LinearLayout>
 
         <!-- Tour Name and Date -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="8">
 
             <EditText
-                android:id="@+id/EnterTourNameTextView"
+                android:id="@+id/EditTourEnterTourNameTextView"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_margin="8dp"
@@ -54,32 +56,32 @@
                 android:hint="Enter New Tour Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingStart="16dp"
-                app:layout_constraintStart_toEndOf="@+id/tourImageView"
+                app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/CreateTourPageSelectDatePage"
+                android:id="@+id/EditTourPageSelectDateButton"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@color/brown"
                 android:text="Change Date"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tourImageView"
-                app:layout_constraintTop_toBottomOf="@id/EnterTourNameTextView" />
+                app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
+                app:layout_constraintTop_toBottomOf="@id/EditTourEnterTourNameTextView" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/EditTourPageSelectTimeButton"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/brown"
                 android:text="Change Time"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tourImageView"
-                app:layout_constraintTop_toBottomOf="@+id/CreateTourPageSelectDatePage" />
+                app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
+                app:layout_constraintTop_toBottomOf="@+id/EditTourPageSelectDateButton" />
 
             <ImageView
-                android:id="@+id/tourImageView"
+                android:id="@+id/EditTourImageView"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:background="@drawable/circular_image_shape"
@@ -90,27 +92,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/selectTourImageButton"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:backgroundTint="@color/brown"
-                android:text="Change Tour Image"
-                android:textColor="@color/white"
-                android:textSize="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tourImageView" />
-
             <FrameLayout
-                android:id="@+id/frameLayoutForCreateNewTourPage"
+                android:id="@+id/frameLayoutForEditTourPage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/CreateNewTourPageTurnButton"
-                app:layout_constraintTop_toBottomOf="@+id/selectTourImageButton" />
+                app:layout_constraintBottom_toTopOf="@+id/EditTourPageTurnButton"
+                app:layout_constraintTop_toBottomOf="@+id/EditTourPageSelectTimeButton" />
 
             <Button
-                android:id="@+id/CreateNewTourPageTurnButton"
+                android:id="@+id/EditTourPageTurnButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -121,7 +111,7 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <Button
-                android:id="@+id/CreateNewTourPageNextButton"
+                android:id="@+id/EditTourPageNextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -131,11 +121,11 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <Button
-                android:id="@+id/CreateNewTourPageLaunchButton"
+                android:id="@+id/EditTourPageSaveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="launch"
+                android:text="Save"
                 android:backgroundTint="@color/brown"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"

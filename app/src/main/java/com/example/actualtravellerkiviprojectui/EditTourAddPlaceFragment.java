@@ -1,20 +1,17 @@
 package com.example.actualtravellerkiviprojectui;
-import android.app.Activity;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import androidx.activity.result.ActivityResultLauncher;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.actualtravellerkiviprojectui.dto.Event.CoordinateDTO;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,18 +19,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
-public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCallback{
+public class EditTourAddPlaceFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
-    private LaunchTourCreateActivity activity;
-    private ArrayList<EventLocationDTO> placeModels;
+    private EditTourActivity activity;
+    private ArrayList<EventLocationDTO> locationsList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,7 +39,7 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
     private String mParam1;
     private String mParam2;
 
-    public CreateTourAddPlaceFragment() {
+    public EditTourAddPlaceFragment() {
         // Required empty public constructor
     }
 
@@ -56,14 +52,15 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
      * @return A new instance of fragment MapPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateTourAddPlaceFragment newInstance(String param1, String param2) {
-        CreateTourAddPlaceFragment fragment = new CreateTourAddPlaceFragment();
+    public static EditTourAddPlaceFragment newInstance(String param1, String param2) {
+        EditTourAddPlaceFragment fragment = new EditTourAddPlaceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +68,10 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        activity = (LaunchTourCreateActivity) getActivity();
-        placeModels = activity.placeModels;
+        activity = (EditTourActivity) getActivity();
+        locationsList = activity.locationList;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -92,7 +90,6 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
                 false
         );
     }
-
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -116,20 +113,20 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
                 }
                 CoordinateDTO coordinate = new CoordinateDTO(latLng.latitude, latLng.longitude);
                 EventLocationDTO place = new EventLocationDTO(coordinate, false,null,"", "", district, cityName);
-                placeModels.add(place);
+                locationsList.add(place);
 
                 mMap.addMarker(new MarkerOptions().position(latLng));
             }
         });
 
-        if (placeModels.isEmpty()) {
+        if (locationsList.isEmpty()) {
             LatLng defaultLocation = new LatLng(0.0, 0.0);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 2));
         } else {
 
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             // Adding all available markers
-            for (EventLocationDTO current : placeModels) {
+            for (EventLocationDTO current : locationsList) {
                 LatLng location = new LatLng(current.location.longtitude, current.location.latitude);
                 mMap.addMarker(new MarkerOptions().position(location).title(current.title));
                 builder.include(location);

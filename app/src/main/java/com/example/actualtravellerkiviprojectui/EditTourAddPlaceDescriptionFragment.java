@@ -1,31 +1,21 @@
 package com.example.actualtravellerkiviprojectui;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.actualtravellerkiviprojectui.adapter.CreateTourPlaceDescriptionRecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.google.android.gms.maps.SupportMapFragment;
-
 import java.util.ArrayList;
 
-public class CreateTourAddPlaceDescriptionFragment extends Fragment {
-    ArrayList<EventLocationDTO> placeModels;
-    LaunchTourCreateActivity activity;
-
+public class EditTourAddPlaceDescriptionFragment extends Fragment {
+    EditTourActivity activity;
     RecyclerView recyclerView;
     CreateTourPlaceDescriptionRecyclerViewAdapter adapter;
-
+    ArrayList<EventLocationDTO> locationsList;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +26,7 @@ public class CreateTourAddPlaceDescriptionFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CreateTourAddPlaceDescriptionFragment() {
+    public EditTourAddPlaceDescriptionFragment() {
         // Required empty public constructor
     }
 
@@ -49,8 +39,8 @@ public class CreateTourAddPlaceDescriptionFragment extends Fragment {
      * @return A new instance of fragment MapPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateTourAddPlaceDescriptionFragment newInstance(String param1, String param2) {
-        CreateTourAddPlaceDescriptionFragment fragment = new CreateTourAddPlaceDescriptionFragment();
+    public static EditTourAddPlaceDescriptionFragment newInstance(String param1, String param2) {
+        EditTourAddPlaceDescriptionFragment fragment = new EditTourAddPlaceDescriptionFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,12 +64,13 @@ public class CreateTourAddPlaceDescriptionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_tour_page_add_descriptions_to_places, container, false);
         recyclerView = view.findViewById(R.id.AddDescriptionsRecyclerView);
 
-        activity = (LaunchTourCreateActivity) getActivity();
-        placeModels = activity.placeModels;
+        activity = (EditTourActivity) getActivity();
+        locationsList = activity.locationList;
 
-        adapter = new CreateTourPlaceDescriptionRecyclerViewAdapter(getContext(), placeModels);
+        adapter = new CreateTourPlaceDescriptionRecyclerViewAdapter(getContext(), locationsList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
+
 }

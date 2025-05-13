@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
+import com.example.actualtravellerkiviprojectui.dto.User.UserCreateUpdateDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserStatsDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -118,5 +119,10 @@ public class MockUserService implements UserService {
     @Override
     public Call<UserDTO> resetPassword(int userId) {
         return getUserResponse().resetPassword(userId);
+    }
+
+    @Override
+    public Call<UserDTO> updateUser(int userId, UserCreateUpdateDTO updateDTO) {
+        return null;
     }
 }

@@ -51,7 +51,6 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
         holder.placeImageView.setImageResource(currentPlace.getImageOfPlace());
         holder.placeNameView.setText(currentPlace.getPlaceName());
         holder.placeRateView.setText(currentPlace.getRateOfPlace());
-        holder.placeDistanceView.setText(currentPlace.getDistanceInKM());
         holder.placeInfoView.setText(currentPlace.getPlaceInformationText());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -71,14 +70,13 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
     public class MapViewHolder extends RecyclerView.ViewHolder {
 
         ImageView placeImageView;
-        TextView placeNameView, placeRateView, placeDistanceView, placeInfoView;
+        TextView placeNameView, placeRateView, placeInfoView;
         CardView cardView;
         public MapViewHolder(@NonNull View itemView) {
             super(itemView);
             placeImageView = itemView.findViewById(R.id.placeImageView);
             placeNameView = itemView.findViewById(R.id.placeNameTextView);
             placeRateView = itemView.findViewById(R.id.ratingTextView);
-            placeDistanceView = itemView.findViewById(R.id.distanceTextView);
             placeInfoView = itemView.findViewById(R.id.placeInformationTextView);
             cardView = itemView.findViewById(R.id.Card);
         }

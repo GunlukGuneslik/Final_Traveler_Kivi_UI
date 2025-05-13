@@ -35,12 +35,14 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -54,7 +56,7 @@ public class AccountPageFragment extends Fragment {
     private static final EventService eventService = ServiceLocator.getEventService();
     private SharedPreferences prefs;
 
-    ArrayList<SocialMediaPostModel> posts = new ArrayList<>();
+    ArrayList<PostDTO> posts = new ArrayList<>();
     private RecyclerView recyclerView;
     private Account_Page_Posts_RecyclerViewAdapter adapter;
 
@@ -203,6 +205,10 @@ public class AccountPageFragment extends Fragment {
                         //@author Eftelya
                         showChangeLanguageDialog();
                         return true;
+                    case R.id.ChangePassword:
+                        showChangePasswordDialog();
+                        return true;
+
                 }
                 return false;
             });
@@ -229,6 +235,7 @@ public class AccountPageFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
         //posts = currentUser.getPosts();
+        //TODO
         fillSocialMediaPosts();
 
         adapter = new Account_Page_Posts_RecyclerViewAdapter(getContext(), posts);
@@ -248,24 +255,23 @@ public class AccountPageFragment extends Fragment {
     }
 
 
-    //TODO: is this a good place for this method?
+    //TODO: is this a good place for this method? ofcouse not! iğ changed it but i don not understand it. Just copy paste from chatgpt.
     private void fillSocialMediaPosts() {
-        // TODO: should add a way to refresh the feed which will also act as a retry method on failed feed request.
-        // TODO: should also retry the failed posts but idk how
-        try {
-            postService.fetchFeed(0, 1, 100, "").execute().body().content.forEach(post -> {
-                Log.i("request", "Post request.");
-                SocialMediaPostModel.fromPostDTO(post).thenAccept(posts::add).exceptionally(e -> {
-                    e.printStackTrace();
-                    return null;
+        new Thread(() -> {
+            try {
+                List<PostDTO> fetchedPosts = postService.fetchFeed(0, 1, 100, "").execute().body().content;
+                requireActivity().runOnUiThread(() -> {
+                    posts.clear();
+                    posts.addAll(fetchedPosts);
+                    adapter.notifyDataSetChanged(); // RecyclerView güncellensin
                 });
-
-            });
-        } catch (IOException e) {
-            String text = "Error fetching feed.";
-            Log.w("retrofit", text);
-            Toast.makeText(getContext(), text, Toast.LENGTH_LONG);
-        }
+            } catch (IOException e) {
+                Log.e("retrofit", "Error fetching feed", e);
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show()
+                );
+            }
+        }).start();
     }
 
     // --- Change Name Dialog ---@author:Eftelya
@@ -310,6 +316,31 @@ public class AccountPageFragment extends Fragment {
                 .setNegativeButton("İptal", null)
                 .show();
     }
+    private void showChangePasswordDialog() {
+
+//TODO: backendle bağlancak.
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
+        EditText etOld = dialogView.findViewById(R.id.etOldPassword);
+        EditText etNew = dialogView.findViewById(R.id.etNewPassword);
+        EditText etNew2 = dialogView.findViewById(R.id.etConfirmNewPassword);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Change Password")
+                .setView(dialogView)
+                .setPositiveButton("Kaydet", (dlg, which) -> {
+                    String oldPw = etOld.getText().toString();
+                    String newPw = etNew.getText().toString();
+                    String newPw2 = etNew2.getText().toString();
+                    if (!newPw.equals(newPw2)) {
+                        Toast.makeText(getContext(), "Şifreler eşleşmiyor", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // TODO: userService.changePassword(userId, oldPw, newPw) çağır
+                })
+                .setNegativeButton("İptal", null)
+                .show();
+    }
+
 
     // TODO: backendle bağlanması gerek. profile settingste change language e göre çıkan turlar otomatik filtrelenecek.
     private int getSavedLangIndex() {

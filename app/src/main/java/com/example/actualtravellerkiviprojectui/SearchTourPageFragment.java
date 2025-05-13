@@ -41,12 +41,14 @@ public class SearchTourPageFragment extends Fragment {
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
 
-    private RecyclerView rvTours, rvRecommended;
+    private final List<EventDTO> allTours = new ArrayList<>();
     private TextView recommendedTitle;
-    private TourAdapter mainAdapter, recommendedAdapter;
+    private final List<EventDTO> filteredTours = new ArrayList<>();
+    private final List<EventDTO> recommendedTours = new ArrayList<>();
+    private RecyclerView rvFiltered, rvRecommended;
+    private TourAdapter filteredAdapter;
+    private TourAdapter recommendedAdapter;
 
-    private List<EventDTO> allTours = new ArrayList<>();
-    private List<EventDTO> filteredTours = new ArrayList<>();
 
     private EditText etSearch;
     private Spinner spinnerFilter, spinnerSort;
@@ -60,82 +62,79 @@ public class SearchTourPageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle bs) {
         super.onViewCreated(view, bs);
-
+        initializeRecommendedTours();   // Önerilen tur listesi
+        initializeAllTours();
         // View binding
         etSearch = view.findViewById(R.id.etSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
         spinnerFilter = view.findViewById(R.id.spinnerFilter);
         spinnerSort = view.findViewById(R.id.spinnerSort);
-        rvTours = view.findViewById(R.id.rvTours);
+        rvFiltered = view.findViewById(R.id.rvTours);
         rvRecommended = view.findViewById(R.id.rvRecommendedTours);
         recommendedTitle = view.findViewById(R.id.recommendedTitle);
 
-        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(
-                requireContext(),
-                R.layout.spinner_item_background_brown,
-                new String[]{"All", "City", "Guide"}
-        );
+        ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_background_brown, new String[]{
+                "All", "City", "Guide"});
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilter.setAdapter(filterAdapter);
 
-        ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(
-                requireContext(),
-                R.layout.spinner_item_background_brown, // Seçili öğe
-                new String[]{"Date", "Popularity"}
-        );
+        ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_background_brown, // Seçili öğe
+                new String[]{"Date", "Popularity"});
         sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Açılır liste (normal)
         spinnerSort.setAdapter(sortAdapter);
 
 
-        // Normal tur listesi (dikey)
-        rvTours.setLayoutManager(new LinearLayoutManager(requireContext()));
-        mainAdapter = new TourAdapter(getContext(), filteredTours);
-        rvTours.setAdapter(mainAdapter);
+        // Searched tour view
+        filteredAdapter = new TourAdapter(getContext(), filteredTours);
+        rvFiltered.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        rvFiltered.setAdapter(filteredAdapter);
 
-        // Önerilen turlar listesi (dikey)
+        // Önerilen turlar listesi
+        recommendedAdapter = new TourAdapter(getContext(), recommendedTours);
         rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        recommendedAdapter = new TourAdapter(getContext(), new ArrayList<>());
         rvRecommended.setAdapter(recommendedAdapter);
 
         btnSearch.setOnClickListener(v -> applySearchFilterSort());
 
-        //loadTours();              // Normal tur listesi
-        loadRecommendedTours();   // Önerilen tur listesi
     }
 
     private void applySearchFilterSort() {
         String query = etSearch.getText().toString().trim().toLowerCase();
+        if (query.isEmpty()) {
+            showRecommended();
+            return;
+        }
         String filter = spinnerFilter.getSelectedItem().toString();
         String sortBy = spinnerSort.getSelectedItem().toString();
         // TODO: Use async
-        List<EventDTO> result =
-        allTours.stream()
-                .filter(t -> {
-                    if (query.isEmpty()) return true;
-
-                    switch (filter) {
-                        case "City":
-                            if (!t.locations.isEmpty()) {
-                                String locationTitle = t.locations.get(0).title;
-                                return locationTitle != null && locationTitle.toLowerCase().contains(query);
-                            }
-                            return false;
-
-                        case "Guide":
-                            if (t.ownerId == null) return false;
-                            UserDTO guide = null;
-                            try {
-                                guide = userService.getUser(t.ownerId).execute().body();
-                            } catch (IOException e) {
-                            }
-                            return (guide.username != null && guide.username.toLowerCase().contains(query)) || (guide.firstName != null && guide.firstName.toLowerCase().contains(query)) || (guide.lastName != null && guide.lastName.toLowerCase().contains(query));
-
-
-                        case "All":
-                        default:
-                            return t.name != null && t.name.toLowerCase().contains(query);
+        List<EventDTO> result = allTours.stream().filter(t -> {
+            switch (filter) {
+                case "City":
+                    if (!t.locations.isEmpty()) {
+                        String locationTitle = t.locations.get(0).title;
+                        return locationTitle != null && locationTitle.toLowerCase().contains(query);
                     }
-                }).collect(Collectors.toList());
+                    return false;
+
+                case "Guide":
+                    if (t.ownerId == null) return false;
+                    UserDTO guide = null;
+                    try {
+                        guide = userService.getUser(t.ownerId).execute().body();
+                    } catch (IOException e) {
+                    }
+                    return (guide.username != null &&
+                            guide.username.toLowerCase().contains(query)) ||
+                           (guide.firstName != null &&
+                            guide.firstName.toLowerCase().contains(query)) ||
+                           (guide.lastName != null && guide.lastName.toLowerCase().contains(query));
+
+
+                case "All":
+                default:
+                    return t.name != null && t.name.toLowerCase().contains(query);
+            }
+        }).collect(Collectors.toList());
 
         if (sortBy.equals("Date")) {
             result.sort(Comparator.comparing(t -> t.startDate));
@@ -145,44 +144,59 @@ public class SearchTourPageFragment extends Fragment {
 
         filteredTours.clear();
         filteredTours.addAll(result);
-        mainAdapter.notifyDataSetChanged();
+        filteredAdapter.notifyDataSetChanged();
+        showAllTours();
     }
 
 
-    private void loadTours() {
+    private void showRecommended() {
+        recommendedTitle.setVisibility(View.VISIBLE);
+        rvRecommended.setVisibility(View.VISIBLE);
+        rvFiltered.setVisibility(View.GONE);
+    }
+
+    private void showAllTours() {
+        recommendedTitle.setVisibility(View.GONE);
+        rvRecommended.setVisibility(View.GONE);
+        rvFiltered.setVisibility(View.VISIBLE);
+    }
+
+    private void initializeAllTours() {
+        if (!allTours.isEmpty()) {
+            return;
+        }
         eventService.getAllEvents().enqueue(new Callback<List<EventDTO>>() {
             @Override
             public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null &&
+                    !response.body().isEmpty()) {
                     allTours.clear();
                     allTours.addAll(response.body());
-
-                    // İlk görünümde hepsini göster
-                    filteredTours.clear();
                     filteredTours.addAll(allTours);
-                    mainAdapter.notifyDataSetChanged();
+                    filteredAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), "Turlar yüklenemedi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    private void loadRecommendedTours() {
+    private void initializeRecommendedTours() {
+        if (!recommendedTours.isEmpty()) {
+            return;
+        }
         eventService.getRecommendedTours().enqueue(new Callback<List<EventDTO>>() {
+
             @Override
             public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    List<EventDTO> recommended = response.body();
-                    recommendedAdapter = new TourAdapter(requireContext(), recommended);
-
-                    rvRecommended.setAdapter(recommendedAdapter);
-                    recommendedTitle.setVisibility(View.VISIBLE);
-                    rvRecommended.setVisibility(View.VISIBLE);
+                if (response.isSuccessful() && response.body() != null &&
+                    !response.body().isEmpty()) {
+                    recommendedTours.clear();
+                    recommendedTours.addAll(response.body());
+                    showRecommended();
                 }
             }
 

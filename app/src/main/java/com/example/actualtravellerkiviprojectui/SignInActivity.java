@@ -3,6 +3,7 @@ package com.example.actualtravellerkiviprojectui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,17 +26,27 @@ import retrofit2.Response;
 public class SignInActivity extends AppCompatActivity {
 
     private EditText emailEt, passwordEt;
+    private Button goToSignUpBtn;
+    Button signInBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        goToSignUpBtn = findViewById(R.id.goToSignUpBtn);
+        goToSignUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, CreateAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // View’lar
         emailEt = findViewById(R.id.emailEditText);
         passwordEt = findViewById(R.id.passwordEditText);
-        Button signInBtn = findViewById(R.id.signInBtn);
-        Button signUpBtn = findViewById(R.id.goToSignUpBtn);
+        signInBtn = findViewById(R.id.signInBtn);
         TextView forgotLink = findViewById(R.id.forgotPasswordTxt);
 
         // Sign-In
@@ -94,9 +105,6 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(this, "Demo: giriş başarılı!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Sign-Up (şimdilik sadece Toast)
-        signUpBtn.setOnClickListener(v -> Toast.makeText(this, "Sign-Up ekranı henüz yok", Toast.LENGTH_SHORT).show());
 
         // Forgot Password
         forgotLink.setOnClickListener(v -> startActivity(new Intent(this, RecoveryPasswordActivity.class)));

@@ -16,8 +16,10 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -29,9 +31,9 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
     private static final EventService eventService = ServiceLocator.getEventService();
 
     Context context;
-    ArrayList<SocialMediaPostModel> posts;
+    ArrayList<PostDTO> posts;
 
-    public Account_Page_Posts_RecyclerViewAdapter(Context context, ArrayList<SocialMediaPostModel> posts) {
+    public Account_Page_Posts_RecyclerViewAdapter(Context context, ArrayList<PostDTO> posts) {
         this.context = context;
         this.posts = posts;
     }
@@ -46,13 +48,17 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull Account_Page_Posts_RecyclerViewAdapter.postViewHolder holder, int position) {
-        holder.hastag.setText(String.join(", ", posts.get(position).getHashtags()));
-        holder.sharedDate.setText(posts.get(position).getSharedDate());
+        holder.hastag.setText(String.join(", ", posts.get(position).tags));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy"); // Örn: 13 May 2025
+        String formattedDate = posts.get(position).createdAt.format(formatter);
+        holder.sharedDate.setText(formattedDate);
 
         // ! Important example of setting ImageView objects
         NetworkModule.setImageViewFromCall(holder.imageView, postService.getPhoto(posts.get(position).postId), null);
 
-        holder.description.setText(posts.get(position).getPhotoDescription());
+        holder.description.setText(posts.get(position).body);
+
+        holder.likes.setText(posts.get(position).likeCount + " likes");
     }
 
     @Override
@@ -65,6 +71,7 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
         TextView hastag;
         TextView description;
         TextView sharedDate;
+        TextView likes;
 
         public postViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +80,7 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
             hastag = itemView.findViewById(R.id.postPlaceHastags);
             description = itemView.findViewById(R.id.postDescription);
             sharedDate = itemView.findViewById(R.id.PostSharedDate);
+            likes = itemView.findViewById(R.id.accountPagePostsLikeTextView);
         }
     }
 }
