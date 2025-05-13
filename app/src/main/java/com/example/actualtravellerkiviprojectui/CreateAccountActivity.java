@@ -6,12 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 /**
  * @author Güneş
  */
 public class CreateAccountActivity extends AppCompatActivity {
+    private RadioGroup radioGroup;
+    private UserDTO.UserType userType;
+    private RadioButton guideUserButton;
+    private RadioButton travelerUserButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +102,22 @@ public class CreateAccountActivity extends AppCompatActivity {
             TextView userPasswordAgainTextView = findViewById(R.id.PasswordAgainEditTextLabel);
             userPasswordAgainTextView.setTextColor(Color.RED);
             userPasswordAgainTextView.setText("Please enter the same password");
+        }
+
+        radioGroup = findViewById(R.id.userTypeRadioGroup);
+        guideUserButton = findViewById(R.id.GuideRadioButton);
+        travelerUserButton = findViewById(R.id.TravelerRadioButton);
+
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        if (selectedId < 0) {
+            valid = false;
+            Toast.makeText(this, "Choose account type.", Toast.LENGTH_SHORT).show();
+        } else {
+            if (guideUserButton.isSelected()) {
+                userType = UserDTO.UserType.GUIDE_USER;
+            } else {
+                userType = UserDTO.UserType.REGULAR_USER;
+            }
         }
 
         if (valid) {

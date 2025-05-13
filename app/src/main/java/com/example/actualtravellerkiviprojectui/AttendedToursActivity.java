@@ -143,16 +143,16 @@ public class AttendedToursActivity extends AppCompatActivity {
         testPlaceList2.add(testPlace2);
 
         UserDTO user1 = null;
-        try {
-            user1 = userService.getUser(1).execute().body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        UserDTO user2 = null;
-        try {
-            user2 = userService.getUser(2).execute().body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                user1 = userService.getUser(1).execute().body();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            UserDTO user2 = null;
+            try {
+                user2 = userService.getUser(2).execute().body();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
         }
         ArrayList<String> comments = new ArrayList<>();
         comments.add("It was nice.");

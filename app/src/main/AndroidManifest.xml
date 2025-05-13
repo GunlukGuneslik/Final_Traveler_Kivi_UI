@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActualTravellerKiviProjectUI"
         tools:targetApi="31">
-        <activity
-            android:name=".EditTourActivity"
-            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -37,6 +34,8 @@
         <activity
             android:name=".AddPostActivity"
             android:exported="false" />
+        <activity android:name=".EditTourActivity"
+            android:exported="false" />
         <activity
             android:name=".TourInformationPageActivity"
             android:exported="false" />
@@ -44,7 +43,7 @@
             android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".LaunchTourCatalogeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,16 +61,15 @@
             android:name=".UpcomingToursActivity"
             android:exported="false" />
         <activity
-            android:name=".ApplicationPagesActivity"
+            android:name=".SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".LaunchTourCatalogeActivity"
+            android:name=".ApplicationPagesActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomePageActivity"
             android:exported="false" /> <!-- Change the name in the activity block bellow this comment according to which activity you want to check on emulator -->
         <activity
-
             android:name=".LaunchTourCreateActivity"
             android:exported="false">
 

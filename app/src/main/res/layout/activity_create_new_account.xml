@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_green"
@@ -35,14 +36,13 @@
         android:id="@+id/SignInPageButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:onClick="SignInButtonClicked"
-        android:visibility="visible"
-        android:text="@string/Sign_in_button_tag"
         android:backgroundTint="@color/brown"
+        android:onClick="SignInButtonClicked"
+        android:text="@string/Sign_in_button_tag"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordAgain" />
+        app:layout_constraintTop_toBottomOf="@+id/userTypeRadioGroup" />
 
     <TextView
         android:id="@+id/UserNameEditTextLabel"
@@ -50,6 +50,7 @@
         android:layout_height="20dp"
         android:text="@string/enterUserNameLabelTag"
         android:textColor="@color/brown"
+        android:textStyle="bold"
         android:visibility="visible"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,6 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="@string/EnterEmailLabelTag"
+        android:textStyle="bold"
         android:textColor="@color/brown"
         android:visibility="visible"
         android:layout_marginTop="32dp"
@@ -104,6 +106,7 @@
         android:layout_height="20dp"
         android:text="@string/enterPasswordLabelTag"
         android:textColor="@color/brown"
+        android:textStyle="bold"
         android:visibility="visible"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,6 +134,7 @@
         android:text="@string/enterPasswordAgainLabelTag"
         android:textColor="@color/brown"
         android:layout_marginTop="32dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"/>
@@ -149,4 +153,33 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordAgainEditTextLabel" />
+
+    <RadioGroup
+        android:id="@+id/userTypeRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordAgain">
+            <RadioButton
+                android:id="@+id/TravelerRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Traveler"
+                android:layout_margin="8dp"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <RadioButton
+                android:id="@+id/GuideRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guide"
+                android:layout_margin="8dp"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+    </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

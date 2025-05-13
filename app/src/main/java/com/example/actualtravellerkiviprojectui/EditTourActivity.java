@@ -34,15 +34,22 @@ import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
+import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.state.UserState;
+import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
+import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -55,14 +62,15 @@ public class EditTourActivity extends AppCompatActivity {
 
     UserDTO currentUser;
     public EventDTO currentTour;
-    ArrayList<EventLocationDTO> locationList = new ArrayList<>(currentTour.locations);
+    public EventCreateDTO currentTourr;
+
     private LocalDateTime date;
     public String tourDescription;
     public String tourName;
     private String newName;
     private LocalDate newDate;
     private int newHour, newMinute;
-    private Uri newImageUri;
+    private Uri selectedImageUri;
     private String newDescription;
     private boolean isNameChanged = false;
     private boolean isDateChanged = false;
@@ -85,7 +93,7 @@ public class EditTourActivity extends AppCompatActivity {
     private Fragment[] fragments;
     private String name ;
 
-
+    ArrayList<EventLocationDTO> locationList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +104,7 @@ public class EditTourActivity extends AppCompatActivity {
         //current tour info pagede böyle almışız ondan böyle yazdım.
         try {
             currentTour = eventService.getEvent(getIntent().getIntExtra("tourId", -1)).execute().body();
+            locationList = new ArrayList<>(currentTour.locations);
         } catch (Exception e) {
             Log.w("event", "");
         }
@@ -167,7 +176,7 @@ public class EditTourActivity extends AppCompatActivity {
         });
 
         //TODO: datei yaptığımız gibi saatide burada göstereceğiz
-        selectTimeButton = findViewById(R.id.SelectTimeButton);
+        selectTimeButton = findViewById(R.id.EditTourPageSelectTimeButton);
         selectTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,39 +199,39 @@ public class EditTourActivity extends AppCompatActivity {
                     isDescriptionChanged=true;
                     tourDescription = (tourNameEditText).getText().toString().trim();
                 }
+                int year   = date.getYear();
+                int month  = date.getMonthValue();
+                int day    = date.getDayOfMonth();
+                int hour   = date.getHour();
+                int minute = date.getMinute();
                 if(isDateChanged)
                 {
-
+                    year  = date.getYear();
+                    month = date.getMonthValue();
+                    day   = date.getDayOfMonth();
                 }
                 if(isTimeChanged)
                 {
-
+                    hour   = date.getHour();
+                    minute = date.getMinute();
                 }
 
 
-                String desc = getTourDescription();
-                ArrayList<EventLocationDTO> places = getSelectedPlaces();
-                LocalDateTime tourDate = LocalDate.of(year, month, day);
-                //TODO: EFTELYA
-                String language = "English";
-                int popularity = 0;
-                double rate = 0;
-                UserDTO guide = new UserDTO(); // Test kullanıcısı
-                ArrayList<String> comments = new ArrayList<>();
+                try {
+                    Response<EventDTO> resp = eventService
+                            .updateEvent(currentTour.id, currentTourr)
+                            .execute();
+                    if (resp.isSuccessful()) {
+                        Toast.makeText(this, "Tur başarıyla güncellendi!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Sunucu hatası: " + resp.code(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    Toast.makeText(this, "Ağ hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                // ------------------------------------------------------
 
-                EventCreateDTO createdTour = new EventCreateDTO(
-                        currentUser.id,
-                        tourName,
-                        desc,
-                        tourDate,
-                        null,
-                        popularity,
-                        rate,
-                        language,
-                        places
-                );
-
-                Toast.makeText(this, "Tur değiştirildi: " + createdTour.name, Toast.LENGTH_SHORT).show();
+                // 6) Activity’yi kapat
                 finish();
             }
         });
