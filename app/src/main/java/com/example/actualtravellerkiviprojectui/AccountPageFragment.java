@@ -203,6 +203,10 @@ public class AccountPageFragment extends Fragment {
                         //@author Eftelya
                         showChangeLanguageDialog();
                         return true;
+                    case R.id.ChangePassword:
+                        showChangePasswordDialog();
+                        return true;
+
                 }
                 return false;
             });
@@ -310,6 +314,31 @@ public class AccountPageFragment extends Fragment {
                 .setNegativeButton("İptal", null)
                 .show();
     }
+    private void showChangePasswordDialog() {
+
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
+        EditText etOld = dialogView.findViewById(R.id.etOldPassword);
+        EditText etNew = dialogView.findViewById(R.id.etNewPassword);
+        EditText etNew2 = dialogView.findViewById(R.id.etConfirmNewPassword);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Change Password")
+                .setView(dialogView)
+                .setPositiveButton("Kaydet", (dlg, which) -> {
+                    String oldPw = etOld.getText().toString();
+                    String newPw = etNew.getText().toString();
+                    String newPw2 = etNew2.getText().toString();
+                    if (!newPw.equals(newPw2)) {
+                        Toast.makeText(getContext(), "Şifreler eşleşmiyor", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // TODO: userService.changePassword(userId, oldPw, newPw) çağır
+                })
+                .setNegativeButton("İptal", null)
+                .show();
+    }
+
 
     // TODO: backendle bağlanması gerek. profile settingste change language e göre çıkan turlar otomatik filtrelenecek.
     private int getSavedLangIndex() {

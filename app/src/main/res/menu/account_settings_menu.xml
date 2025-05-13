@@ -12,6 +12,10 @@
     <item android:id="@+id/ChangeLanguages"
         android:title="Change Languages">
     </item>
+    <item
+        android:id="@+id/ChangePassword"
+        android:title="Change Password" />
+
 
 
 </menu>
