@@ -53,9 +53,10 @@ public class EditTourActivity extends AppCompatActivity {
 
     UserDTO currentUser;
     public EventDTO currentTour;
+    ArrayList<EventLocationDTO> locationList = new ArrayList<>(currentTour.locations);
     public String tourDescription;
     public String tourName;
-    public ArrayList<EventLocationDTO> locationList;
+
 
     private EditText tourNameEditText;
     private Button returnButton;
@@ -67,6 +68,7 @@ public class EditTourActivity extends AppCompatActivity {
     private ImageView tourImageView;
     private int currentFragmentIndex = 0;
     private Fragment[] fragments;
+    private String name ;
 
 
     @Override
