@@ -1,11 +1,13 @@
 package com.example.actualtravellerkiviprojectui.api;
 
 
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventRatingCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventRatingDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventSkeletonDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
@@ -32,8 +34,8 @@ public interface EventService {
     /**
      * Creates new event.
      */
-    @POST("")
-    Call<EventDTO> createEvent(EventCreateDTO event);
+    @POST("api/events/")
+    Call<EventDTO> createEvent(@Body EventCreateDTO event);
 
     /**
      * Returns the list of all events.
@@ -75,19 +77,20 @@ public interface EventService {
     Call<List<EventDTO>> getOwnedEvents(@Path("userId") int userId);
 
     @GET("api/events/{eventId}/comments")
-    public Call<List<EventCommentDTO>> getEventComment(@Path("eventId") Integer eventId) ;
+    public Call<List<EventCommentDTO>> getEventComment(@Path("eventId") Integer eventId);
 
     @POST("api/events/{eventId}/comments")
-    public Call<EventCommentDTO> postEventComment(@Path("eventId") Integer eventId, @Body EventCommentDTO comment) ;
+    public Call<EventCommentDTO> postEventComment(@Path("eventId") Integer eventId, @Body EventCommentCreateDTO comment);
 
     @GET("api/events/{eventId}/ratings")
     public Call<List<EventRatingDTO>> getEventRatings(@Path("eventId") Integer eventId);
+
     @POST("api/events/{eventId}/ratings")
-    public Call<EventRatingDTO> postEventRating(@Path("eventId") Integer eventId, @Body EventRatingDTO rating);
+    public Call<EventRatingDTO> postEventRating(@Path("eventId") Integer eventId, @Body EventRatingCreateDTO rating);
 
     @GET("api/events/{eventId}/chat")
     public Call<List<EventCommentDTO>> getEventChatComments(@Path("eventId") Integer eventId);
-    
+
     @POST("api/events/{eventId}/chat")
     public Call<EventCommentDTO> postEventChatComment(@Path("eventId") Integer eventId, @Body EventCommentDTO comment);
 
@@ -147,6 +150,9 @@ public interface EventService {
     @GET("events/{eventId}/skeleton")
     Call<EventSkeletonDTO> getEventSkeleton(@Path("eventId") Integer eventId);
 
+    @GET("events/skeletons/{skeletonId")
+    Call<EventSkeletonDTO> getEventSkeletonById(@Path("skeletonId") Integer skeletonId);
+
     @GET("events/{eventId}/photo")
     @Streaming
     Call<ResponseBody> getPhoto(@Path("eventId") int eventId);
@@ -155,5 +161,6 @@ public interface EventService {
     @Multipart
     Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("image") MultipartBody.Part image);
 
-    Call<List<EventDTO>> getAttendedEvents(Integer id);
+    @GET("events/attended/{userId}")
+    Call<List<EventDTO>> getAttendedEvents(@Path("userId") Integer userId);
 }
