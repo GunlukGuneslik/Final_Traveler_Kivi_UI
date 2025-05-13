@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 
 import android.app.DatePickerDialog;
@@ -16,80 +17,67 @@ import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.actualtravellerkiviprojectui.api.EventService;
-import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * @author zeynep
- */
-
 public class EditTourActivity extends AppCompatActivity {
-    private static final UserService userService = ServiceLocator.getUserService();
-    private static final PostService postService = ServiceLocator.getPostService();
+    private static final UserService userService   = ServiceLocator.getUserService();
     private static final EventService eventService = ServiceLocator.getEventService();
 
-    UserDTO currentUser;
-    public EventDTO currentTour;
-    public EventCreateDTO currentTourr;
-
+    private UserDTO currentUser;
+    private EventDTO currentTour;
     private LocalDateTime date;
-    public String tourDescription;
-    public String tourName;
-    private String newName;
-    private LocalDate newDate;
-    private int newHour, newMinute;
+    private String tourName;
+     String tourDescription = "";
     private Uri selectedImageUri;
-    private String newDescription;
-    private boolean isNameChanged = false;
-    private boolean isDateChanged = false;
-    private boolean isTimeChanged = false;
+    private boolean isDateChanged  = false;
+    private boolean isTimeChanged  = false;
     private boolean isImageChanged = false;
-    private boolean isDescriptionChanged = false;
-    private boolean isPlacesChanged = false;
 
+    ArrayList<EventLocationDTO> locationList;
 
     private EditText tourNameEditText;
-    private EditText tourDescriptionText;
-    private EditText tourNotesText;
     private Button returnButton;
     private Button selectDateButton;
     private Button selectTimeButton;
-    private Uri TourImageUri;
-    private Button nextButton, backButton, saveButton;
+    private Button nextButton;
+    private Button backButton;
+    private Button saveButton;
     private ImageView tourImageView;
-    private int currentFragmentIndex = 0;
-    private Fragment[] fragments;
-    private String name ;
 
-    ArrayList<EventLocationDTO> locationList;
+    private Fragment[] fragments;
+    private int currentFragmentIndex = 0;
+
+    private final ActivityResultLauncher<Intent> imagePickerLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    selectedImageUri = result.getData().getData();
+                    tourImageView.setImageURI(selectedImageUri);
+                    isImageChanged = true;
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,55 +85,44 @@ public class EditTourActivity extends AppCompatActivity {
 
         currentUser = UserState.getUser(userService);
 
-        //current tour info pagede böyle almışız ondan böyle yazdım.
+        // 1) Load current tour
+        int tourId = getIntent().getIntExtra("tourId", -1);
         try {
-            currentTour = eventService.getEvent(getIntent().getIntExtra("tourId", -1)).execute().body();
-            locationList = new ArrayList<>(currentTour.locations);
+            currentTour = eventService.getEvent(tourId).execute().body();
         } catch (Exception e) {
-            Log.w("event", "");
+            Log.e("EditTourActivity", "Tur yüklenemedi", e);
+            Toast.makeText(this, "Tur bilgisi alınamadı", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
-
-        //test ediyorum
         if (currentTour == null) {
-            // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
-            Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT).show();
-            finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
+            Toast.makeText(this, "Tur bulunamadı", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
 
-        date = currentTour.startDate;
+        // 2) Initialize data
+        locationList = new ArrayList<>(currentTour.locations);
+        date         = currentTour.startDate;
 
-        returnButton = findViewById(R.id.EditTourPageReturnButton);
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        // 3) Bind views
+        returnButton     = findViewById(R.id.EditTourPageReturnButton);
+        nextButton       = findViewById(R.id.EditTourPageNextButton);
+        backButton       = findViewById(R.id.EditTourPageTurnButton);
+        saveButton       = findViewById(R.id.EditTourPageSaveButton);
+        selectDateButton = findViewById(R.id.EditTourPageSelectDateButton);
+        selectTimeButton = findViewById(R.id.EditTourPageSelectTimeButton);
+        tourNameEditText = findViewById(R.id.EditTourEnterTourNameTextView);
+        tourImageView    = findViewById(R.id.EditTourImageView);
+
+        // 4) Header actions
+        returnButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> {
+            if (currentFragmentIndex > 0) {
+                currentFragmentIndex--;
+                switchFragment();
             }
         });
-
-        nextButton = findViewById(R.id.EditTourPageNextButton);
-        backButton = findViewById(R.id.EditTourPageTurnButton);
-        saveButton = findViewById(R.id.EditTourPageSaveButton);
-        saveButton.setVisibility(INVISIBLE);
-
-        tourImageView = findViewById(R.id.EditTourImageView);
-        NetworkModule.setImageViewFromCall(tourImageView,eventService.getPhoto(currentTour.id),null);
-
-        backButton.setVisibility(View.GONE);
-        saveButton.setVisibility(View.GONE);
-
-        // Initialize fragments: Place -> Descriptions -> Notes
-        fragments = new Fragment[]{
-                new EditTourAddPlaceFragment(),
-                new EditTourAddPlaceDescriptionFragment(),
-                new EditTourNoteFragment()  // Add Notes fragment
-        };
-
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
-                .commit();
-
         nextButton.setOnClickListener(v -> {
             if (currentFragmentIndex < fragments.length - 1) {
                 currentFragmentIndex++;
@@ -153,86 +130,86 @@ public class EditTourActivity extends AppCompatActivity {
             }
         });
 
-        backButton.setOnClickListener(v -> {
-            if (currentFragmentIndex > 0) {
-                currentFragmentIndex--;
-                switchFragment();
-            }
+        // 5) Date & Time buttons
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        selectDateButton.setText(date.format(fmt));
+        selectTimeButton.setText(
+                String.format("%02d:%02d", date.getHour(), date.getMinute())
+        );
+        selectDateButton.setOnClickListener(v -> {
+            openDatePicker();
+            isDateChanged = true;
+        });
+        selectTimeButton.setOnClickListener(v -> {
+            openTimePicker();
+            isTimeChanged = true;
         });
 
-        selectDateButton = findViewById(R.id.EditTourPageSelectDateButton);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        selectDateButton.setText("Change: " + date.format(formatter));
-        selectDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-                isDateChanged= true;
-            }
+        // 6) Image loader & picker
+        NetworkModule.setImageViewFromCall(
+                tourImageView,
+                eventService.getPhoto(currentTour.id),
+                null
+        );
+        tourImageView.setOnClickListener(v -> {
+            Intent pick = new Intent(Intent.ACTION_PICK);
+            pick.setType("image/*");
+            imagePickerLauncher.launch(pick);
         });
 
-        //TODO: datei yaptığımız gibi saatide burada göstereceğiz
-        selectTimeButton = findViewById(R.id.EditTourPageSelectTimeButton);
-        selectTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openTimeDialog();
-                isTimeChanged = true;
-            }
-        });
+        // 7) Fragments container
+        fragments = new Fragment[] {
+                new EditTourAddPlaceFragment(),
+                new EditTourAddPlaceDescriptionFragment(),
+                new EditTourNoteFragment()
+        };
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayoutForEditTourPage, fragments[0])
+                .commit();
+        backButton.setVisibility(GONE);
+        saveButton.setVisibility(INVISIBLE);
 
-        tourNameEditText = findViewById(R.id.EditTourEnterTourNameTextView);
-
+        // 8) Save button logic
         saveButton.setOnClickListener(v -> {
-            if (!locationList.isEmpty()) {
-                if(tourNameEditText!= null)
-                {
-                    isNameChanged=true;
-                   tourName = (tourNameEditText).getText().toString().trim();
-                }
-                if(tourDescriptionText!= null)
-                {
-                    isDescriptionChanged=true;
-                    tourDescription = (tourNameEditText).getText().toString().trim();
-                }
-                int year   = date.getYear();
-                int month  = date.getMonthValue();
-                int day    = date.getDayOfMonth();
-                int hour   = date.getHour();
-                int minute = date.getMinute();
-                if(isDateChanged)
-                {
-                    year  = date.getYear();
-                    month = date.getMonthValue();
-                    day   = date.getDayOfMonth();
-                }
-                if(isTimeChanged)
-                {
-                    hour   = date.getHour();
-                    minute = date.getMinute();
-                }
+            tourName = tourNameEditText.getText().toString().trim();
 
+            // Create DTO
+            EventCreateDTO dto = new EventCreateDTO(
+                    currentUser.id,
+                    tourName,
+                    tourDescription,
+                    date,
+                    /* photoUri= */ null,
+                    /* popularity= */ 0,
+                    /* rate= */ 0.0,
+                    /* language= */ "English",
+                    locationList
+            );
 
-                try {
-                    Response<EventDTO> resp = eventService
-                            .updateEvent(currentTour.id, currentTourr)
-                            .execute();
-                    if (resp.isSuccessful()) {
-                        Toast.makeText(this, "Tur başarıyla güncellendi!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Sunucu hatası: " + resp.code(), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e) {
-                    Toast.makeText(this, "Ağ hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                // ------------------------------------------------------
-
-                // 6) Activity’yi kapat
-                finish();
-            }
+            // Asynchronous update
+            eventService.updateEvent(currentTour.id, dto)
+                    .enqueue(new Callback<EventDTO>() {
+                        @Override
+                        public void onResponse(Call<EventDTO> call, Response<EventDTO> resp) {
+                            if (resp.isSuccessful()) {
+                                Toast.makeText(EditTourActivity.this,
+                                        "Tur başarıyla güncellendi!",
+                                        Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else {
+                                Toast.makeText(EditTourActivity.this,
+                                        "Sunucu hatası: " + resp.code(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<EventDTO> call, Throwable t) {
+                            Toast.makeText(EditTourActivity.this,
+                                    "Ağ hatası: " + t.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
-
-        tourImageView.setOnClickListener(v -> selectTourImage());
     }
 
     private void switchFragment() {
@@ -240,75 +217,43 @@ public class EditTourActivity extends AppCompatActivity {
                 .replace(R.id.frameLayoutForEditTourPage, fragments[currentFragmentIndex])
                 .commit();
 
-        backButton.setVisibility(currentFragmentIndex > 0 ? View.VISIBLE : View.GONE);
-
-        if (currentFragmentIndex == fragments.length - 1 && !locationList.isEmpty()) {
-            nextButton.setVisibility(View.GONE);
-            saveButton.setVisibility(View.VISIBLE);
-        } else {
-            nextButton.setVisibility(View.VISIBLE);
-            saveButton.setVisibility(View.GONE);
-        }
+        backButton.setVisibility(currentFragmentIndex > 0 ? View.VISIBLE : GONE);
+        nextButton.setVisibility(
+                currentFragmentIndex < fragments.length - 1 ? View.VISIBLE : GONE
+        );
+        saveButton.setVisibility(
+                currentFragmentIndex == fragments.length - 1 ? View.VISIBLE : INVISIBLE
+        );
     }
 
-    private void selectTourImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        imagePickerLauncher.launch(intent);
+    private void openDatePicker() {
+        new DatePickerDialog(
+                this,
+                (view, y, m, d) -> {
+                    date = date.withYear(y).withMonth(m + 1).withDayOfMonth(d);
+                    selectDateButton.setText(String.format("%02d/%02d/%04d", d, m + 1, y));
+                },
+                date.getYear(),
+                date.getMonthValue() - 1,
+                date.getDayOfMonth()
+        ).show();
     }
 
-    private final ActivityResultLauncher<Intent> imagePickerLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    selectedImageUri = result.getData().getData();
-                    tourImageView.setImageURI(selectedImageUri);
-                }
-            });
-
-    public void updateTourDescription(String description) {
-        this.tourDescription = description;
+    private void openTimePicker() {
+        new TimePickerDialog(
+                this,
+                (view, h, min) -> {
+                    date = date.withHour(h).withMinute(min);
+                    selectTimeButton.setText(String.format("%02d:%02d", h, min));
+                },
+                date.getHour(),
+                date.getMinute(),
+                true
+        ).show();
     }
 
-    public String getTourDescription() {
-        return tourDescription;
-    }
-
-    public ArrayList<EventLocationDTO> getSelectedPlaces() {
-        return locationList;
-    }
-
-    private void openDialog() {
-        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
-                date = LocalDateTime.of(
-                        selectedYear,
-                        selectedMonth + 1,
-                        selectedDayOfMonth,
-                        date.getHour(),
-                        date.getMinute()
-                );
-                selectDateButton.setText(selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear);
-            }
-        }, date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
-        dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        dialog.show();
-    }
-
-    private void openTimeDialog() {
-        TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                date = LocalDateTime.of(
-                        date.getYear(),
-                        date.getMonth(),
-                        date.getDayOfMonth(),
-                        selectedHour,
-                        selectedMinute
-                );
-                selectTimeButton.setText(selectedHour + ":" + selectedMinute);
-            }
-        }, 12, 00, true);
-        dialog.show();
+    /** Called by fragments to pass back edited description */
+    public void updateTourDescription(String desc) {
+        this.tourDescription = desc;
     }
 }
