@@ -187,7 +187,7 @@ public class AccountPageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
-                    intent.putExtra("User", currentUser);
+                    intent.putExtra("userId", currentUser);
                     startActivity(intent);
                 }
             });
@@ -197,7 +197,7 @@ public class AccountPageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
-                    intent.putExtra("User", currentUser);
+                    intent.putExtra("User", currentUser.id);
                     startActivity(intent);
                 }
             });
