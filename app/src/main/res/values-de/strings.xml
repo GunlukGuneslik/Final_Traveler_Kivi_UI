@@ -17,6 +17,7 @@
     <string name="signINButtonTag">ANMELN</string>
     <string name="joinUsLabelTag">Mach mit!</string>
     <string name="createAccountButtonTag">Konto erstellen</string>
+    <string name="Noplaceisfound">Es wurde kein Ort gefunden</string>
 
     <string name="NoPlaceFoundWarning">Keine passende Tour gefunden.</string>
 
@@ -129,9 +130,4 @@
 
     <string name="label_tour_details_prefix">Tourdetails: %1$s</string>
     <string name="toast_error_fetching_tour_plan">Fehler beim Laden der Tour</string>
-
-
-
-
-
 </resources>
