@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
@@ -25,9 +26,9 @@ import java.util.ArrayList;
  */
 public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page extends RecyclerView.Adapter<Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder>{
     Context context;
-    ArrayList<Tour> tourList;
+    ArrayList<EventDTO> tourList;
 
-    public Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(Context context, ArrayList<Tour> tourList) {
+    public Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(Context context, ArrayList<EventDTO> tourList) {
         this.context = context;
         this.tourList = tourList;
     }
@@ -42,10 +43,10 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
 
     @Override
     public void onBindViewHolder(@NonNull Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder holder, int position) {
-        Tour currentTour = tourList.get(position);
-        UserDTO guide = currentTour.getGuide();
+        EventDTO currentTour = tourList.get(position);
+        int guideId = currentTour.ownerId;
 
-        holder.tourName.setText(currentTour.getTourName());
+        holder.tourName.setText(currentTour.name);
         //TODO : userlara fotoğraf eklenecek
         //holder.guidePhoto.setImageURI(guide.photo);
 
@@ -53,7 +54,7 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
-                intent.putExtra("tour", currentTour);
+                intent.putExtra("placeId", currentTour.id);
                 //intent.putExtra("user",currentUser);
                 v.getContext().startActivity(intent);
             }
@@ -77,7 +78,7 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
         }
     }
 
-    public void setFilteredList(ArrayList<Tour> filteredList){
+    public void setFilteredList(ArrayList<EventDTO> filteredList){
         this.tourList = filteredList;
         notifyDataSetChanged();
     }
