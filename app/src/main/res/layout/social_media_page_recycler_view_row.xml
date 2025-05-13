@@ -53,7 +53,7 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="PhotoDesciption"
@@ -65,7 +65,7 @@
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="300dp"
-                android:layout_height="229dp"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -90,12 +90,55 @@
                 android:layout_height="40dp"
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/light_brown"
-                android:drawableLeft="@android:drawable/ic_menu_add"
+                android:drawableLeft="@drawable/baseline_add_circle_outline_24"
                 android:text="Add to my tours"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calenderImage"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="1.0"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:backgroundTint="@color/light_brown"
+                android:drawableLeft="@drawable/baseline_edit_24"
+                android:text="Edit and Launch"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calenderImage"
+                app:layout_constraintVertical_bias="1.0"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:backgroundTint="@color/light_brown"
+                android:drawableLeft="@drawable/baseline_add_circle_24"
+                android:text="Remove from my tours"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calenderImage"
+                app:layout_constraintVertical_bias="1.0"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:backgroundTint="@color/light_brown"
+                android:drawableLeft="@drawable/baseline_edit_24"
+                android:text="Edit"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calenderImage"
+                app:layout_constraintVertical_bias="1.0"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/guideImageTourInformationPage"

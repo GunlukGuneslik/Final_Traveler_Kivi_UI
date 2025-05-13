@@ -26,6 +26,7 @@ import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  * @author zeynep
@@ -47,6 +48,8 @@ public class TourInformationPageActivity extends AppCompatActivity {
     private ImageView guideImage;
 
     Button buttonTourPlan, buttonMaps, buttonChat, buttonComments;
+
+    Button addToMyToursButton, removeFromMyToursButton, editButton, editAndLaunchButton;
 
     private Fragment mapsFragment;
     private Fragment tourPlanFragment;
@@ -75,7 +78,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
         });
 
         //@author Güneş
-
         try {
             currentTour = eventService.getEvent(getIntent().getIntExtra("tourId", -1)).execute().body();
         } catch (Exception e) {
@@ -139,6 +141,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         try {
             if (!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour)) {
                 buttonChat.setEnabled(false);
+                Toast.makeText(this, "You are not registered to the tour.", Toast.LENGTH_SHORT).show();
             } else {
                 buttonChat.setEnabled(true);
             }
@@ -146,7 +149,54 @@ public class TourInformationPageActivity extends AppCompatActivity {
             Toast.makeText(this, "Error getting the events", Toast.LENGTH_SHORT).show();
         }
 
-        Button addToMyToursButton = findViewById(R.id.button4);
+        addToMyToursButton = findViewById(R.id.button4);
+        removeFromMyToursButton = findViewById(R.id.button10);
+        editButton = findViewById(R.id.button9);
+        editAndLaunchButton = findViewById(R.id.button11);
+
+        LocalDate currentDate = LocalDate.now();
+
+        if (currentUser == guide) {
+            if(currentTour.startDate.compareTo(currentDate) < 0){
+                editAndLaunchButton.setVisibility(View.VISIBLE);
+            }
+            else{
+                editButton.setVisibility(View.VISIBLE);
+            }
+        } else {
+            try {
+                if (eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour) && currentTour.startDate.compareTo(currentDate) >= 0) {
+                    removeFromMyToursButton.setVisibility(View.VISIBLE);
+                } else {
+                    try {
+                        if (!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour) && currentTour.startDate.compareTo(currentDate) >= 0) {
+                            addToMyToursButton.setVisibility(View.VISIBLE);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //TODO
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TourInformationPageActivity.this, EditTourActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        editAndLaunchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TourInformationPageActivity.this, EditTourActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //eğer tarih geçmişsse button yok olmalı
         //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
         //     addToMyToursButton.setVisibility(View.GONE);
@@ -170,6 +220,28 @@ public class TourInformationPageActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
                 addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+            }
+        });
+
+        removeFromMyToursButton.setOnClickListener(v -> {
+            boolean isClicked = removeFromMyToursButton.getText().equals("Remove from my tours");
+            //current user turlarına eklenmeli burada
+            if (isClicked) {
+                removeFromMyToursButton.setText("Add to my tours");
+                try {
+                    eventService.getAttendedEvents(currentUser.id).execute().body().add(currentTour);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                removeFromMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+            } else {
+                removeFromMyToursButton.setText("Remove from my tours");
+                try {
+                    eventService.getAttendedEvents(currentUser.id).execute().body().remove(currentTour);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                removeFromMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
             }
         });
 
