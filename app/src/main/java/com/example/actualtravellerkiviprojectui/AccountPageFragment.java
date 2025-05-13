@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,6 +69,7 @@ public class AccountPageFragment extends Fragment {
     private Button settingsButton;
     private Button attendedToursButton;
     private Button upcomingToursButton;
+    private Button chooseLanguageButton;
 
     private LinearLayout launchTourWindowForGuideUsers;
 
@@ -150,7 +152,28 @@ public class AccountPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
-
+        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton );
+        chooseLanguageButton .setOnClickListener(v -> {
+            String[] languages = {"English", "Türkçe", "Deutsch"};
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Select Language")
+                    .setSingleChoiceItems(languages, -1, null)
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        int selected = ((AlertDialog) dialog).getListView()
+                                .getCheckedItemPosition();
+                        String lang = languages[selected];
+                        // Dil seçim bilgisini kaydet
+                        PreferenceManager.getDefaultSharedPreferences(requireContext())
+                                .edit()
+                                .putString("app_language", lang)
+                                .apply();
+                        Toast.makeText(getContext(),
+                                "Language set to " + lang,
+                                Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
         launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
         if (currentUser.userType != UserDTO.UserType.GUIDE_USER) {
             //TODO: burası test edilecek eğer düzgün durmuyorsa telefonda gone yerine invisible yapılacak!
@@ -175,6 +198,8 @@ public class AccountPageFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+            chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
+            chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
         }
 
         profilePhoto = view.findViewById(R.id.userProfilePhoto);
