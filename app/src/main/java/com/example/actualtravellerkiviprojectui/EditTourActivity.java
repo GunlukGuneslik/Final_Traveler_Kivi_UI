@@ -49,6 +49,7 @@ public class EditTourActivity extends AppCompatActivity {
     private static final UserService userService = ServiceLocator.getUserService();
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
+
     UserDTO currentUser;
     private EventDTO currentTour;
     private EditText tourNameEditText;
@@ -113,6 +114,7 @@ public class EditTourActivity extends AppCompatActivity {
                 new EditTourAddPlaceDescriptionFragment(),
                 new EditTourNoteFragment()  // Add Notes fragment
         };
+
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
