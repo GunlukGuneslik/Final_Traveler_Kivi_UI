@@ -1,6 +1,7 @@
 package com.example.actualtravellerkiviprojectui.dto.Event;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class EventCreateDTO {
     public EventDTO.EventType eventType;
     public String name;
     public String details;
-    public LocalDate startDate;
+    public LocalDateTime startDate;
     public double rate;
     public int popularity;
     public String language;
@@ -31,7 +32,7 @@ public class EventCreateDTO {
 
     public List<EventLocationDTO> locations = new ArrayList<>();
 
-    public EventCreateDTO(Integer ownerId, String name, String details, LocalDate startDate, Integer skeletonId, int popularity,
+    public EventCreateDTO(Integer ownerId, String name, String details, LocalDateTime startDate, Integer skeletonId, int popularity,
                           double rate, String language, List<EventLocationDTO> locations) {
         this.ownerId = ownerId;
         this.name = name;
