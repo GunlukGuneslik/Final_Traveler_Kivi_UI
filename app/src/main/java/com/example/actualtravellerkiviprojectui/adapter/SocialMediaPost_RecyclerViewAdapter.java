@@ -22,10 +22,12 @@ import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -61,34 +63,48 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
     @Override
     public void onBindViewHolder(@NonNull SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder holder, int position) {
         PostDTO socialMediaPostModel = socialMediaPostModels.get(position);
-        UserDTO owner;
-        try {
-            owner = userService.getUser(socialMediaPostModel.userId).execute().body();
-        } catch (IOException e) {
-            return;
-        }
 
-        List<UserDTO> likers;
-        try {
-            likers = postService.likers(socialMediaPostModel.postId).execute().body();
-        } catch (IOException e) {
-            return;
-        }
+        userService.getUser(socialMediaPostModel.userId).enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                UserDTO owner = response.body();
+                Response<UserDTO> response1 = response;
+                postService.likers(socialMediaPostModel.postId).enqueue(new Callback<List<UserDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<UserDTO>> call, Response<List<UserDTO>> response) {
+                        UserDTO owner = response1.body();
+                        holder.textViewUserName.setText(owner.username);
+                        holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
+                        holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
+                        holder.textViewLikes.setText(socialMediaPostModel.likeCount + " likes");
+                        NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
+                        NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(socialMediaPostModel.postId), null);
+                        holder.filledHeartButton.setVisibility(View.GONE);
+                        if (response.body().contains(UserState.getUser(userService))) {
+                            holder.filledHeartButton.setVisibility(View.VISIBLE);
+                            holder.heartButton.setVisibility(View.GONE);
+                        } else {
+                            holder.heartButton.setVisibility(View.VISIBLE);
+                        }
+                    }
 
-        holder.textViewUserName.setText(owner.username);
-        holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
-        holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
-        holder.textViewLikes.setText(socialMediaPostModel.likeCount + " likes");
-        NetworkModule.setImageViewFromCall(holder.profileImageView,userService.getAvatar(owner.id), null);
-        NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(socialMediaPostModel.postId), null);
-        holder.filledHeartButton.setVisibility(View.GONE);
-        if (likers.contains(UserState.getUser(userService))){
-            holder.filledHeartButton.setVisibility(View.VISIBLE);
-            holder.heartButton.setVisibility(View.GONE);
-        }
-        else{
-            holder.heartButton.setVisibility(View.VISIBLE);
-        }
+                    @Override
+                    public void onFailure(Call<List<UserDTO>> call, Throwable throwable) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable throwable) {
+
+            }
+        });
+
+
+
+
+
 
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override

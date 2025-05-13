@@ -41,7 +41,6 @@ import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -65,7 +64,6 @@ public class AccountPageFragment extends Fragment {
     private RecyclerView recyclerView;
     private Account_Page_Posts_RecyclerViewAdapter adapter;
 
-    private UserDTO currentUser;
     private int userProfilePhoto;
     private String userName;
     private ImageView profilePhoto;
@@ -121,19 +119,6 @@ public class AccountPageFragment extends Fragment {
                 .getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
 
         Log.e("ERROR", UserState.getUserId().toString());
-        // 2) API’dan currentUser’ı çekiyor
-        userService.getUser(UserState.getUserId()).enqueue(new Callback<UserDTO>() {
-            @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<UserDTO> call, Throwable throwable) {
-
-            }
-        });
-
 
 
 
@@ -187,32 +172,41 @@ public class AccountPageFragment extends Fragment {
                     .show();
         });
         launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
-        if (currentUser.userType != UserDTO.UserType.GUIDE_USER) {
-            //TODO: burası test edilecek eğer düzgün durmuyorsa telefonda gone yerine invisible yapılacak!
-            launchTourWindowForGuideUsers.setVisibility(GONE);
-        } else {
-            catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
-            catalogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
-                    intent.putExtra("userId", currentUser);
-                    startActivity(intent);
-                }
-            });
+        userService.getUser(UserState.getUserId()).enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                if (response.isSuccessful() &&
+                    response.body().userType != UserDTO.UserType.GUIDE_USER) {
+                    launchTourWindowForGuideUsers.setVisibility(GONE);
+                } else {
+                    catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
+                    catalogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
+                            startActivity(intent);
+                        }
+                    });
 
-            createButton = view.findViewById(R.id.launchTourWindowCreateButton);
-            createButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
-                    intent.putExtra("User", currentUser.id);
-                    startActivity(intent);
+                    createButton = view.findViewById(R.id.launchTourWindowCreateButton);
+                    createButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
+                    chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
+
                 }
-            });
-            chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
-            chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
-        }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable throwable) {
+
+            }
+        });
 
         profilePhoto = view.findViewById(R.id.userProfilePhoto);
         // profilePhoto.setImageResource(userProfilePhoto);
@@ -336,29 +330,28 @@ public class AccountPageFragment extends Fragment {
         resultLauncher.launch(intent);
     }
 
-    //TODO: Complete this method. Will add callback and fail methods
-    private UserDTO getCurrentUser() throws IOException {
-        return userService.getUser(UserState.getUserId()).execute().body();
-    }
+
 
 
     //TODO: is this a good place for this method? ofcouse not! iğ changed it but i don not understand it. Just copy paste from chatgpt.
     private void fillSocialMediaPosts() {
-        new Thread(() -> {
-            try {
-                List<PostDTO> fetchedPosts = postService.fetchFeed(0, 1, 100, "").execute().body().content;
-                requireActivity().runOnUiThread(() -> {
-                    posts.clear();
-                    posts.addAll(fetchedPosts);
-                    adapter.notifyDataSetChanged(); // RecyclerView güncellensin
-                });
-            } catch (IOException e) {
-                Log.e("retrofit", "Error fetching feed", e);
-                requireActivity().runOnUiThread(() ->
-                        Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show()
-                );
+        postService.fetchAllPosts().enqueue(new Callback<List<PostDTO>>() {
+            @Override
+            public void onResponse(Call<List<PostDTO>> call, Response<List<PostDTO>> response) {
+                if (response.isSuccessful() && response.body() == null) {
+                    return;
+                }
+                posts.clear();
+                posts.addAll(response.body());
+                adapter.notifyDataSetChanged(); // RecyclerView güncellensin
             }
-        }).start();
+
+            @Override
+            public void onFailure(Call<List<PostDTO>> call, Throwable throwable) {
+                Log.e("retrofit", "Error fetching feed", throwable);
+                Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // --- Change Name Dialog ---@author:Eftelya
