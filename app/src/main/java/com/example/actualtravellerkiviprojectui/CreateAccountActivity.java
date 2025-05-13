@@ -77,7 +77,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (userPassword.equals(userPasswordAgain)) {
             TextView userPasswordAgainTextView = findViewById(R.id.PasswordAgainEditTextLabel);
             userPasswordAgainTextView.setTextColor(Color.BLACK);
-            userPasswordAgainTextView.setText("Enter Your Password Again");
+            userPasswordAgainTextView.setText(R.string.label_enter_password_again);
 
             if (! userPasswordValidation(userPassword)) {
                 valid = false;
@@ -101,7 +101,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             TextView userPasswordAgainTextView = findViewById(R.id.PasswordAgainEditTextLabel);
             userPasswordAgainTextView.setTextColor(Color.RED);
-            userPasswordAgainTextView.setText("Please enter the same password");
+            userPasswordAgainTextView.setText(R.string.error_passwords_do_not_match);
         }
 
         radioGroup = findViewById(R.id.userTypeRadioGroup);
@@ -111,7 +111,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         int selectedId = radioGroup.getCheckedRadioButtonId();
         if (selectedId < 0) {
             valid = false;
-            Toast.makeText(this, "Choose account type.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_choose_account_type, Toast.LENGTH_SHORT).show();
         } else {
             if (guideUserButton.isSelected()) {
                 userType = UserDTO.UserType.GUIDE_USER;

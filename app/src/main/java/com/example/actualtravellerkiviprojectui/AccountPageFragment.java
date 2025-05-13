@@ -274,40 +274,40 @@ public class AccountPageFragment extends Fragment {
         postCreateBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Post Create Badge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.PostCreateBadge, Toast.LENGTH_SHORT).show();
             }
         });
 
         eventJoinBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Event Join Badge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.EventJoinBadge, Toast.LENGTH_SHORT).show();
             }
         });
 
         eventCreateBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Event Create Badge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.PostCreateBadge, Toast.LENGTH_SHORT).show();
             }
         });
 
         commentWriteBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Comment Write Badge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.CommentWriteBadge, Toast.LENGTH_SHORT).show();
             }
         });
         imageUploadBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Image Upload Badge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.ImageUploadBadge, Toast.LENGTH_SHORT).show();
             }
         });
         likeReceiveBadge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Like Receive Badge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.LikeReceiveBadge, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -355,20 +355,20 @@ public class AccountPageFragment extends Fragment {
     // --- Change Name Dialog ---@author:Eftelya
     private void showChangeNameDialog() {
         final EditText input = new EditText(requireContext());
-        input.setHint("Yeni isminiz");
+        input.setHint(R.string.NewName);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Change Name")
+                .setTitle(R.string.ChangeName)
                 .setView(input)
-                .setPositiveButton("Kaydet", (dlg, which) -> {
+                .setPositiveButton(R.string.Save, (dlg, which) -> {
                     String yeniIsim = input.getText().toString().trim();
                     prefs.edit()
                             .putString("username", yeniIsim)
                             .apply();
                     userProfileName.setText(yeniIsim);
-                    Toast.makeText(getContext(), "İsim güncellendi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.NameUpdated, Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("İptal", null)
+                .setNegativeButton(R.string.Cancel, null)
                 .show();
     }
 
@@ -380,18 +380,18 @@ public class AccountPageFragment extends Fragment {
         int checkedItem = getSavedLangIndex();
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Select Language")
+                .setTitle(R.string.SelectLanguage)
                 .setSingleChoiceItems(labels, checkedItem, (dlg, which) -> {
 
                     prefs.edit()
                             .putString("lang", codes[which])
                             .apply();
                 })
-                .setPositiveButton("Uygula", (dlg, which) -> {
+                .setPositiveButton(R.string.Apply, (dlg, which) -> {
                     String lang = prefs.getString("lang", "en");
                     applyLocale(lang);
                 })
-                .setNegativeButton("İptal", null)
+                .setNegativeButton(R.string.Cancel, null)
                 .show();
     }
     private void showChangePasswordDialog() {
@@ -403,19 +403,19 @@ public class AccountPageFragment extends Fragment {
         EditText etNew2 = dialogView.findViewById(R.id.etConfirmNewPassword);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Change Password")
+                .setTitle(R.string.ChangePassword)
                 .setView(dialogView)
-                .setPositiveButton("Kaydet", (dlg, which) -> {
+                .setPositiveButton(R.string.Save, (dlg, which) -> {
                     String oldPw = etOld.getText().toString();
                     String newPw = etNew.getText().toString();
                     String newPw2 = etNew2.getText().toString();
                     if (!newPw.equals(newPw2)) {
-                        Toast.makeText(getContext(), "Şifreler eşleşmiyor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.PasswordsDontMatch, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     // TODO: userService.changePassword(userId, oldPw, newPw) çağır
                 })
-                .setNegativeButton("İptal", null)
+                .setNegativeButton(R.string.Cancel, null)
                 .show();
     }
 

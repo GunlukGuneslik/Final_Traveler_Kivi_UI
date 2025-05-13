@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_a_New_Account_Page_Tag">Yeni Hesap Oluştur</string>
+    <string name="Sign_in_button_tag">GİRİŞ YAP</string>
+    <string name="enterUserNameLabelTag">Kullanıcı Adı Girin</string>
+    <string name="enterUserNameHint">Kullanıcı Adı</string>
+    <string name="EnterEmailLabelTag">E-Posta Adresinizi Girin</string>
+    <string name="enterEmailHint">e-posta</string>
+    <string name="enterPasswordLabelTag">Şifrenizi Girin</string>
+    <string name="PasswordHint">Şifre</string>
+    <string name="enterPasswordAgainLabelTag">Şifrenizi Tekrar Girin</string>
+
+    <string name="welcomeLabelTag">Traveller Kiviye Hoş Geldiniz</string>
+    <string name="everythingIsReadyForYouLabelTag">Her Şey Sizin İçin Hazır</string>
+    <string name="exploreTheWorldLabelTag">Dünyayı Keşfet!</string>
+    <string name="doYouHaveAccountLabelTag">Hesabınız Var Mı?</string>
+    <string name="signINButtonTag">GİRİŞ YAP</string>
+    <string name="joinUsLabelTag">Bize Katılın</string>
+    <string name="createAccountButtonTag">Hesap Oluştur</string>
+
+    <string name="NoPlaceFoundWarning">Eşleşen tur bulunamadı.</string>
+
+    <string-array name="userNames">
+        <item>Helena</item>
+        <item>Ben</item>
+        <item>Jane</item>
+        <item>Joe</item>
+        <item>Zeynep</item>
+    </string-array>
+
+    <string-array name="photoDescriptions">
+        <item>Ankara için başka bir tur bekliyorum.</item>
+        <item>Güzel bir deneyimdi!</item>
+        <item>Deniz yoktu. Sevmedim.</item>
+        <item>Güzel bir yer!</item>
+        <item>Görüşürüz Ankara.</item>
+    </string-array>
+
+    <string-array name="hashtags">
+        <item>#anitkabir</item>
+        <item>#kizilay</item>
+        <item>#eymir</item>
+        <item>#ankarakalesi</item>
+        <item>#kelimemuzesi</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Merhaba boş fragment</string>
+    <string name="kivi_api_url">https://kivi.local:45976/</string>
+
+    <string name="PostCreateBadge">Gönderi Oluşturma Rozeti</string>
+    <string name="EventJoinBadge">Etkinliğe Katılma Rozeti</string>
+    <string name="EventCreateBadge">Etkinlik Oluşturma Rozeti</string>
+    <string name="CommentWriteBadge">Yorum Yazma Rozeti</string>
+    <string name="ImageUploadBadge">Resim Yükleme Rozeti</string>
+    <string name="LikeReceiveBadge">Beğeni Alma Rozeti</string>
+
+    <string name="NewName">Yeni isminiz</string>
+    <string name="ChangeName">İsmi Değiştir</string>
+    <string name="Save">Kaydet</string>
+
+    <string name="NameUpdated">İsim Güncellendi</string>
+    <string name="Cancel">İptal</string>
+
+    <string name="SelectLanguage">Dil Seç</string>
+    <string name="Apply">Uygula</string>
+    <string name="ChangePassword">Şifre Değiştir</string>
+
+    <string name="PasswordsDontMatch">Şifreler Uyuşmuyor</string>
+
+    <!-- AddPostActivity -->
+    <string name="toast_post_shared">Gönderi başarıyla paylaşıldı!</string>
+    <string name="toast_post_server_error">Sunucu hatası: %s</string>
+
+    <!-- CreateAccountActivity -->
+    <string name="toast_choose_account_type">Hesap türü seçiniz.</string>
+    <string name="error_invalid_username">Kullanıcı adı özel karakter içeremez. örn: ? / ; .</string>
+    <string name="error_invalid_email">Geçersiz e-posta adresi.</string>
+    <string name="label_enter_password_again">Şifrenizi tekrar girin</string>
+    <string name="error_passwords_do_not_match">Lütfen aynı şifreyi girin.</string>
+
+    <!-- AttendedToursActivity -->
+    <string name="toast_no_matching_tours">Eşleşen tur bulunamadı.</string>
+
+    <!-- EditTourActivity -->
+    <string name="toast_tour_load_error">Hata: Tur bilgisi alınamadı.</string>
+    <string name="toast_tour_not_found">Tur bulunamadı</string>
+    <string name="toast_tour_fetch_error">Tur bilgisi yüklenemedi</string>
+    <string name="toast_tour_updated">Tur başarıyla güncellendi!</string>
+    <string name="NetworkError">Ağ Hatası</string>
+
+    <!-- MapPageFragment -->
+    <string name="toast_no_place_found">Yer bulunamadı</string>
+
+    <!-- LaunchTourCreateActivity -->
+    <string name="toast_tour_created">Tur oluşturuldu: %1$s</string>
+
+    <!-- RecoveryPasswordActivity -->
+    <string name="toast_email_empty">E-posta alanı boş olamaz</string>
+    <string name="toast_reset_link_demo">Demo: sıfırlama bağlantısı gönderilecek → %1$s</string>
+    <string name="toast_user_not_found">Bu e-posta ile eşleşen kullanıcı yok</string>
+    <string name="toast_recovery_server_error">Sunucu hatası: kullanıcılar alınamadı</string>
+    <string name="toast_recovery_failure">Sunucu hatası</string>
+
+    <!-- SearchTourPageFragment -->
+    <string name="toast_tours_fetch_error">Turlar alınamadı</string>
+    <string name="toast_recommended_fetch_error">Önerilen turlar alınamadı</string>
+
+    <string name="Emailcannotbeblank">E-posta boş olamaz</string>
+    <string name="Resetemailsended">Sıfırlama e-postası gönderildi</string>
+    <string name="Therearenousersmatchingthisemailaddress">Bu e-posta ile eşleşen kullanıcı yok</string>
+    <string name="Servererrorunabletoretrieveusers">Sunucu hatası: kullanıcılar alınamadı</string>
+    <string name="Servererror">Sunucu hatası</string>
+    <string name="Recommendedtoursnotavailable">Önerilen turlar mevcut değil</string>
+    <string name="Demoresetlinkissended">Demo: sıfırlama bağlantısı gönderildi → </string>
+    <string name="Tourscouldnotbeaccessed">Turlara erişilemedi</string>
+
+    <!-- SignInActivity -->
+    <string name="signin_fill_all_info">Lütfen tüm bilgileri doldurun</string>
+    <string name="signin_user_not_found">Kullanıcı bulunamadı</string>
+    <string name="signin_wrong_password">Yanlış şifre</string>
+    <string name="signin_server_error">Sunucu hatası</string>
+    <string name="signin_fill_all_fields">Lütfen tüm alanları doldurun</string>
+    <string name="signin_demo_success">Demo: giriş başarılı!</string>
+
+    <!-- SocialMediaFragment -->
+    <string name="search_hint">#...</string>
+    <string name="toast_no_post_with_hashtag">Girilen etiketle gönderi bulunamadı</string>
+    <string name="snackbar_error_fetching_tour">Tur yüklenirken hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="retry">Yeniden Dene</string>
+
+    <!-- TourInformationPageActivity -->
+    <string name="toast_tour_info_not_available">Hata: Tur bilgisi mevcut değil.</string>
+    <string name="toast_not_registered">Tura kayıtlı değilsiniz.</string>
+    <string name="toast_error_getting_events">Etkinlikler alınırken hata oluştu</string>
+    <string name="toast_guide_load_error">Hata: Rehber alınamadı.</string>
+    <string name="label_language_prefix">Dil: %1$s</string>
+    <string name="label_rate_prefix">Puan: %1$s</string>
+    <string name="button_add_to_my_tours">Turlarıma ekle</string>
+    <string name="button_remove_from_my_tours">Turlarımdan çıkar</string>
+
+    <!-- TourPlanFragment -->
+    <string name="label_tour_details_prefix">Tur Detayları: %1$s</string>
+    <string name="toast_error_fetching_tour_plan">Tur yüklenirken hata oluştu</string>
+
+    <!-- UpcomingToursActivity -->
+
+
+
+
+
+</resources>

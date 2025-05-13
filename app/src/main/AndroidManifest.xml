@@ -40,10 +40,10 @@
             android:name=".TourInformationPageActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name=".LaunchTourCatalogeActivity"
             android:exported="false" />
         <activity
-            android:name=".LaunchTourCatalogeActivity"
+            android:name=".CreateAccountActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

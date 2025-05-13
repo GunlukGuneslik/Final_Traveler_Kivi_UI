@@ -112,7 +112,7 @@ public class EditTourActivity extends AppCompatActivity {
         //test ediyorum
         if (currentTour == null) {
             // Hata mesajı göster veya kullanıcıyı bir hata sayfasına yönlendir.
-            Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_tour_load_error, Toast.LENGTH_SHORT).show();
             finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
             return;
         }
@@ -222,12 +222,12 @@ public class EditTourActivity extends AppCompatActivity {
                             .updateEvent(currentTour.id, currentTourr)
                             .execute();
                     if (resp.isSuccessful()) {
-                        Toast.makeText(this, "Tur başarıyla güncellendi!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.toast_tour_updated, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Sunucu hatası: " + resp.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.toast_recovery_failure + resp.code(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (IOException e) {
-                    Toast.makeText(this, "Ağ hatası: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.NetworkError  + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 // ------------------------------------------------------
 

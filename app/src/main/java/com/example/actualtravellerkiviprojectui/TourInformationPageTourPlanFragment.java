@@ -83,7 +83,7 @@ public class TourInformationPageTourPlanFragment extends Fragment {
             return null;
         }
         tourDetails = view.findViewById(R.id.textView17);
-        tourDetails.setText("Tour Details: " + currentTour.details);
+        tourDetails.setText(R.string.label_tour_details_prefix + currentTour.details);
         places = currentTour.locations;
         adapter = new TourPlan_RecyclerViewAdapter(getContext(), places, this);
         recyclerView.setAdapter(adapter);
@@ -92,7 +92,7 @@ public class TourInformationPageTourPlanFragment extends Fragment {
     }
 
     private void cleanUp(Throwable t) {
-        Toast.makeText(getContext(), "Error fetching the tour", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.toast_error_fetching_tour_plan, Toast.LENGTH_SHORT).show();
         // Ensure the fragment is still attached to the activity before calling finish
         if (isAdded() && getActivity() != null) {
             // Return to the previous activity

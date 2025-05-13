@@ -56,53 +56,53 @@ public class SignInActivity extends AppCompatActivity {
             String password = passwordEt.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Fill all the information", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.signin_fill_all_info, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             UserService userService = ServiceLocator.getUserService();
 
             userService.getUserByEmail(email).enqueue(new Callback<UserDTO>() {
-                                                          @Override
-                                                          public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                                                              UserDTO user = response.body();
-                                                              if (!response.isSuccessful() && user == null) {
-                                                                  Toast.makeText(SignInActivity.this, "User not found", Toast.LENGTH_SHORT).show();
-                                                              }
-                                                              userService.checkPassword(user.id, password).enqueue(new retrofit2.Callback<Boolean>() {
-                                                                  @Override
-                                                                  public void onResponse(retrofit2.Call<Boolean> call, retrofit2.Response<Boolean> response) {
-                                                                      if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
-                                                                          UserState.setUserId(user.id);
-                                                                          startActivity(new Intent(SignInActivity.this, ApplicationPagesActivity.class));
-                                                                          finish();
-                                                                      } else {
-                                                                          Toast.makeText(SignInActivity.this, "Şifre yanlış", Toast.LENGTH_SHORT).show();
-                                                                      }
-                                                                  }
+  @Override
+  public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+      UserDTO user = response.body();
+      if (!response.isSuccessful() && user == null) {
+          Toast.makeText(SignInActivity.this, R.string.signin_user_not_found, Toast.LENGTH_SHORT).show();
+      }
+      userService.checkPassword(user.id, password).enqueue(new retrofit2.Callback<Boolean>() {
+          @Override
+          public void onResponse(retrofit2.Call<Boolean> call, retrofit2.Response<Boolean> response) {
+              if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
+                  UserState.setUserId(user.id);
+                  startActivity(new Intent(SignInActivity.this, ApplicationPagesActivity.class));
+                  finish();
+              } else {
+                  Toast.makeText(SignInActivity.this, R.string.signin_wrong_password, Toast.LENGTH_SHORT).show();
+              }
+          }
 
-                                                                  @Override
-                                                                  public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
-                                                                      Toast.makeText(SignInActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
-                                                                  }
-                                                              });
-                                                          }
+          @Override
+          public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
+              Toast.makeText(SignInActivity.this, R.string.signin_server_error, Toast.LENGTH_SHORT).show();
+          }
+      });
+  }
 
-                                                          @Override
-                                                          public void onFailure(Call<UserDTO> call, Throwable throwable) {
-                                                              Toast.makeText(SignInActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
+  @Override
+  public void onFailure(Call<UserDTO> call, Throwable throwable) {
+      Toast.makeText(SignInActivity.this, R.string.signin_server_error, Toast.LENGTH_SHORT).show();
 
-                                                          }
-                                                      }
+  }
+}
 
             );
 
 
             if (emailEt.getText().toString().isEmpty() ||
                 passwordEt.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Lütfen tüm alanları doldur", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.signin_fill_all_fields, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Demo: giriş başarılı!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.signin_demo_success, Toast.LENGTH_SHORT).show();
             }
         });
 

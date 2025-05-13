@@ -49,4 +49,113 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kivi_api_url">https://kivi.local:45976/</string>
 
+    <string name="PostCreateBadge">Post Create Badge</string>
+    <string name="EventJoinBadge">Event Join Badge</string>
+    <string name="EventCreateBadge">Event Create Badge</string>
+    <string name="CommentWriteBadge">Comment Write Badge</string>
+    <string name="ImageUploadBadge">Image Upload Badge</string>
+    <string name="LikeReceiveBadge">Like Receive Badge</string>
+
+    <string name="NewName">Yeni isminiz</string>
+    <string name="ChangeName">"Change Name"</string>
+    <string name="Save">Save</string>
+
+
+    <string name="NameUpdated">Name Updated</string>
+    <string name="Cancel">Cancel</string>
+
+    <string name="SelectLanguage">Select Language</string>
+    <string name="Apply">Apply</string>
+    <string name="ChangePassword">Change Password</string>
+
+    <string name="PasswordsDontMatch">Passwords Dont Match</string>
+
+
+        <!-- AddPostActivity -->
+        <string name="toast_post_shared">Post shared successfully!</string>
+        <string name="toast_post_server_error">Server error: %s</string>
+
+        <!-- CreateAccountActivity -->
+        <string name="toast_choose_account_type">Choose account type.</string>
+        <string name="error_invalid_username">User name cannot have special characters. ex: ? / ; .</string>
+        <string name="error_invalid_email">Invalid email address.</string>
+        <string name="label_enter_password_again">Enter your password again</string>
+        <string name="error_passwords_do_not_match">Please enter the same password.</string>
+
+        <!-- AttendedToursActivity -->
+        <string name="toast_no_matching_tours">No matching tours found.</string>
+
+
+        <!-- EditTourActivity -->
+        <string name="toast_tour_load_error">Error: Tour information not available.</string>
+        <string name="toast_tour_not_found">Tour not found</string>
+        <string name="toast_tour_fetch_error">Failed to load tour information</string>
+        <string name="toast_tour_updated">Tour updated successfully!</string>
+        <string name="NetworkError">Network Error</string>
+
+        <!-- MapPageFragment -->
+        <string name="toast_no_place_found">No place was found</string>
+
+        <!-- LaunchTourCreateActivity -->
+        <string name="toast_tour_created">Tour created: %1$s</string>
+
+        <!-- RecoveryPasswordActivity -->
+        <string name="toast_email_empty">Email field cannot be empty</string>
+        <string name="toast_reset_link_demo">Demo: reset link will be sent to → %1$s</string>
+        <string name="toast_user_not_found">No user matches this email</string>
+        <string name="toast_recovery_server_error">Server error: failed to fetch users</string>
+        <string name="toast_recovery_failure">Server error</string>
+
+        <!-- SearchTourPageFragment -->
+        <string name="toast_tours_fetch_error">Failed to fetch tours</string>
+        <string name="toast_recommended_fetch_error">Failed to fetch recommended tours</string>
+    <string name="Emailcannotbeblank">Email cannot be blank</string>
+    <string name="Resetemailsended">Reset e-mail sended</string>
+    <string name="Therearenousersmatchingthisemailaddress">There are no users matching this email address</string>
+    <string name="Servererrorunabletoretrieveusers">Server error: unable to retrieve users</string>
+    <string name="Servererror">Server error</string>
+    <string name="Recommendedtoursnotavailable">Recommended tours not available</string>
+    <string name="Demoresetlinkissended">Demo: reset link is sended -> </string>
+    <string name="Tourscouldnotbeaccessed">Tours could not be accessed</string>
+
+
+
+
+
+    <!-- SignInActivity -->
+    <string name="signin_fill_all_info">Fill all the information</string>
+    <string name="signin_user_not_found">User not found</string>
+    <string name="signin_wrong_password">Wrong password</string>
+    <string name="signin_server_error">Server error</string>
+    <string name="signin_fill_all_fields">Please fill all fields</string>
+    <string name="signin_demo_success">Demo: sign-in successful!</string>
+
+    <!-- SocialMediaFragment -->
+    <string name="search_hint">#...</string>
+    <string name="toast_no_post_with_hashtag">There is no post with the entered hashtag</string>
+    <string name="snackbar_error_fetching_tour">Error fetching the tour. Please try again.</string>
+    <string name="retry">Retry</string>
+
+    <!-- TourInformationPageActivity -->
+    <string name="toast_tour_info_not_available">Error: Tour information not available.</string>
+    <string name="toast_not_registered">You are not registered to the tour.</string>
+    <string name="toast_error_getting_events">Error getting the events</string>
+    <string name="toast_guide_load_error">Error: Couldn’t get the guide.</string>
+    <string name="label_language_prefix">Language: %1$s</string>
+    <string name="label_rate_prefix">Rate: %1$s</string>
+    <string name="button_add_to_my_tours">Add to my tours</string>
+    <string name="button_remove_from_my_tours">Remove from my tours</string>
+
+    <!-- TourPlanFragment -->
+    <string name="label_tour_details_prefix">Tour Details: %1$s</string>
+    <string name="toast_error_fetching_tour_plan">Error fetching the tour</string>
+
+    <!-- UpcomingToursActivity -->
+
+
+
+
+
+
+
 </resources>

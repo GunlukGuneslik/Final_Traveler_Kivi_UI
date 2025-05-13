@@ -116,17 +116,17 @@ public class AddPostActivity extends AppCompatActivity {
         }
 
 
-        int userId = UserState.getUserId(); // ← Bunu oturum açan kullanıcıya göre değiştir
+        int userId = UserState.getUserId(); //
 
         // TODO: context?
         NetworkModule.uploadImage(App.getContext(), selectedImageUri, part -> {
             return postService.createPost(userId, caption, tags, part);
         }, postDTO -> {
-            Toast.makeText(AddPostActivity.this, "Post başarıyla paylaşıldı!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddPostActivity.this, R.string.toast_post_shared, Toast.LENGTH_SHORT).show();
             finish();
         }, throwable -> {
             Toast.makeText(AddPostActivity.this,
-                    "Sunucu hatası: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    R.string.toast_post_server_error + throwable.getMessage(), Toast.LENGTH_LONG).show();
 
         });
 
