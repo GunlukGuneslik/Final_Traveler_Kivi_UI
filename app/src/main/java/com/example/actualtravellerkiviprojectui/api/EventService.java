@@ -49,6 +49,13 @@ public interface EventService {
     @GET("api/events")
     Call<PagedModel<EventDTO>> getPaginatedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
 
+    @GET("/by-location")
+    public Call<List<EventDTO>> getEventsByLocation(@Query("locationName") String locationName);
+
+    @GET("/by-owner")
+    public Call<List<EventDTO>> getEventsByOwner(@Query("ownerName") String ownerName);
+
+
     /**
      * Returns a list of recommended events
      */

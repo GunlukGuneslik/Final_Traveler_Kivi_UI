@@ -23,13 +23,10 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,7 +60,6 @@ public class SearchTourPageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle bs) {
         super.onViewCreated(view, bs);
         initializeRecommendedTours();   // Önerilen tur listesi
-        initializeAllTours();
         // View binding
         etSearch = view.findViewById(R.id.etSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
@@ -105,47 +101,32 @@ public class SearchTourPageFragment extends Fragment {
             return;
         }
         String filter = spinnerFilter.getSelectedItem().toString();
-        String sortBy = spinnerSort.getSelectedItem().toString();
-        // TODO: Use async
-        List<EventDTO> result = allTours.stream().filter(t -> {
-            switch (filter) {
-                case "City":
-                    if (!t.locations.isEmpty()) {
-                        String locationTitle = t.locations.get(0).title;
-                        return locationTitle != null && locationTitle.toLowerCase().contains(query);
-                    }
-                    return false;
-
-                case "Guide":
-                    if (t.ownerId == null) return false;
-                    UserDTO guide = null;
-                    try {
-                        guide = userService.getUser(t.ownerId).execute().body();
-                    } catch (IOException e) {
-                    }
-                    return (guide.username != null &&
-                            guide.username.toLowerCase().contains(query)) ||
-                           (guide.firstName != null &&
-                            guide.firstName.toLowerCase().contains(query)) ||
-                           (guide.lastName != null && guide.lastName.toLowerCase().contains(query));
-
-
-                case "All":
-                default:
-                    return t.name != null && t.name.toLowerCase().contains(query);
-            }
-        }).collect(Collectors.toList());
-
-        if (sortBy.equals("Date")) {
-            result.sort(Comparator.comparing(t -> t.startDate));
-        } else if (sortBy.equals("Popularity")) {
-            result.sort((t1, t2) -> Integer.compare(t2.userIds.size(), t1.userIds.size()));
+        switch (filter) {
+            case "Guide":
+                filterByOwnerName(query, tours -> {
+                    showAllTours();
+                }, t -> {
+                    showRecommended();
+                    Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
+                });
+                break;
+            case "City":
+                filterByLocation(query, tours -> {
+                    showAllTours();
+                }, t -> {
+                    showRecommended();
+                    Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
+                });
+                break;
         }
+    }
 
-        filteredTours.clear();
-        filteredTours.addAll(result);
-        filteredAdapter.notifyDataSetChanged();
-        showAllTours();
+    private void filterByLocation(String location, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
+        setFilteredToursFromCall(eventService.getEventsByLocation(location), onSuccess, onError);
+    }
+
+    private void filterByOwnerName(String ownerName, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
+        setFilteredToursFromCall(eventService.getEventsByOwner(ownerName), onSuccess, onError);
     }
 
 
@@ -161,25 +142,22 @@ public class SearchTourPageFragment extends Fragment {
         rvFiltered.setVisibility(View.VISIBLE);
     }
 
-    private void initializeAllTours() {
-        if (!allTours.isEmpty()) {
-            return;
-        }
-        eventService.getAllEvents().enqueue(new Callback<List<EventDTO>>() {
+    private void setFilteredToursFromCall(Call<List<EventDTO>> call, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
+        call.enqueue(new Callback<List<EventDTO>>() {
             @Override
             public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
                 if (response.isSuccessful() && response.body() != null &&
                     !response.body().isEmpty()) {
-                    allTours.clear();
-                    allTours.addAll(response.body());
                     filteredTours.addAll(allTours);
                     filteredAdapter.notifyDataSetChanged();
+                    onSuccess.accept(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<List<EventDTO>> call, Throwable t) {
                 Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
+                onError.accept(t);
             }
         });
     }
