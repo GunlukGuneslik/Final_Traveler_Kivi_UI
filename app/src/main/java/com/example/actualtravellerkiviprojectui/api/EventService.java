@@ -59,7 +59,7 @@ public interface EventService {
     /**
      * Returns a list of recommended events
      */
-    @GET("events/recommended")
+    @GET("events/all")
     Call<List<EventDTO>> getRecommendedTours();
 
     /**
@@ -170,4 +170,8 @@ public interface EventService {
 
     @GET("events/attended/{userId}")
     Call<List<EventDTO>> getAttendedEvents(@Path("userId") Integer userId);
+
+    @PUT("events/{eventId}/register/{userId}")
+    Call<EventDTO> registerEvent(@Path("eventId") Integer eventId, @Path("userId") Integer userId);
+    
 }

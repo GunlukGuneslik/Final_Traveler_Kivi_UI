@@ -72,7 +72,11 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
                 postService.likers(socialMediaPostModel.postId).enqueue(new Callback<List<UserDTO>>() {
                     @Override
                     public void onResponse(Call<List<UserDTO>> call, Response<List<UserDTO>> response) {
+                        if (!response.isSuccessful() || response.body() == null) {
+                            return;
+                        }
                         UserDTO owner = response1.body();
+                        var likers = response.body();
                         holder.textViewUserName.setText(owner.username);
                         holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
                         holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
@@ -80,12 +84,26 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
                         NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
                         NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(socialMediaPostModel.postId), null);
                         holder.filledHeartButton.setVisibility(View.GONE);
-                        if (response.body().contains(UserState.getUser(userService))) {
-                            holder.filledHeartButton.setVisibility(View.VISIBLE);
-                            holder.heartButton.setVisibility(View.GONE);
-                        } else {
-                            holder.heartButton.setVisibility(View.VISIBLE);
-                        }
+                        userService.getUser(UserState.getUserId()).enqueue(new Callback<UserDTO>() {
+                            @Override
+                            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                                if (!response.isSuccessful() || response.body() == null) {
+                                    return;
+                                }
+                                if (likers.contains(response.body())) {
+                                    holder.filledHeartButton.setVisibility(View.VISIBLE);
+                                    holder.heartButton.setVisibility(View.GONE);
+                                } else {
+                                    holder.heartButton.setVisibility(View.VISIBLE);
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserDTO> call, Throwable throwable) {
+
+                            }
+                        });
                     }
 
                     @Override

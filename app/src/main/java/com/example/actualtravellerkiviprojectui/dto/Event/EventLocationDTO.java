@@ -17,6 +17,10 @@ public class EventLocationDTO {
     public CoordinateDTO location;
     public boolean featured;
 
+    public EventLocationDTO() {
+
+    }
+
     public EventLocationDTO(CoordinateDTO location, boolean featured, Set<String> keywords, String description, String title, String district, String city) {
         this.location = location;
         this.featured = featured;

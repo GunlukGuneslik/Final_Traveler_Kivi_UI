@@ -16,19 +16,21 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author zeynep
  */
 public class TourInformationPageTourPlanFragment extends Fragment {
-    private EventDTO currentTour;
     private RecyclerView recyclerView;
     private TourPlan_RecyclerViewAdapter adapter;
 
-    private List<EventLocationDTO> places = new ArrayList<>();
+    private final List<EventLocationDTO> places = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,15 +78,23 @@ public class TourInformationPageTourPlanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tour_information_page_tour_plan, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewTourPlan);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        try {
-            currentTour = ServiceLocator.getEventService().getEvent(getActivity().getIntent().getIntExtra("tourId", -1)).execute().body();
-        } catch (IOException e) {
-            // TODO: handle better
-            return null;
-        }
+
         tourDetails = view.findViewById(R.id.textView17);
-        tourDetails.setText(R.string.label_tour_details_prefix + currentTour.details);
-        places = currentTour.locations;
+        ServiceLocator.getEventService().getEvent(getActivity().getIntent().getIntExtra("tourId", -1)).enqueue(new Callback<EventDTO>() {
+            @Override
+            public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
+                tourDetails.setText("Tour Details: " + response.body().details);
+                places.clear();
+                places.addAll(response.body().locations);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<EventDTO> call, Throwable throwable) {
+            }
+        });
+
+
         adapter = new TourPlan_RecyclerViewAdapter(getContext(), places, this);
         recyclerView.setAdapter(adapter);
         // Inflate the layout for this fragment
