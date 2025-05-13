@@ -53,7 +53,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_marginStart="8dp"
                 android:padding="8dp"
                 android:text="PhotoDesciption"
                 app:layout_constraintEnd_toEndOf="parent"

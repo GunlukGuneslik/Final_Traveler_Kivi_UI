@@ -21,7 +21,6 @@ public class EventDTO {
     public String details;
     public List<Integer> commentIds = new ArrayList<>();
     public Integer skeletonId;
-
     public Integer imageId;
     public String language;
     public Integer rating;
