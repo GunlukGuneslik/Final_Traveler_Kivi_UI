@@ -35,10 +35,10 @@ public interface PostService {
     @GET("posts/{postId}")
     Call<PostDTO> fetchPost(@Path("postId") int postId);
 
-    @GET("posts/{postId}/like")
+    @POST("posts/{postId}/like")
     Call<PostDTO> likePost(@Path("postId") int postId, @Query("userId") int userId);
 
-    @GET("posts/{postId}/unlike")
+    @POST("posts/{postId}/unlike")
     Call<PostDTO> unlikePost(@Path("postId") int postId, @Query("userId") int userId);
 
     @GET("posts/{postId}/likers")
