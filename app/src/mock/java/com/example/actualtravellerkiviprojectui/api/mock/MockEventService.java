@@ -174,7 +174,7 @@ public class MockEventService implements EventService {
      */
     @Override
     public Call<List<EventLocationDTO>> getAllEventLocations() {
-        return delegate.returningResponse(Utils.loadObject("mock/events/location.json", new TypeReference<List<EventLocationDTO>>() {
+        return delegate.returningResponse(Utils.loadObject("mock/events/locations.json", new TypeReference<List<EventLocationDTO>>() {
         })).getAllEventLocations();
     }
 

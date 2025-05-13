@@ -1,12 +1,6 @@
 package com.example.actualtravellerkiviprojectui;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +8,15 @@ import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.actualtravellerkiviprojectui.adapter.Place_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.dto.Event.CoordinateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,6 +26,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author Güneş
@@ -40,17 +46,9 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     private FrameLayout fragmentForMap;
     private RecyclerView recyclerView;
     private Place_RecyclerViewAdapter mapAdapter;
-    private ArrayList<PlaceModel> placeModels = new ArrayList<PlaceModel>();
+    private List<EventLocationDTO> places = new ArrayList<>();
 
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public MapPageFragment() {
         // Required empty public constructor
@@ -60,16 +58,12 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MapPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MapPageFragment newInstance(String param1, String param2) {
+    public static MapPageFragment newInstance() {
         MapPageFragment fragment = new MapPageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,10 +71,10 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    }
+
+    public static LatLng fromCoordinateDTO(CoordinateDTO coordinateDTO) {
+        return new LatLng(coordinateDTO.latitude, coordinateDTO.longtitude);
     }
 
     @Override
@@ -90,7 +84,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         View view = inflater.inflate(R.layout.fragment_map_page, container, false);
         fragmentForMap = view.findViewById(R.id.fragmentForMap);
 
-        fillThePlaceArrayList();
+        fillPlaceArrayList();
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getChildFragmentManager().beginTransaction()
@@ -117,18 +111,20 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
 
         recyclerView = view.findViewById(R.id.mapPageRecyclerView);
-        mapAdapter = new Place_RecyclerViewAdapter(getContext(), placeModels, this);
+        mapAdapter = new Place_RecyclerViewAdapter(getContext(), places, this);
         recyclerView.setAdapter(mapAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
 
     // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
-    private void flitterList(String Text) {
-        ArrayList<PlaceModel> fliteredList = new ArrayList<>();
 
-        for (PlaceModel current: placeModels) {
-            if (current.getPlaceName().toLowerCase().contains(Text.toLowerCase())) {
+    // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
+    private void flitterList(String Text) {
+        ArrayList<EventLocationDTO> fliteredList = new ArrayList<>();
+
+        for (EventLocationDTO current : places) {
+            if (current.title.toLowerCase().contains(Text.toLowerCase())) {
                 fliteredList.add(current);
             }
         }
@@ -136,55 +132,45 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         if (fliteredList.isEmpty()) {
             Toast.makeText(getContext(), R.string.Noplaceisfound, Toast.LENGTH_SHORT).show();
         } else {
-            mapAdapter.setFlitiredList(fliteredList);
+            mapAdapter.setFilteredList(fliteredList);
         }
     }
 
-    // TODO: this method just for testing. Please complete the method body in a meaningful way according to its usage.
     /**it would be nice if the methods checks weather the data changed or not.
      *if data is not changed it might be cause delay.
      * also prevent the duplication of items
      */
-    private void fillThePlaceArrayList() {
-        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
-        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
+    private void fillPlaceArrayList() {
+        ServiceLocator.getEventService().getAllEventLocations().enqueue(new Callback<List<EventLocationDTO>>() {
+            @Override
+            public void onResponse(Call<List<EventLocationDTO>> call, Response<List<EventLocationDTO>> response) {
+                places.addAll(response.body());
+            }
 
-        placeModels.add(testPlace1);
-        placeModels.add(testPlace2);
+            @Override
+            public void onFailure(Call<List<EventLocationDTO>> call, Throwable throwable) {
+                Toast.makeText(getContext(), "Couldn't fetch places", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (placeModels.isEmpty()) {
+        if (places.isEmpty()) {
             LatLng defaultLocation =  new LatLng(39.925533, 32.866287);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
         } else {
 
             // Adding all available markers
-            for (PlaceModel place : placeModels) {
-                mMap.addMarker(new MarkerOptions().position(place.getLocation()).title(place.getPlaceName()));
+            for (EventLocationDTO place : places) {
+                mMap.addMarker(new MarkerOptions().position(fromCoordinateDTO(place.location)).title(place.title));
             }
         }
 
         mMap.setOnMarkerClickListener(this);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-    }
-
-    @Override
-    public boolean onMarkerClick(@NonNull Marker marker) {
-        LatLng clickedLocation = marker.getPosition();
-
-        for (PlaceModel place : placeModels) {
-            if (place.getLocation().equals(clickedLocation)) {
-                // when we click on a place on map it directly shows the info about this place
-                flitterList(place.getPlaceName());
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedLocation, 10));
-                return true;
-            }
-        }
-        return false;
     }
 
     public void showPlaceOnMap(LatLng latLng, String placeName) {
@@ -193,10 +179,25 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         }
     }
 
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        LatLng clickedLocation = marker.getPosition();
+
+        for (EventLocationDTO place : places) {
+            if (fromCoordinateDTO(place.location).equals(clickedLocation)) {
+                // when we click on a place on map it directly shows the info about this place
+                flitterList(place.title);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedLocation, 10));
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Overload the method to accept a PlaceModel directly
-    public void showPlaceOnMap(PlaceModel place) {
+    public void showPlaceOnMap(EventLocationDTO place) {
         if (mMap != null && place != null) {
-            showPlaceOnMap(place.getLocation(), place.getPlaceName());
+            showPlaceOnMap(fromCoordinateDTO(place.location), place.title);
         }
     }
 }
