@@ -38,6 +38,8 @@ import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,9 +56,9 @@ public class EditTourActivity extends AppCompatActivity {
     UserDTO currentUser;
     public EventDTO currentTour;
     ArrayList<EventLocationDTO> locationList = new ArrayList<>(currentTour.locations);
+    private LocalDateTime date;
     public String tourDescription;
     public String tourName;
-
     private String newName;
     private LocalDate newDate;
     private int newHour, newMinute;
@@ -76,7 +78,6 @@ public class EditTourActivity extends AppCompatActivity {
     private Button returnButton;
     private Button selectDateButton;
     private Button selectTimeButton;
-    private LocalDate date;
     private Uri TourImageUri;
     private Button nextButton, backButton, saveButton;
     private ImageView tourImageView;
@@ -201,7 +202,7 @@ public class EditTourActivity extends AppCompatActivity {
 
                 String desc = getTourDescription();
                 ArrayList<EventLocationDTO> places = getSelectedPlaces();
-                LocalDate tourDate = LocalDate.of(year, month, day);
+                LocalDateTime tourDate = LocalDate.of(year, month, day);
                 //TODO: EFTELYA
                 String language = "English";
                 int popularity = 0;
@@ -275,12 +276,16 @@ public class EditTourActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
-                year = selectedYear;
-                month = selectedMonth;
-                day = selectedDayOfMonth;
+                date = LocalDateTime.of(
+                        selectedYear,
+                        selectedMonth + 1,
+                        selectedDayOfMonth,
+                        date.getHour(),
+                        date.getMinute()
+                );
                 selectDateButton.setText(selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear);
             }
-        }, year, month, day);
+        }, date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
         dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         dialog.show();
     }
@@ -288,9 +293,14 @@ public class EditTourActivity extends AppCompatActivity {
     private void openTimeDialog() {
         TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void onTimeSet(TimePicker view, int SelectedHour, int selectedMinute) {
-                hour = SelectedHour;
-                minute = selectedMinute;
+            public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
+                date = LocalDateTime.of(
+                        date.getYear(),
+                        date.getMonth(),
+                        date.getDayOfMonth(),
+                        selectedHour,
+                        selectedMinute
+                );
             }
         }, 12, 00, true);
         dialog.show();
