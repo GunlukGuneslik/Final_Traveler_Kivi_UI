@@ -90,7 +90,8 @@ public class TourInformationPageActivity extends AppCompatActivity {
         //tour rate
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         Toast t3 = Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT);
-        eventService.getEvent(getIntent().getIntExtra("tourId", -1)).enqueue(new Callback<EventDTO>() {
+        int tourId = getIntent().getIntExtra("tourId", -1);
+        eventService.getEvent(tourId).enqueue(new Callback<EventDTO>() {
             @Override
             public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
                 if (!response.isSuccessful() || response.body() == null) {
@@ -101,6 +102,22 @@ public class TourInformationPageActivity extends AppCompatActivity {
                 tourLanguage.setText("Language: " + currentTour.language);
                 tourDate.setText(currentTour.startDate.toString());
                 tourRate.setText("Rate: " + currentTour.rating);
+                userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
+                    @Override
+                    public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
+                        if (!response.isSuccessful() || response.body() == null) {
+                            return;
+                        }
+                        guideName.setText(response.body().username);
+                        NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(currentTour.ownerId), null);
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDTO> call, Throwable throwable) {
+
+                    }
+                });
+
                 if (UserState.getUserId().equals(currentTour.ownerId)) {
                     if (currentTour.startDate.isBefore(LocalDateTime.now())) {
                         editAndLaunchButton.setVisibility(View.VISIBLE);
@@ -151,8 +168,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
         // guide name
         guideName = findViewById(R.id.guideNameTextViewTourInformationPage);
 
-        //guideName.setText(guide.firstName);
-
 
         buttonTourPlan = findViewById(R.id.button5);
         buttonMaps = findViewById(R.id.button6);
@@ -161,7 +176,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
         Toast t = Toast.makeText(this, "Error getting the events", Toast.LENGTH_SHORT);
         Toast t2 = Toast.makeText(this, "You are not registered to the tour.", Toast.LENGTH_SHORT);
-        UserDTO currentUser;
 
         eventService.getAttendedEvents(UserState.getUserId()).enqueue(new Callback<List<EventDTO>>() {
             @Override
@@ -186,7 +200,6 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
 
         addToMyToursButton = findViewById(R.id.button4);
-        removeFromMyToursButton = findViewById(R.id.button10);
         editButton = findViewById(R.id.button9);
         editAndLaunchButton = findViewById(R.id.button11);
 
@@ -210,57 +223,48 @@ public class TourInformationPageActivity extends AppCompatActivity {
             }
         });
 
-        //eğer tarih geçmişsse button yok olmalı
-        //if(currentTour.getDate() != null && tourDate.before(currentDate)) {
-        //     addToMyToursButton.setVisibility(View.GONE);
-        //}
+
         addToMyToursButton.setOnClickListener(v -> {
-            boolean isAdded = addToMyToursButton.getText().equals("Remove from my tours");
-            //current user turlarına eklenmeli burada
-            if (isAdded) {
-                addToMyToursButton.setText("Add to my tours");
-                try {
-                    eventService.registerEvent(getIntent().getIntExtra("tourId", -1), UserState.getUserId()).execute();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+            boolean isattended = false;
+            try {
+                isattended = eventService.getEvent(tourId).execute().body().userIds.contains(UserState.getUserId());
+            } catch (IOException e) {
+                return;
+            }
+            if (!isattended) {
+                eventService.registerEvent(tourId, UserState.getUserId()).enqueue(new Callback<EventDTO>() {
+                    @Override
+                    public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
+                        addToMyToursButton.setText("Add to my tours");
+                        addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+                    }
+
+                    @Override
+                    public void onFailure(Call<EventDTO> call, Throwable throwable) {
+
+                    }
+                });
             } else {
-                addToMyToursButton.setText("Remove from my tours");
-//                try {
-//                    eventService.getAttendedEvents(UserState.getUserId()).execute().body().remove(currentTour);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+                eventService.unregisterEvent(tourId, UserState.getUserId()).enqueue(new Callback<EventDTO>() {
+                    @Override
+                    public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
+                        addToMyToursButton.setText("Remove from my tours");
+                        addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+                    }
+
+                    @Override
+                    public void onFailure(Call<EventDTO> call, Throwable throwable) {
+
+                    }
+                });
+
             }
         });
 
-        removeFromMyToursButton.setOnClickListener(v -> {
-            boolean isClicked = removeFromMyToursButton.getText().equals("Remove from my tours");
-            //current user turlarına eklenmeli burada
-            if (isClicked) {
-                removeFromMyToursButton.setText("Add to my tours");
-                try {
-                    eventService.registerEvent(getIntent().getIntExtra("tourId", -1), UserState.getUserId()).execute();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                removeFromMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
-            } else {
-                removeFromMyToursButton.setText("Remove from my tours");
-//                try {
-//                    eventService.getAttendedEvents(UserState.getUserId()).execute().body().remove(currentTour);
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-                removeFromMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
-            }
-        });
 
         tourPlanFragment = new TourInformationPageTourPlanFragment();
-        chatFragment = new TourInformationPageChatFragment();
-        commentsFragment = new TourInformationPageCommentsFragment();
+        chatFragment = TourInformationPageChatFragment.newInstance(tourId);
+        commentsFragment = TourInformationPageCommentsFragment.newInstance(tourId);
         mapsFragment = new TourInformationPageMapsFragment();
 
         openFragment(tourPlanFragment);

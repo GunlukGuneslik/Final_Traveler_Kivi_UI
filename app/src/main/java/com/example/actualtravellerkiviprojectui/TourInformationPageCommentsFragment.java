@@ -15,9 +15,12 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -71,13 +74,21 @@ public class TourInformationPageCommentsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewComments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        ServiceLocator.getEventService().getEventComment(tourId).enqueue(new Callback<List<EventCommentDTO>>() {
+            @Override
+            public void onResponse(Call<List<EventCommentDTO>> call, Response<List<EventCommentDTO>> response) {
+                comments.clear();
+                comments.addAll(response.body());
 
-        try {
-            comments.clear();
-            comments.addAll(ServiceLocator.getEventService().getEventComment(tourId).execute().body());
-        } catch (IOException e) {
-            Log.w("Tour", "Error fetching comments", e);
-        }
+            }
+
+            @Override
+            public void onFailure(Call<List<EventCommentDTO>> call, Throwable throwable) {
+                Log.w("Tour", "Error fetching comments", throwable);
+
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
     }

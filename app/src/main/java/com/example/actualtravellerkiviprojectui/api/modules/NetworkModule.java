@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.actualtravellerkiviprojectui.App;
-import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.UserService;
@@ -41,7 +39,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  * NetworkModule is only used in {@link com.example.actualtravellerkiviprojectui.api.ServiceLocator}
  */
 public class NetworkModule {
-    private static final String BASE_URL = App.getContext().getResources().getString(R.string.kivi_api_url);
+    private static final String BASE_URL = "http://localhost:45976/api/";
 
     public static Retrofit provideRetrofit() {
         ObjectMapper mapper = new ObjectMapper()

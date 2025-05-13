@@ -62,6 +62,7 @@ public class TourInformationPageChatFragment extends Fragment {
         if (getArguments() != null) {
             tourId = getArguments().getInt(ARG_TOUR_ID);
         }
+        initalizeMessages();
     }
 
     @Override
@@ -81,12 +82,25 @@ public class TourInformationPageChatFragment extends Fragment {
             String text = editTextMessage.getText().toString().trim();
             if (!text.isEmpty()) {
                 EventCommentCreateDTO message = new EventCommentCreateDTO(UserState.getUserId(), text);
-                messages.add(EventCommentCreateDTO.toEventCommentDTO(message));
+                eventService.postEventChatComment(tourId, message).enqueue(new Callback<EventCommentDTO>() {
+                    @Override
+                    public void onResponse(Call<EventCommentDTO> call, Response<EventCommentDTO> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            messages.add(EventCommentCreateDTO.toEventCommentDTO(message));
+                            adapter.notifyItemInserted(messages.size() - 1);
+                            chatRecyclerView.scrollToPosition(messages.size() - 1);
+                            editTextMessage.setText("");
+                        } else {
+                            Toast.makeText(getContext(), "Couldn't send the message.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<EventCommentDTO> call, Throwable t) {
+                        Toast.makeText(getContext(), "Couldn't send the message.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-                adapter.notifyItemInserted(messages.size() - 1);
-                chatRecyclerView.scrollToPosition(messages.size() - 1);
-                editTextMessage.setText("");
             }
         });
 
