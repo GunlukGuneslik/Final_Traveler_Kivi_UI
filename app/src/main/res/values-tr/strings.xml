@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="create_a_New_Account_Page_Tag">Yeni Hesap Oluştur</string>
     <string name="Sign_in_button_tag">GİRİŞ YAP</string>
@@ -137,15 +138,11 @@
     <string name="label_rate_prefix">Puan: %1$s</string>
     <string name="button_add_to_my_tours">Turlarıma ekle</string>
     <string name="button_remove_from_my_tours">Turlarımdan çıkar</string>
+    <string name="Noplaceisfound">Yer bulunamadı</string>
 
     <!-- TourPlanFragment -->
     <string name="label_tour_details_prefix">Tur Detayları: %1$s</string>
     <string name="toast_error_fetching_tour_plan">Tur yüklenirken hata oluştu</string>
 
     <!-- UpcomingToursActivity -->
-
-
-
-
-
 </resources>

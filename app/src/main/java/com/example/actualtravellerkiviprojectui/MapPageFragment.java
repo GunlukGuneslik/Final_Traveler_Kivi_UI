@@ -134,7 +134,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         }
 
         if (fliteredList.isEmpty()) {
-            Toast.makeText(getContext(), R.string.Thereisnoplaceisfound, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.Noplaceisfound, Toast.LENGTH_SHORT).show();
         } else {
             mapAdapter.setFlitiredList(fliteredList);
         }
