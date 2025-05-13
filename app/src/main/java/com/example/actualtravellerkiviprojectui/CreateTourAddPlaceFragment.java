@@ -1,5 +1,4 @@
 package com.example.actualtravellerkiviprojectui;
-
 import android.app.Activity;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,14 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.actualtravellerkiviprojectui.dto.Event.CoordinateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,7 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private LaunchTourCreateActivity activity;
-    private ArrayList<EventLocationCreateDTO> placeModels;
+    private ArrayList<EventLocationDTO> placeModels;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -118,7 +115,7 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
                     e.printStackTrace();
                 }
                 CoordinateDTO coordinate = new CoordinateDTO(latLng.latitude, latLng.longitude);
-                EventLocationCreateDTO place = new EventLocationCreateDTO(coordinate, false,null,"", "", district, cityName);
+                EventLocationDTO place = new EventLocationDTO(coordinate, false,null,"", "", district, cityName);
                 placeModels.add(place);
 
                 mMap.addMarker(new MarkerOptions().position(latLng));
@@ -132,7 +129,7 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
 
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             // Adding all available markers
-            for (EventLocationCreateDTO current : placeModels) {
+            for (EventLocationDTO current : placeModels) {
                 LatLng location = new LatLng(current.location.longtitude, current.location.latitude);
                 mMap.addMarker(new MarkerOptions().position(location).title(current.title));
                 builder.include(location);

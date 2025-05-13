@@ -23,7 +23,7 @@ public class EventDTO {
     public Integer skeletonId;
     public Integer imageId;
     public String language;
-    public Integer rating;
+    public Double rating;
 
     public enum EventType {
         TOUR, MEETUP
@@ -35,6 +35,17 @@ public class EventDTO {
 
     public EventDTO() {
 
+    }
+    public EventDTO(Integer ownerId, String name, String details, LocalDate startDate, Integer skeletonId,
+                          double rating, String language, List<EventLocationDTO> locations) {
+        this.ownerId = ownerId;
+        this.name = name;
+        this.details = details;
+        this.startDate = startDate;
+        this.skeletonId = skeletonId;
+        this.rating = rating;
+        this.language = language;
+        this.locations = locations;
     }
 
 }

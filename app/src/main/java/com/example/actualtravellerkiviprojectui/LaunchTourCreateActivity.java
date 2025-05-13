@@ -26,6 +26,7 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
@@ -39,7 +40,7 @@ import java.util.Date;
 public class LaunchTourCreateActivity extends AppCompatActivity {
     private static final UserService userService = ServiceLocator.getUserService();
     UserDTO currentUser;
-    public ArrayList<EventLocationCreateDTO> placeModels = new ArrayList<>();
+    public ArrayList<EventLocationDTO> placeModels = new ArrayList<>();
     private EditText tourNameEditText;
     private Button returnButton;
     private Button selectDateButton;
@@ -131,7 +132,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
             if (!placeModels.isEmpty()) {
                 String tourName = (tourNameEditText).getText().toString().trim();
                 String desc = getTourDescription();
-                ArrayList<EventLocationCreateDTO> places = getSelectedPlaces();
+                ArrayList<EventLocationDTO> places = getSelectedPlaces();
                 LocalDate tourDate = LocalDate.of(year, month, day);
                 //TODO: EFTELYA
                 String language = "English";
@@ -198,7 +199,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         return tourDescription;
     }
 
-    public ArrayList<EventLocationCreateDTO> getSelectedPlaces() {
+    public ArrayList<EventLocationDTO> getSelectedPlaces() {
         return placeModels;
     }
 

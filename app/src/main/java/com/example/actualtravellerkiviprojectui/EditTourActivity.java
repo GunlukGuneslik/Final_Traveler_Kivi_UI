@@ -165,7 +165,7 @@ public class EditTourActivity extends AppCompatActivity {
             if (!placeModels.isEmpty()) {
                 String tourName = (tourNameEditText).getText().toString().trim();
                 String desc = getTourDescription();
-                ArrayList<EventLocationCreateDTO> places = getSelectedPlaces();
+                ArrayList<EventLocationDTO> places = getSelectedPlaces();
                 LocalDate tourDate = LocalDate.of(year, month, day);
                 //TODO: EFTELYA
                 String language = "English";

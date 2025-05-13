@@ -29,10 +29,10 @@ public class EventCreateDTO {
     public String language;
     public Integer skeletonId;
 
-    public List<EventLocationCreateDTO> locations = new ArrayList<>();
+    public List<EventLocationDTO> locations = new ArrayList<>();
 
     public EventCreateDTO(Integer ownerId, String name, String details, LocalDate startDate, Integer skeletonId, int popularity,
-                          double rate, String language, List<EventLocationCreateDTO> locations) {
+                          double rate, String language, List<EventLocationDTO> locations) {
         this.ownerId = ownerId;
         this.name = name;
         this.details = details;
