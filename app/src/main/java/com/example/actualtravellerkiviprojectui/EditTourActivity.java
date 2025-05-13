@@ -57,8 +57,22 @@ public class EditTourActivity extends AppCompatActivity {
     public String tourDescription;
     public String tourName;
 
+    private String newName;
+    private LocalDate newDate;
+    private int newHour, newMinute;
+    private Uri newImageUri;
+    private String newDescription;
+    private boolean isNameChanged = false;
+    private boolean isDateChanged = false;
+    private boolean isTimeChanged = false;
+    private boolean isImageChanged = false;
+    private boolean isDescriptionChanged = false;
+    private boolean isPlacesChanged = false;
+
 
     private EditText tourNameEditText;
+    private EditText tourDescriptionText;
+    private EditText tourNotesText;
     private Button returnButton;
     private Button selectDateButton;
     private Button selectTimeButton;
@@ -147,6 +161,7 @@ public class EditTourActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openDialog();
+                isDateChanged= true;
             }
         });
 
@@ -156,14 +171,34 @@ public class EditTourActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openTimeDialog();
+                isTimeChanged = true;
             }
         });
 
         tourNameEditText = findViewById(R.id.EditTourEnterTourNameTextView);
 
         saveButton.setOnClickListener(v -> {
-            if (!placeModels.isEmpty()) {
-                String tourName = (tourNameEditText).getText().toString().trim();
+            if (!locationList.isEmpty()) {
+                if(tourNameEditText!= null)
+                {
+                    isNameChanged=true;
+                   tourName = (tourNameEditText).getText().toString().trim();
+                }
+                if(tourDescriptionText!= null)
+                {
+                    isDescriptionChanged=true;
+                    tourDescription = (tourNameEditText).getText().toString().trim();
+                }
+                if(isDateChanged)
+                {
+
+                }
+                if(isTimeChanged)
+                {
+
+                }
+
+
                 String desc = getTourDescription();
                 ArrayList<EventLocationDTO> places = getSelectedPlaces();
                 LocalDate tourDate = LocalDate.of(year, month, day);
@@ -201,7 +236,7 @@ public class EditTourActivity extends AppCompatActivity {
 
         backButton.setVisibility(currentFragmentIndex > 0 ? View.VISIBLE : View.GONE);
 
-        if (currentFragmentIndex == fragments.length - 1 && !placeModels.isEmpty()) {
+        if (currentFragmentIndex == fragments.length - 1 && !locationList.isEmpty()) {
             nextButton.setVisibility(View.GONE);
             saveButton.setVisibility(View.VISIBLE);
         } else {
@@ -232,8 +267,8 @@ public class EditTourActivity extends AppCompatActivity {
         return tourDescription;
     }
 
-    public ArrayList<EventLocationCreateDTO> getSelectedPlaces() {
-        return placeModels;
+    public ArrayList<EventLocationDTO> getSelectedPlaces() {
+        return locationList;
     }
 
     private void openDialog() {
