@@ -33,6 +33,7 @@ import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,7 +134,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
                 String tourName = (tourNameEditText).getText().toString().trim();
                 String desc = getTourDescription();
                 ArrayList<EventLocationDTO> places = getSelectedPlaces();
-                LocalDate tourDate = LocalDate.of(year, month, day);
+                LocalDateTime tourDate = LocalDateTime.of(year, month, day, hour, minute);
                 //TODO: EFTELYA
                 String language = "English";
                 int popularity = 0;
@@ -223,6 +224,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int SelectedHour, int selectedMinute) {
                 hour = SelectedHour;
                 minute = selectedMinute;
+                selectTimeButton.setText(SelectedHour + ":" + selectedMinute);
             }
         }, 12, 00, true);
         dialog.show();

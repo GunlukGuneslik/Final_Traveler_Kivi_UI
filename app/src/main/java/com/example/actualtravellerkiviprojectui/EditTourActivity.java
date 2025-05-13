@@ -301,6 +301,7 @@ public class EditTourActivity extends AppCompatActivity {
                         selectedHour,
                         selectedMinute
                 );
+                selectTimeButton.setText(selectedHour + ":" + selectedMinute);
             }
         }, 12, 00, true);
         dialog.show();
