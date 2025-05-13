@@ -50,11 +50,13 @@ public class EditTourActivity extends AppCompatActivity {
     private static final UserService userService = ServiceLocator.getUserService();
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
+
     UserDTO currentUser;
     public EventDTO currentTour;
+    ArrayList<EventLocationDTO> locationList = new ArrayList<>(currentTour.locations);
     public String tourDescription;
     public String tourName;
-    public ArrayList<EventLocationDTO> locationList;
+
 
     private EditText tourNameEditText;
     private Button returnButton;
@@ -66,6 +68,7 @@ public class EditTourActivity extends AppCompatActivity {
     private ImageView tourImageView;
     private int currentFragmentIndex = 0;
     private Fragment[] fragments;
+    private String name ;
 
 
     @Override
@@ -117,6 +120,7 @@ public class EditTourActivity extends AppCompatActivity {
                 new EditTourAddPlaceDescriptionFragment(),
                 new EditTourNoteFragment()  // Add Notes fragment
         };
+
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
