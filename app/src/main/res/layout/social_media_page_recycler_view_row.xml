@@ -116,6 +116,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
                 app:layout_constraintVertical_bias="0.333"
                 app:srcCompat="@drawable/emptyheart" />
+            <ImageButton
+                android:id="@+id/imageButton12"
+                android:layout_width="26dp"
+                android:layout_height="21dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="likeButton_filledHeart"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView9"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintVertical_bias="0.333"
+                app:srcCompat="@drawable/filledheart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

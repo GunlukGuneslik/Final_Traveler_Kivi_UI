@@ -20,8 +20,10 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,12 +67,29 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         } catch (IOException e) {
             return;
         }
+
+        List<UserDTO> likers;
+        try {
+            likers = postService.likers(socialMediaPostModel.postId).execute().body();
+        } catch (IOException e) {
+            return;
+        }
+
         holder.textViewUserName.setText(owner.username);
         holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
         holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
         holder.textViewLikes.setText(socialMediaPostModel.likeCount + " likes");
         NetworkModule.setImageViewFromCall(holder.profileImageView,userService.getAvatar(owner.id), null);
         NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(socialMediaPostModel.postId), null);
+        holder.filledHeartButton.setVisibility(View.GONE);
+        if (likers.contains(UserState.getUser(userService))){
+            holder.filledHeartButton.setVisibility(View.VISIBLE);
+            holder.heartButton.setVisibility(View.GONE);
+        }
+        else{
+            holder.heartButton.setVisibility(View.VISIBLE);
+        }
+
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +116,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         TextView textViewHashtag;
         TextView textViewLikes;
         ImageButton heartButton;
+        ImageButton filledHeartButton;
         boolean isClicked = false;
 
         public SocialMediaViewHolder(@NonNull View itemView) {
@@ -109,6 +129,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
             textViewHashtag = itemView.findViewById(R.id.textView8);
             textViewLikes = itemView.findViewById(R.id.textView9);
             heartButton = itemView.findViewById(R.id.imageButton2);
+            filledHeartButton = itemView.findViewById(R.id.imageButton12);
 
         }
     }
