@@ -23,6 +23,7 @@
                 android:layout_height="445dp">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -44,7 +45,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
-                            android:layout_weight="2"
+                            android:layout_weight="3"
+                            android:gravity="center"
                             android:text="Launch a tour"
                             android:textColor="@color/brown"
                             android:textSize="16sp"
@@ -53,7 +55,7 @@
                         <Button
                             android:id="@+id/launchTourWindowCatalogButton"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
@@ -86,7 +88,7 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
+                    android:id="@+id/badgesCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -95,6 +97,101 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userProfilePhoto">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:background="@color/light_green"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="7dp"
+                            android:layout_weight="3"
+                            android:gravity="center"
+                            android:text="My Badges:"
+                            android:textColor="@color/brown"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                        <ImageButton
+                            android:id="@+id/imageButtonPostCreate"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/postcreatebadge" />
+
+                        <ImageButton
+                            android:id="@+id/imageButtonEventJoint"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/eventjointbadge" />
+
+                        <ImageButton
+                            android:id="@+id/imageButtonEventCreate"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/eventcreatebadge" />
+
+                        <ImageButton
+                            android:id="@+id/ImageButtonCommentWriteBadge"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/commentwritebadge" />
+
+                        <ImageButton
+                            android:id="@+id/ImageButtonImageUploadBadge"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@android:color/transparent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/imageuploadbadge" />
+
+                        <ImageButton
+                            android:id="@+id/ImageButtonLikeBadge"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="3dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="button image"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/likebadge" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@color/light_green"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/badgesCardView">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -108,6 +205,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="Tours"
                             android:textColor="@color/brown"
                             android:textSize="16dp"
@@ -160,9 +258,11 @@
                     android:id="@+id/userProfileNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="15dp"
                     android:text="Profile Name"
-                    android:textSize="24dp"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/userProfilePhoto"
                     app:layout_constraintTop_toBottomOf="@+id/AccountPageSettingsButton" />
 
@@ -173,7 +273,7 @@
             android:id="@+id/AccountPagePostRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2.5"/>
+            android:layout_weight="1.9"/>
         <Button
             android:id="@+id/ChooseLanguageButton"
             android:layout_width="match_parent"

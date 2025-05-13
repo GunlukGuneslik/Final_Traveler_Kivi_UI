@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -70,6 +71,8 @@ public class AccountPageFragment extends Fragment {
     private Button attendedToursButton;
     private Button upcomingToursButton;
     private Button chooseLanguageButton;
+
+    private ImageButton postCreateBadge, eventJoinBadge, eventCreateBadge, commentWriteBadge, imageUploadBadge, likeReceiveBadge;
 
     private LinearLayout launchTourWindowForGuideUsers;
 
@@ -255,6 +258,56 @@ public class AccountPageFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UpcomingToursActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        //TODO: Badge achievement system
+
+        //badges
+        postCreateBadge = view.findViewById(R.id.imageButtonPostCreate);
+        eventJoinBadge = view.findViewById(R.id.imageButtonEventJoint);
+        eventCreateBadge = view.findViewById(R.id.imageButtonEventCreate);
+        commentWriteBadge = view.findViewById(R.id.ImageButtonCommentWriteBadge);
+        imageUploadBadge = view.findViewById(R.id.ImageButtonImageUploadBadge);
+        likeReceiveBadge = view.findViewById(R.id.ImageButtonLikeBadge);
+
+        postCreateBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Post Create Badge", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        eventJoinBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Event Join Badge", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        eventCreateBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Event Create Badge", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        commentWriteBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Comment Write Badge", Toast.LENGTH_SHORT).show();
+            }
+        });
+        imageUploadBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Image Upload Badge", Toast.LENGTH_SHORT).show();
+            }
+        });
+        likeReceiveBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Like Receive Badge", Toast.LENGTH_SHORT).show();
             }
         });
 
