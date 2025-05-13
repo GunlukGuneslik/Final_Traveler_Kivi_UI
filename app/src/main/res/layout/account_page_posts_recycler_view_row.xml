@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date"
+                android:textColor="@color/brown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_margin="8dp"
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#place"
+                android:textColor="@color/brown"
                 android:textSize="24dp"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +62,7 @@
             <TextView
                 android:id="@+id/postDescription"
                 android:layout_margin="15dp"
+                android:textColor="@color/brown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
