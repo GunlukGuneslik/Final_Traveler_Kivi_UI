@@ -8,14 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-
 import java.util.ArrayList;
 
 public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView.Adapter<CreateTourPlaceDescriptionRecyclerViewAdapter.MyViewHolder>{
@@ -78,7 +75,6 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
                 notifyItemRangeChanged(holder.getAdapterPosition(), placeModels.size());
             }
         });
-
     }
 
     @Override
