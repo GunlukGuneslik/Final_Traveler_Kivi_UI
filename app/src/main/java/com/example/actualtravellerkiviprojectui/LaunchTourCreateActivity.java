@@ -154,7 +154,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
                         places
                 );
 
-                Toast.makeText(this, "Tur oluşturuldu: " + createdTour.name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_tour_created + createdTour.name, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_a_New_Account_Page_Tag">Neues Konto erstellen</string>
+    <string name="Sign_in_button_tag">ANMELDEN</string>
+    <string name="enterUserNameLabelTag">Benutzernamen eingeben</string>
+    <string name="enterUserNameHint">Benutzername</string>
+    <string name="EnterEmailLabelTag">Geben Sie Ihre E-Mail-Adresse ein</string>
+    <string name="enterEmailHint">E-Mail</string>
+    <string name="enterPasswordLabelTag">Passwort eingeben</string>
+    <string name="PasswordHint">Passwort</string>
+    <string name="enterPasswordAgainLabelTag">Passwort erneut eingeben</string>
+
+    <string name="welcomeLabelTag">Willkommen bei Reisender Kiwi</string>
+    <string name="everythingIsReadyForYouLabelTag">Alles ist für Sie bereit</string>
+    <string name="exploreTheWorldLabelTag">Entdecke die Welt!</string>
+    <string name="doYouHaveAccountLabelTag">Hast du ein Konto?</string>
+    <string name="signINButtonTag">ANMELN</string>
+    <string name="joinUsLabelTag">Mach mit!</string>
+    <string name="createAccountButtonTag">Konto erstellen</string>
+
+    <string name="NoPlaceFoundWarning">Keine passende Tour gefunden.</string>
+
+    <string-array name="userNames">
+        <item>Helena</item>
+        <item>Ben</item>
+        <item>Jane</item>
+        <item>Joe</item>
+        <item>Zeynep</item>
+    </string-array>
+
+    <string-array name="photoDescriptions">
+        <item>Ich warte auf eine weitere Tour für Ankara.</item>
+        <item>Es war eine schöne Erfahrung!</item>
+        <item>Es gab kein Meer. Hat mir nicht gefallen.</item>
+        <item>Schöner Ort!</item>
+        <item>Bis bald, Ankara.</item>
+    </string-array>
+
+    <string-array name="hashtags">
+        <item>#anitkabir</item>
+        <item>#kizilay</item>
+        <item>#eymir</item>
+        <item>#ankarakalesi</item>
+        <item>#kelimemuzesi</item>
+    </string-array>
+
+    <string name="hello_blank_fragment">Hallo leeres Fragment</string>
+    <string name="kivi_api_url">https://kivi.local:45976/</string>
+
+    <string name="PostCreateBadge">Abzeichen für Beitragserstellung</string>
+    <string name="EventJoinBadge">Abzeichen für Veranstaltungsteilnahme</string>
+    <string name="EventCreateBadge">Abzeichen für Veranstaltungserstellung</string>
+    <string name="CommentWriteBadge">Abzeichen für Kommentar schreiben</string>
+    <string name="ImageUploadBadge">Abzeichen für Bild-Upload</string>
+    <string name="LikeReceiveBadge">Abzeichen für erhaltene Likes</string>
+
+    <string name="NewName">Ihr neuer Name</string>
+    <string name="ChangeName">Name ändern</string>
+    <string name="Save">Speichern</string>
+
+    <string name="NameUpdated">Name aktualisiert</string>
+    <string name="Cancel">Abbrechen</string>
+
+    <string name="SelectLanguage">Sprache auswählen</string>
+    <string name="Apply">Anwenden</string>
+    <string name="ChangePassword">Passwort ändern</string>
+
+    <string name="PasswordsDontMatch">Passwörter stimmen nicht überein</string>
+
+    <string name="toast_post_shared">Beitrag erfolgreich geteilt!</string>
+    <string name="toast_post_server_error">Serverfehler: %s</string>
+
+    <string name="toast_choose_account_type">Wählen Sie den Kontotyp aus.</string>
+    <string name="error_invalid_username">Der Benutzername darf keine Sonderzeichen enthalten. z.B.: ? / ; .</string>
+    <string name="error_invalid_email">Ungültige E-Mail-Adresse.</string>
+    <string name="label_enter_password_again">Geben Sie Ihr Passwort erneut ein</string>
+    <string name="error_passwords_do_not_match">Bitte geben Sie dasselbe Passwort ein.</string>
+
+    <string name="toast_no_matching_tours">Keine passenden Touren gefunden.</string>
+
+    <string name="toast_tour_load_error">Fehler: Tourinformationen nicht verfügbar.</string>
+    <string name="toast_tour_not_found">Tour nicht gefunden</string>
+    <string name="toast_tour_fetch_error">Tourinformationen konnten nicht geladen werden</string>
+    <string name="toast_tour_updated">Tour erfolgreich aktualisiert!</string>
+    <string name="NetworkError">Netzwerkfehler</string>
+
+    <string name="toast_no_place_found">Kein Ort gefunden</string>
+
+    <string name="toast_tour_created">Tour erstellt: %1$s</string>
+
+    <string name="toast_email_empty">E-Mail-Feld darf nicht leer sein</string>
+    <string name="toast_reset_link_demo">Demo: Reset-Link wird gesendet → %1$s</string>
+    <string name="toast_user_not_found">Kein Benutzer mit dieser E-Mail gefunden</string>
+    <string name="toast_recovery_server_error">Serverfehler: Benutzer konnten nicht abgerufen werden</string>
+    <string name="toast_recovery_failure">Serverfehler</string>
+
+    <string name="toast_tours_fetch_error">Touren konnten nicht abgerufen werden</string>
+    <string name="toast_recommended_fetch_error">Empfohlene Touren konnten nicht abgerufen werden</string>
+
+    <string name="Emailcannotbeblank">E-Mail darf nicht leer sein</string>
+    <string name="Resetemailsended">Reset-E-Mail gesendet</string>
+    <string name="Therearenousersmatchingthisemailaddress">Kein Benutzer mit dieser E-Mail-Adresse gefunden</string>
+    <string name="Servererrorunabletoretrieveusers">Serverfehler: Benutzer konnten nicht abgerufen werden</string>
+    <string name="Servererror">Serverfehler</string>
+    <string name="Recommendedtoursnotavailable">Empfohlene Touren nicht verfügbar</string>
+    <string name="Demoresetlinkissended">Demo: Reset-Link gesendet →</string>
+    <string name="Tourscouldnotbeaccessed">Auf Touren konnte nicht zugegriffen werden</string>
+
+    <string name="signin_fill_all_info">Bitte füllen Sie alle Informationen aus</string>
+    <string name="signin_user_not_found">Benutzer nicht gefunden</string>
+    <string name="signin_wrong_password">Falsches Passwort</string>
+    <string name="signin_server_error">Serverfehler</string>
+    <string name="signin_fill_all_fields">Bitte füllen Sie alle Felder aus</string>
+    <string name="signin_demo_success">Demo: Anmeldung erfolgreich!</string>
+
+    <string name="search_hint">#...</string>
+    <string name="toast_no_post_with_hashtag">Kein Beitrag mit diesem Hashtag gefunden</string>
+    <string name="snackbar_error_fetching_tour">Fehler beim Laden der Tour. Bitte versuchen Sie es erneut.</string>
+    <string name="retry">Erneut versuchen</string>
+
+    <string name="toast_tour_info_not_available">Fehler: Tourinformationen nicht verfügbar.</string>
+    <string name="toast_not_registered">Sie sind nicht für die Tour registriert.</string>
+    <string name="toast_error_getting_events">Fehler beim Abrufen der Veranstaltungen</string>
+    <string name="toast_guide_load_error">Fehler: Reiseführer konnte nicht geladen werden.</string>
+    <string name="label_language_prefix">Sprache: %1$s</string>
+    <string name="label_rate_prefix">Bewertung: %1$s</string>
+    <string name="button_add_to_my_tours">Zu meinen Touren hinzufügen</string>
+    <string name="button_remove_from_my_tours">Aus meinen Touren entfernen</string>
+
+    <string name="label_tour_details_prefix">Tourdetails: %1$s</string>
+    <string name="toast_error_fetching_tour_plan">Fehler beim Laden der Tour</string>
+
+
+
+
+
+</resources>

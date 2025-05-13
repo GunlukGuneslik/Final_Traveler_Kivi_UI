@@ -179,7 +179,7 @@ public class SearchTourPageFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -202,7 +202,7 @@ public class SearchTourPageFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), "Önerilen turlar alınamadı", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show();
             }
         });
     }

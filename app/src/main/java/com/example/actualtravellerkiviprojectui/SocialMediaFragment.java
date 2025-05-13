@@ -103,7 +103,7 @@ public class SocialMediaFragment extends Fragment {
         }
 
         if (filteredList.isEmpty()) {
-            Toast.makeText(getContext(), "There is no post with written hashtag", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.toast_no_post_with_hashtag, Toast.LENGTH_SHORT).show();
         } else {
             socialMediaAdapter.setFilteredList(filteredList);
         }
@@ -123,7 +123,7 @@ public class SocialMediaFragment extends Fragment {
     }
 
     private void cleanUp(Throwable t) {
-        Snackbar.make(getView(), "Error fetching the tour. Please try again.", Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(getView(), R.string.snackbar_error_fetching_tour, Snackbar.LENGTH_INDEFINITE)
                 .setAction("Retry", v -> {
                     // Retry the network call
                     fillSocialMediaPosts();

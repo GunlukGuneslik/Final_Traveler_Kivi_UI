@@ -26,7 +26,7 @@ public class RecoveryPasswordActivity extends AppCompatActivity {
             String email = emailEt.getText().toString().trim();
 
             if (email.isEmpty()) {
-                Toast.makeText(this, "Email alanı boş olamaz", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.Emailcannotbeblank, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -42,29 +42,29 @@ public class RecoveryPasswordActivity extends AppCompatActivity {
                         for (com.example.actualtravellerkiviprojectui.dto.User.UserDTO user : response.body()) {
                             if (user.email.equals(email)) {
                                 found = true;
-                                Toast.makeText(RecoveryPasswordActivity.this, "Reset e-mail gönderildi (simülasyon).", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RecoveryPasswordActivity.this, R.string.Resetemailsended, Toast.LENGTH_SHORT).show();
                                 break;
                             }
                         }
                         if (!found) {
-                            Toast.makeText(RecoveryPasswordActivity.this, "Bu e-posta ile eşleşen kullanıcı yok", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RecoveryPasswordActivity.this, R.string.Therearenousersmatchingthisemailaddress, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(RecoveryPasswordActivity.this, "Sunucu hatası: kullanıcılar alınamadı", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RecoveryPasswordActivity.this, R.string.Servererrorunabletoretrieveusers, Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(retrofit2.Call<java.util.List<com.example.actualtravellerkiviprojectui.dto.User.UserDTO>> call, Throwable t) {
-                    Toast.makeText(RecoveryPasswordActivity.this, "Sunucu hatası", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecoveryPasswordActivity.this, R.string.Servererror, Toast.LENGTH_SHORT).show();
                 }
             });
 
             if (email.isEmpty()) {
-                Toast.makeText(this,"Email boş olamaz",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,R.string.Emailcannotbeblank,Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this,
-                        "Demo: reset linki gidecek → " + email,
+                        R.string.Demoresetlinkissended + email,
                         Toast.LENGTH_LONG).show();
             }
         });

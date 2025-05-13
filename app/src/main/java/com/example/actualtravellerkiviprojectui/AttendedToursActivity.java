@@ -141,7 +141,7 @@ public class AttendedToursActivity extends AppCompatActivity {
         adapter.setFilteredList(filteredList);
 
         if (filteredList.isEmpty()) {
-            Toast.makeText(this, "No matching tours found.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_no_matching_tours, Toast.LENGTH_SHORT).show();
         }
     }
 
