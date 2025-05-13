@@ -57,6 +57,8 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
         NetworkModule.setImageViewFromCall(holder.imageView, postService.getPhoto(posts.get(position).postId), null);
 
         holder.description.setText(posts.get(position).body);
+
+        holder.likes.setText(posts.get(position).likeCount + " likes");
     }
 
     @Override
@@ -69,6 +71,7 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
         TextView hastag;
         TextView description;
         TextView sharedDate;
+        TextView likes;
 
         public postViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +80,7 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
             hastag = itemView.findViewById(R.id.postPlaceHastags);
             description = itemView.findViewById(R.id.postDescription);
             sharedDate = itemView.findViewById(R.id.PostSharedDate);
+            likes = itemView.findViewById(R.id.accountPagePostsLikeTextView);
         }
     }
 }
