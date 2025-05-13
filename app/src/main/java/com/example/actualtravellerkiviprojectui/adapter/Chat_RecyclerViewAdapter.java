@@ -11,7 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageChatFragment;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.List;
 
@@ -20,7 +26,11 @@ import java.util.List;
  */
 public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
     private List<EventCommentDTO> messages;
+    private int currentUserId;
     private static final int RIGHT = 1;
     private static final int LEFT = 2;
     TourInformationPageChatFragment tourInformationPageChatFragment;
@@ -29,6 +39,7 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         this.context = context;
         this.messages = messages;
         tourInformationPageChatFragment = fragment;
+        currentUserId = UserState.getUserId();
     }
 
 
@@ -36,8 +47,11 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemViewType(int position) {
         EventCommentDTO message = messages.get(position);
-        return 0;
-        //return message.getSenderId().equals(currentUserId) ? TYPE_RIGHT : TYPE_LEFT;
+        if (message.ownerId.equals(currentUserId)) {
+            return RIGHT;
+        } else {
+            return LEFT;
+        }
     }
 
     @NonNull
@@ -92,7 +106,7 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         public LeftViewHolder(@NonNull View itemView) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.left_chat_text_view);
-            textMessage = itemView.findViewById(R.id.messageLeftUserName);
+            textUserName = itemView.findViewById(R.id.messageLeftUserName);
         }
     }
 
