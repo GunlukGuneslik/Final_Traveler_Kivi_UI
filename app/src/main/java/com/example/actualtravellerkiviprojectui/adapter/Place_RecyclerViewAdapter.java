@@ -51,7 +51,6 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
         holder.placeImageView.setImageResource(currentPlace.getImageOfPlace());
         holder.placeNameView.setText(currentPlace.getPlaceName());
         holder.placeRateView.setText(currentPlace.getRateOfPlace());
-        holder.placeDistanceView.setText(currentPlace.getDistanceInKM());
         holder.placeInfoView.setText(currentPlace.getPlaceInformationText());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
