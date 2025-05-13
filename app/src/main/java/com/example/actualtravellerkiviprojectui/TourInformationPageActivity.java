@@ -24,9 +24,9 @@ import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
-
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author zeynep
@@ -154,7 +154,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         editButton = findViewById(R.id.button9);
         editAndLaunchButton = findViewById(R.id.button11);
 
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDate = LocalDateTime.now();
 
         if (currentUser == guide) {
             if(currentTour.startDate.compareTo(currentDate) < 0){
