@@ -33,6 +33,7 @@ import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
@@ -51,13 +52,16 @@ public class EditTourActivity extends AppCompatActivity {
     private static final EventService eventService = ServiceLocator.getEventService();
 
     UserDTO currentUser;
-    private EventDTO currentTour;
+    public EventDTO currentTour;
+    public String tourDescription;
+    public String tourName;
+    public ArrayList<EventLocationDTO> locationList;
+
     private EditText tourNameEditText;
     private Button returnButton;
     private Button selectDateButton;
     private Button selectTimeButton;
     private LocalDate date;
-    private String tourDescription;
     private Uri TourImageUri;
     private Button nextButton, backButton, saveButton;
     private ImageView tourImageView;

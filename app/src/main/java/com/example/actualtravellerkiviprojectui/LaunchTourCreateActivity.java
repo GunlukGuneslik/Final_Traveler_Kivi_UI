@@ -90,8 +90,6 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
                 new CreateTourAddTourNoteFragment()  // Add Notes fragment
         };
 
-
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
                 .commit();
