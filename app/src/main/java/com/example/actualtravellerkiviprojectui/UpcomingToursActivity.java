@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.model.Tour;
 
@@ -23,8 +25,8 @@ import java.util.ArrayList;
  */
 public class UpcomingToursActivity extends AppCompatActivity {
 
-    private ArrayList<Tour> TodaysToursList = new ArrayList<Tour>();
-    private ArrayList<Tour> UpcomingToursList = new ArrayList<Tour>();
+    private ArrayList<EventDTO> TodaysToursList = new ArrayList<>();
+    private ArrayList<EventDTO> UpcomingToursList = new ArrayList<>();
     private SearchView tourSearchBar;
     private RecyclerView recyclerViewForTodaysTours;
     private RecyclerView recyclerViewForUpcomingTours;
@@ -92,18 +94,18 @@ public class UpcomingToursActivity extends AppCompatActivity {
     /*
      * TODO: this method suppose to filter the tours according to both their name and places in it
      */
-    private void flitterList(String Text, ArrayList<Tour> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
+    private void flitterList(String Text, ArrayList<EventDTO> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
         if (adapter == null || givenList.isEmpty() || givenList == null){
             return;
         }
-        ArrayList<Tour> filteredList = new ArrayList<>();
+        ArrayList<EventDTO> filteredList = new ArrayList<>();
 
-        for (Tour currentTour: givenList) {
-            if (currentTour.getTourName().toLowerCase().contains(Text.toLowerCase())) {
+        for (EventDTO currentTour: givenList) {
+            if (currentTour.name.toLowerCase().contains(Text.toLowerCase())) {
                 filteredList.add(currentTour);
             } else {
-                for (PlaceModel currentPlace: currentTour.getPlaces()) {
-                    if (currentPlace.getPlaceName().toLowerCase().contains(Text.toLowerCase())) {
+                for (EventLocationDTO currentPlace: currentTour.locations) {
+                    if (currentPlace.title.toLowerCase().contains(Text.toLowerCase())) {
                         filteredList.add(currentTour);
                     }
                 }
@@ -121,8 +123,8 @@ public class UpcomingToursActivity extends AppCompatActivity {
     TODO: tarihe göre sorted bir şekilde sıralamalı
     TODO: bu method tamamen test amaçlı normalde o gün olan turları ve dğer turları ayrı ayrı yükleyen methodlar lazım
      */
-    private ArrayList<Tour> loadTours() {
-        ArrayList<Tour> tours = new ArrayList<>();
+    private ArrayList<EventDTO> loadTours() {
+        ArrayList<EventDTO> tours = new ArrayList<>();
         return tours;
     }
 }
