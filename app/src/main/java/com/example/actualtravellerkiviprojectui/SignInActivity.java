@@ -104,6 +104,7 @@ public class SignInActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, R.string.signin_demo_success, Toast.LENGTH_SHORT).show();
             }
+
         });
 
         // Forgot Password

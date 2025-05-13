@@ -51,8 +51,6 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
         EventLocationDTO place = placeModels.get(position);
         //NetworkModule.setImageViewFromCall(holder.placeImageView, );
         holder.placeNameView.setText(place.title);
-        holder.placeRateView.setText("Placeholder ratea");
-        holder.placeDistanceView.setText("Placeholder Distance");
         holder.placeInfoView.setText(place.description);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

@@ -14,6 +14,8 @@ import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,7 +44,11 @@ public class NetworkModule {
     private static final String BASE_URL = App.getContext().getResources().getString(R.string.kivi_api_url);
 
     public static Retrofit provideRetrofit() {
-        return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
+        ObjectMapper mapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule());
+        //.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create(mapper)).build();
     }
 
     public static UserService provideUserService(Retrofit retrofit) {

@@ -39,13 +39,16 @@ import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -117,15 +120,21 @@ public class AccountPageFragment extends Fragment {
         prefs = requireContext()
                 .getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
 
+        Log.e("ERROR", UserState.getUserId().toString());
         // 2) API’dan currentUser’ı çekiyor
-        currentUser = UserState.getUser(userService);
+        userService.getUser(UserState.getUserId()).enqueue(new Callback<UserDTO>() {
+            @Override
+            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
 
-        // 3) userName’i hem pref’ten hem de API’den gelen default’la tek satırda atıyor
-        userName = prefs.getString("username", currentUser.firstName);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+            }
+
+            @Override
+            public void onFailure(Call<UserDTO> call, Throwable throwable) {
+
+            }
+        });
+
+
 
 
 
@@ -155,8 +164,8 @@ public class AccountPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
-        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton );
-        chooseLanguageButton .setOnClickListener(v -> {
+        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
+        chooseLanguageButton.setOnClickListener(v -> {
             String[] languages = {"English", "Türkçe", "Deutsch"};
             new AlertDialog.Builder(requireContext())
                     .setTitle("Select Language")
@@ -394,6 +403,7 @@ public class AccountPageFragment extends Fragment {
                 .setNegativeButton(R.string.Cancel, null)
                 .show();
     }
+
     private void showChangePasswordDialog() {
 
 //TODO: backendle bağlancak.

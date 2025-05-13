@@ -34,19 +34,19 @@ public interface EventService {
     /**
      * Creates new event.
      */
-    @POST("api/events/")
+    @POST("events/")
     Call<EventDTO> createEvent(@Body EventCreateDTO event);
 
     /**
      * Returns the list of all events.
      */
-    @GET("api/events/all")
+    @GET("events/all")
     Call<List<EventDTO>> getAllEvents();
 
     /**
      * Returns paginated list of events.
      */
-    @GET("api/events")
+    @GET("events")
     Call<PagedModel<EventDTO>> getPaginatedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
 
     @GET("/by-location")
@@ -59,46 +59,46 @@ public interface EventService {
     /**
      * Returns a list of recommended events
      */
-    @GET("api/events/recommended")
+    @GET("events/recommended")
     Call<List<EventDTO>> getRecommendedTours();
 
     /**
      * Gets an event according to id.
      */
-    @GET("api/events/{eventId}")
+    @GET("events/{eventId}")
     Call<EventDTO> getEvent(@Path("eventId") int eventId);
 
     /**
      * Updates an event.
      */
-    @PUT("api/events/{eventId}")
+    @PUT("events/{eventId}")
     Call<EventDTO> updateEvent(@Path("eventId") int eventId, EventCreateDTO update);
 
     /**
      * Deletes an event.
      */
-    @DELETE("api/events/{eventId}")
+    @DELETE("events/{eventId}")
     Call<Void> deleteEvent(@Path("eventId") int eventId);
 
-    @GET("api/events/owned/{userId}")
+    @GET("events/owned/{userId}")
     Call<List<EventDTO>> getOwnedEvents(@Path("userId") int userId);
 
-    @GET("api/events/{eventId}/comments")
+    @GET("events/{eventId}/comments")
     public Call<List<EventCommentDTO>> getEventComment(@Path("eventId") Integer eventId);
 
-    @POST("api/events/{eventId}/comments")
+    @POST("events/{eventId}/comments")
     public Call<EventCommentDTO> postEventComment(@Path("eventId") Integer eventId, @Body EventCommentCreateDTO comment);
 
-    @GET("api/events/{eventId}/ratings")
+    @GET("events/{eventId}/ratings")
     public Call<List<EventRatingDTO>> getEventRatings(@Path("eventId") Integer eventId);
 
-    @POST("api/events/{eventId}/ratings")
+    @POST("events/{eventId}/ratings")
     public Call<EventRatingDTO> postEventRating(@Path("eventId") Integer eventId, @Body EventRatingCreateDTO rating);
 
-    @GET("api/events/{eventId}/chat")
+    @GET("events/{eventId}/chat")
     public Call<List<EventCommentDTO>> getEventChatComments(@Path("eventId") Integer eventId);
 
-    @POST("api/events/{eventId}/chat")
+    @POST("events/{eventId}/chat")
     public Call<EventCommentDTO> postEventChatComment(@Path("eventId") Integer eventId, @Body EventCommentDTO comment);
 
     /**
