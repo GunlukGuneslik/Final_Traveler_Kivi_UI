@@ -17,11 +17,13 @@ import androidx.fragment.app.Fragment;
 import com.example.actualtravellerkiviprojectui.dto.Event.CoordinateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -124,14 +126,22 @@ public class CreateTourAddPlaceFragment extends Fragment implements OnMapReadyCa
         });
 
         if (placeModels.isEmpty()) {
-            LatLng defaultLocation =  new LatLng(39.925533, 32.866287);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
+            LatLng defaultLocation = new LatLng(0.0, 0.0);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 2));
         } else {
 
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
             // Adding all available markers
             for (EventLocationCreateDTO current : placeModels) {
-                mMap.addMarker(new MarkerOptions().position(new LatLng(current.location.latitude, current.location.longtitude)).title(current.title));
+                LatLng location = new LatLng(current.location.longtitude, current.location.latitude);
+                mMap.addMarker(new MarkerOptions().position(location).title(current.title));
+                builder.include(location);
             }
+
+            LatLngBounds bounds = builder.build();
+            int padding = 100;
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            mMap.moveCamera(cameraUpdate);
         }
 
         mMap.getUiSettings().setZoomControlsEnabled(true);

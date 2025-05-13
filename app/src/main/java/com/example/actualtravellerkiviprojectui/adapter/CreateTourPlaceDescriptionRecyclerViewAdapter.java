@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -35,12 +36,12 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull CreateTourPlaceDescriptionRecyclerViewAdapter.MyViewHolder holder, int position) {
-        EventLocationCreateDTO placeModel = placeModels.get(position);
-        if (placeModel.title != null) {
-            holder.placeName.setText(placeModel.title);
+        EventLocationCreateDTO currentPlace = placeModels.get(position);
+        if (currentPlace.title != null) {
+            holder.placeName.setText(currentPlace.title);
         }
-        if (placeModel.description != null) {
-            holder.placeDescription.setText(placeModel.description);
+        if (currentPlace.description != null) {
+            holder.placeDescription.setText(currentPlace.description);
         }
 
         holder.placeName.addTextChangedListener(new TextWatcher() {
@@ -52,7 +53,7 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
             @Override
             public void afterTextChanged(Editable s) {
-                placeModel.title = s.toString(); // Kullanıcının girdiğini PlaceModel'a kaydet
+                currentPlace.title = s.toString(); // Kullanıcının girdiğini PlaceModel'a kaydet
             }
         });
 
@@ -65,7 +66,16 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
             @Override
             public void afterTextChanged(Editable s) {
-                placeModel.description = s.toString();
+                currentPlace.description = s.toString();
+            }
+        });
+
+        holder.deletePlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                placeModels.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+                notifyItemRangeChanged(holder.getAdapterPosition(), placeModels.size());
             }
         });
 
@@ -80,10 +90,12 @@ public class CreateTourPlaceDescriptionRecyclerViewAdapter  extends RecyclerView
 
         EditText placeName;
         EditText placeDescription;
+        Button deletePlaceButton;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             placeName = itemView.findViewById(R.id.editTextPlaceName);
             placeDescription = itemView.findViewById(R.id.editTextPlaceDescription);
+            deletePlaceButton = itemView.findViewById(R.id.deletePlaceButton);
         }
     }
 }
