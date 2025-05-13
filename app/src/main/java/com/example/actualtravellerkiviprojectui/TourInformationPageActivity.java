@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -142,8 +143,10 @@ public class TourInformationPageActivity extends AppCompatActivity {
             if (!eventService.getAttendedEvents(currentUser.id).execute().body().contains(currentTour)) {
                 buttonChat.setEnabled(false);
                 Toast.makeText(this, R.string.toast_not_registered, Toast.LENGTH_SHORT).show();
+                buttonChat.setVisibility(View.GONE);
             } else {
                 buttonChat.setEnabled(true);
+                buttonChat.setVisibility(View.VISIBLE);
             }
         } catch (IOException e) {
             Toast.makeText(this, R.string.toast_error_getting_events, Toast.LENGTH_SHORT).show();

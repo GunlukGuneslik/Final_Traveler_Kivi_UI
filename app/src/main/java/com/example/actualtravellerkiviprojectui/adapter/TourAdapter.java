@@ -22,7 +22,6 @@ import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
-import java.io.IOException;
 import java.util.List;
 
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder> {
@@ -55,12 +54,31 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
         EventDTO tour = tourList.get(position);
         holder.tourName.setText(tour.name);
         UserDTO owner = null;
-        try {
-            owner = userService.getUser(tour.ownerId).execute().body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        holder.guideName.setText("with " + owner.firstName);
+
+        userService.getUser(tour.ownerId).enqueue(new retrofit2.Callback<UserDTO>() {
+            @Override
+            public void onResponse(retrofit2.Call<UserDTO> call, retrofit2.Response<UserDTO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UserDTO owner = response.body();
+                    holder.guideName.setText("with " + owner.firstName);
+                } else {
+                    // API cevap verdi ama başarısız oldu
+                    holder.guideName.setText("Rehber bilgisi alınamadı");
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<UserDTO> call, Throwable t) {
+                // Bir kez daha dene
+                if (!call.isCanceled()) {
+                    call.clone().enqueue(this); // Aynı callback ile yeniden dene
+                } else {
+                    // İkinci deneme de başarısız olursa
+                    holder.guideName.setText("ERR");
+                }
+            }
+        });
+
         NetworkModule.setImageViewFromCall(holder.tourImage, eventService.getPhoto(tour.id), null);
 
         holder.itemView.setOnClickListener(v -> {
