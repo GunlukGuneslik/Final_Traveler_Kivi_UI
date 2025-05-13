@@ -22,11 +22,17 @@ import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.model.Tour;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author Güneş
@@ -60,9 +66,18 @@ public class AttendedToursActivity extends AppCompatActivity {
                 finish();
             }
         });
+        eventService.getAttendedEvents(UserState.getUserId()).enqueue(new Callback<List<EventDTO>>() {
+            @Override
+            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
+                RatedToursList.addAll(response.body());
+                WaitingToursList.addAll(response.body());
+            }
 
-        RatedToursList = loadTours();
-        WaitingToursList = loadTours();
+            @Override
+            public void onFailure(Call<List<EventDTO>> call, Throwable throwable) {
+
+            }
+        });
 
         if (WaitingToursList.isEmpty()) {
             TextView waitingToursText = findViewById(R.id.textViewAttendedToursWaitingForRating);
@@ -133,35 +148,35 @@ public class AttendedToursActivity extends AppCompatActivity {
     /*
     TODO: tarihe göre sorted bir şekilde sıralamalı
      */
-    private ArrayList<EventDTO> loadTours() {
-        ArrayList<EventDTO> tours = new ArrayList<>();
-
-        EventDTO testPlace1 = new EventDTO("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
-        EventDTO testPlace2 = new EventDTO("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
-        ArrayList<EventDTO> testPlaceList = new ArrayList<>();
-        testPlaceList.add(testPlace1);
-        testPlaceList.add(testPlace2);
-        ArrayList<EventDTO> testPlaceList2 = new ArrayList<>();
-        testPlaceList2.add(testPlace2);
-
-        UserDTO user1 = null;
-            try {
-                user1 = userService.getUser(1).execute().body();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            UserDTO user2 = null;
-            try {
-                user2 = userService.getUser(2).execute().body();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-        }
-        ArrayList<String> comments = new ArrayList<>();
-        comments.add("It was nice.");
-        comments.add(("Ankara'yı çok sevdim."));
-        comments.add("I didn't like it.");
-        tours.add(new EventDTO("Location A", new Date(), 4.3, 100,"Türkçe", testPlaceList, user1, R.drawable.ankara, "Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
-        tours.add(new EventDTO("Location B", new Date(), 3.2, 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
-        return tours;
-    }
+//    private ArrayList<EventDTO> loadTours() {
+//        ArrayList<EventDTO> tours = new ArrayList<>();
+//
+//        EventDTO testPlace1 = new EventDTO("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
+//        EventDTO testPlace2 = new EventDTO("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
+//        ArrayList<EventDTO> testPlaceList = new ArrayList<>();
+//        testPlaceList.add(testPlace1);
+//        testPlaceList.add(testPlace2);
+//        ArrayList<EventDTO> testPlaceList2 = new ArrayList<>();
+//        testPlaceList2.add(testPlace2);
+//
+//        UserDTO user1 = null;
+//            try {
+//                user1 = userService.getUser(1).execute().body();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            UserDTO user2 = null;
+//            try {
+//                user2 = userService.getUser(2).execute().body();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//        }
+//        ArrayList<String> comments = new ArrayList<>();
+//        comments.add("It was nice.");
+//        comments.add(("Ankara'yı çok sevdim."));
+//        comments.add("I didn't like it.");
+//        tours.add(new EventDTO("Location A", new Date(), 4.3, 100,"Türkçe", testPlaceList, user1, R.drawable.ankara, "Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
+//        tours.add(new EventDTO("Location B", new Date(), 3.2, 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
+//        return tours;
+//    }
 }
