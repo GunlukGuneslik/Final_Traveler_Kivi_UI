@@ -84,7 +84,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         //tour rate
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         Toast t3 = Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT);
-        int tourId = getIntent().getIntExtra("tourId", -1);
+        int tourId = getIntent().getIntExtra("placeId", -1);
 
         toCompletableFuture(eventService.getEvent(tourId))
                 .thenAccept(currentTour -> {
@@ -155,12 +155,11 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
         LocalDateTime currentDate = LocalDateTime.now();
 
-
-        //TODO
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TourInformationPageActivity.this, EditTourActivity.class);
+                intent.putExtra("tourId", tourId);
                 startActivity(intent);
             }
         });
@@ -169,6 +168,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TourInformationPageActivity.this, EditTourActivity.class);
+                intent.putExtra("tourId", tourId);
                 startActivity(intent);
             }
         });
