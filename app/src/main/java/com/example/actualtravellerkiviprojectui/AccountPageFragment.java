@@ -163,14 +163,32 @@ public class AccountPageFragment extends Fragment {
 
             }
             userProfileName.setText(user.username);
-            NetworkModule.toCompletableFuture(userService.getAchievements(UserState.getUserId())).thenAccept(achievementDTOS -> {
+            NetworkModule.toCompletableFuture(userService.getUserStats(UserState.getUserId())).thenAccept(userStatsDTO -> {
                 postCreateBadge.setVisibility(GONE);
                 eventJoinBadge.setVisibility(GONE);
                 eventCreateBadge.setVisibility(GONE);
                 commentWriteBadge.setVisibility(GONE);
                 imageUploadBadge.setVisibility(GONE);
                 likeReceiveBadge.setVisibility(GONE);
+                if (userStatsDTO.createdEventCount > 0) {
+                    eventCreateBadge.setVisibility(VISIBLE);
+                }
+                if (userStatsDTO.enrolledEventCount > 0) {
+                    eventJoinBadge.setVisibility(VISIBLE);
+                }
+                if (userStatsDTO.postCount > 0) {
+                    postCreateBadge.setVisibility(VISIBLE);
+                }
+
             });
+//            NetworkModule.toCompletableFuture(userService.getAchievements(UserState.getUserId())).thenAccept(achievementDTOS -> {
+//                postCreateBadge.setVisibility(GONE);
+//                eventJoinBadge.setVisibility(GONE);
+//                eventCreateBadge.setVisibility(GONE);
+//                commentWriteBadge.setVisibility(GONE);
+//                imageUploadBadge.setVisibility(GONE);
+//                likeReceiveBadge.setVisibility(GONE);
+//            });
         }).exceptionally(e -> {
             Log.e("AccountPage", "Error fetching user details", e);
             return null;

@@ -112,7 +112,7 @@ public class SearchTourPageFragment extends Fragment {
                     Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
                 });
                 break;
-            case "City":
+            case "Place":
                 filterByLocation(query, tours -> {
                     showFiltered();
                 }, t -> {

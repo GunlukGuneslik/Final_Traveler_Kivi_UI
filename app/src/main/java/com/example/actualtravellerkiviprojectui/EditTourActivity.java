@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.actualtravellerkiviprojectui.api.EventService;
@@ -313,6 +314,9 @@ public class EditTourActivity extends AppCompatActivity {
         tourNameEditText = findViewById(R.id.EditTourEnterTourNameTextView);
         selectDateButton = findViewById(R.id.EditTourPageSelectDateButton);
         selectTimeButton = findViewById(R.id.EditTourPageSelectTimeButton);
+
+        tourNameEditText.setTextColor(ContextCompat.getColor(this, R.color.brown));
+        tourNameEditText.setHintTextColor(ContextCompat.getColor(this, R.color.brown));
 
         // Set initial visibility
         saveButton.setVisibility(INVISIBLE);
