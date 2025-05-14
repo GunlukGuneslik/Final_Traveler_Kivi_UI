@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
@@ -17,22 +15,14 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.state.UserState;
-import com.google.android.gms.maps.model.LatLng;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.stream.Collectors;
 
 /**
  * @author Güneş
@@ -42,8 +32,8 @@ public class AttendedToursActivity extends AppCompatActivity {
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
 
-    private ArrayList<EventDTO> WaitingToursList = new ArrayList<EventDTO>();
-    private ArrayList<EventDTO> RatedToursList = new ArrayList<EventDTO>();
+    private final List<EventDTO> waitingToursList = new ArrayList<EventDTO>();
+    private final List<EventDTO> ratedToursList = new ArrayList<EventDTO>();
     private SearchView tourSearchBar;
     private RecyclerView recyclerViewForAttendedToursWaitingForRating;
     private RecyclerView recyclerViewForAttendedToursRated;
@@ -57,7 +47,9 @@ public class AttendedToursActivity extends AppCompatActivity {
         setContentView(R.layout.activity_attended_tours);
 
         recyclerViewForAttendedToursWaitingForRating = findViewById(R.id.recyclerViewAttendedToursWaitingForRating);
+        recyclerViewForAttendedToursWaitingForRating.setAdapter(adapterForWaitingTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, waitingToursList));
         recyclerViewForAttendedToursRated = findViewById(R.id.recyclerViewAttendedToursRated);
+        recyclerViewForAttendedToursRated.setAdapter(adapterForRatedTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, ratedToursList));
 
         returnButton = findViewById(R.id.AttendedToursPageReturnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -66,77 +58,61 @@ public class AttendedToursActivity extends AppCompatActivity {
                 finish();
             }
         });
-        eventService.getAttendedEvents(UserState.getUserId()).enqueue(new Callback<List<EventDTO>>() {
-            @Override
-            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                RatedToursList.addAll(response.body());
-                WaitingToursList.addAll(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<List<EventDTO>> call, Throwable throwable) {
-
-            }
-        });
-
-        if (WaitingToursList.isEmpty()) {
-            TextView waitingToursText = findViewById(R.id.textViewAttendedToursWaitingForRating);
-            waitingToursText.setVisibility(View.GONE);
-            recyclerViewForAttendedToursWaitingForRating.setVisibility(View.GONE);
-        } else {
-            adapterForWaitingTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, WaitingToursList);
-            recyclerViewForAttendedToursWaitingForRating.setAdapter(adapterForWaitingTours);
-            recyclerViewForAttendedToursWaitingForRating.setLayoutManager(new LinearLayoutManager(this));
-        }
-
-        if (RatedToursList.isEmpty()) {
-            TextView ratedToursText = findViewById(R.id.textViewAttendedToursRated);
-            ratedToursText.setVisibility(View.GONE);
-            recyclerViewForAttendedToursRated.setVisibility(View.GONE);
-        } else {
-            adapterForRatedTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, RatedToursList);
-            recyclerViewForAttendedToursRated.setAdapter(adapterForRatedTours);
-            recyclerViewForAttendedToursRated.setLayoutManager(new LinearLayoutManager(this));
-        }
-
+        loadAttendedToursAsync();
 
         tourSearchBar = findViewById(R.id.searchViewForAttendedTours);
         tourSearchBar.clearFocus();
         tourSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // we dont use this one
             @Override
-            public boolean onQueryTextSubmit(String query){
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
-                flitterList(newText, WaitingToursList, adapterForWaitingTours);
-                flitterList(newText, RatedToursList, adapterForRatedTours);
+                filterList(newText, waitingToursList, adapterForWaitingTours);
+                filterList(newText, ratedToursList, adapterForRatedTours);
                 return true;
             }
         });
     }
 
-    /*
-    * TODO: this method suppose to filter the tours according to both their name and places in it
-     */
-    private void flitterList(String Text, ArrayList<EventDTO> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
-        if (adapter == null || givenList.isEmpty() || givenList == null){
+    private void loadAttendedToursAsync() {
+        Integer userId = UserState.getUserId();
+        NetworkModule.toCompletableFuture(eventService.getAttendedEvents(userId)).thenAccept(eventDTOS -> {
+            if (eventDTOS == null) { return; }
+            ratedToursList.clear();
+            waitingToursList.clear();
+            eventDTOS.stream().filter(eventDTO -> eventDTO.startDate.plusMinutes(eventDTO.duration).isBefore(LocalDateTime.now())).forEach(eventDTO -> {
+                NetworkModule.toCompletableFuture(eventService.hasUserRated(UserState.getUserId(), eventDTO.id)).thenAccept(isRated -> (
+                        isRated ? ratedToursList : waitingToursList).add(eventDTO));
+            });
+        });
+    }
+
+
+//    private void updateRecyclerView(List<EventDTO> tours, RecyclerView recyclerView, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
+//        if (tours.isEmpty()) {
+//            recyclerView.setVisibility(View.GONE);
+//        } else {
+//            if (adapter == null) {
+//                adapter = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, tours);
+//                recyclerView.setAdapter(adapter);
+//                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            } else {
+//                adapter.updateList(tours);
+//            }
+//        }
+//    }
+
+    private void filterList(String text, List<EventDTO> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
+        if (adapter == null || givenList == null || givenList.isEmpty()) {
             return;
         }
-        ArrayList<EventDTO> filteredList = new ArrayList<>();
-
-        for (EventDTO currentTour: givenList) {
-            if (currentTour.name.toLowerCase().contains(Text.toLowerCase())) {
-                filteredList.add(currentTour);
-            } else {
-                for (EventLocationDTO currentPlace: currentTour.locations) {
-                    if (currentPlace.title.toLowerCase().contains(Text.toLowerCase())) {
-                        filteredList.add(currentTour);
-                    }
-                }
-            }
-        }
+        List<EventDTO> filteredList = givenList.stream().filter(event ->
+                event.name.toLowerCase().contains(text.toLowerCase()) ||
+                event.locations.stream().anyMatch(location -> location.title.toLowerCase().contains(text.toLowerCase()))).collect(Collectors.toList());
 
         adapter.setFilteredList(filteredList);
 
@@ -144,39 +120,4 @@ public class AttendedToursActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.toast_no_matching_tours, Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*
-    TODO: tarihe göre sorted bir şekilde sıralamalı
-     */
-//    private ArrayList<EventDTO> loadTours() {
-//        ArrayList<EventDTO> tours = new ArrayList<>();
-//
-//        EventDTO testPlace1 = new EventDTO("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
-//        EventDTO testPlace2 = new EventDTO("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
-//        ArrayList<EventDTO> testPlaceList = new ArrayList<>();
-//        testPlaceList.add(testPlace1);
-//        testPlaceList.add(testPlace2);
-//        ArrayList<EventDTO> testPlaceList2 = new ArrayList<>();
-//        testPlaceList2.add(testPlace2);
-//
-//        UserDTO user1 = null;
-//            try {
-//                user1 = userService.getUser(1).execute().body();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            UserDTO user2 = null;
-//            try {
-//                user2 = userService.getUser(2).execute().body();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//        }
-//        ArrayList<String> comments = new ArrayList<>();
-//        comments.add("It was nice.");
-//        comments.add(("Ankara'yı çok sevdim."));
-//        comments.add("I didn't like it.");
-//        tours.add(new EventDTO("Location A", new Date(), 4.3, 100,"Türkçe", testPlaceList, user1, R.drawable.ankara, "Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
-//        tours.add(new EventDTO("Location B", new Date(), 3.2, 150,   "Türkçe", testPlaceList2, user2, R.drawable.ankara,"Aşti otobus terminalinde saat 07.00'da buluşup yolculuğa başlıyoruz...",comments));
-//        return tours;
-//    }
 }

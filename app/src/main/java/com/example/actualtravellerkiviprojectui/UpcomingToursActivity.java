@@ -1,10 +1,11 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,20 +14,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.model.Tour;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Güneş
  */
 public class UpcomingToursActivity extends AppCompatActivity {
-
-    private ArrayList<EventDTO> TodaysToursList = new ArrayList<>();
-    private ArrayList<EventDTO> UpcomingToursList = new ArrayList<>();
+    private static final EventService eventService = ServiceLocator.getEventService();
+    private List<EventDTO> todaysToursList = new ArrayList<>();
+    private List<EventDTO> upcomingToursList = new ArrayList<>();
     private SearchView tourSearchBar;
     private RecyclerView recyclerViewForTodaysTours;
     private RecyclerView recyclerViewForUpcomingTours;
@@ -40,7 +46,16 @@ public class UpcomingToursActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upcoming_tours);
 
         recyclerViewForTodaysTours = findViewById(R.id.recyclerViewUpcomingToursToday);
+        recyclerViewForTodaysTours.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewForTodaysTours.setVisibility(VISIBLE);
+        recyclerViewForTodaysTours.setAdapter(adapterForTodaysTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, todaysToursList));
+
         recyclerViewForUpcomingTours = findViewById(R.id.recyclerViewUpcomingTours);
+        recyclerViewForUpcomingTours.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewForUpcomingTours.setVisibility(VISIBLE);
+
+        recyclerViewForUpcomingTours.setAdapter(adapterForUpcomingTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, upcomingToursList));
+
 
         returnButton = findViewById(R.id.UpcomingToursPageReturnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -50,81 +65,68 @@ public class UpcomingToursActivity extends AppCompatActivity {
             }
         });
 
-        UpcomingToursList = loadTours();
-        TodaysToursList = loadTours();
-
-        if (TodaysToursList.isEmpty()) {
-            TextView waitingToursText = findViewById(R.id.textViewUpcomingToursToday);
-            waitingToursText.setVisibility(View.GONE);
-            recyclerViewForTodaysTours.setVisibility(View.GONE);
-        } else {
-            adapterForTodaysTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, TodaysToursList);
-            recyclerViewForTodaysTours.setAdapter(adapterForTodaysTours);
-            recyclerViewForTodaysTours.setLayoutManager(new LinearLayoutManager(this));
-        }
-
-        if (UpcomingToursList.isEmpty()) {
-            TextView ratedToursText = findViewById(R.id.textViewUpcomingTours);
-            ratedToursText.setVisibility(View.GONE);
-            recyclerViewForUpcomingTours.setVisibility(View.GONE);
-        } else {
-            adapterForUpcomingTours = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, UpcomingToursList);
-            recyclerViewForUpcomingTours.setAdapter(adapterForUpcomingTours);
-            recyclerViewForUpcomingTours.setLayoutManager(new LinearLayoutManager(this));
-        }
-
+        loadUpcomingToursAsync();
 
         tourSearchBar = findViewById(R.id.searchViewForUpcomingTours);
         tourSearchBar.clearFocus();
         tourSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            // we dont use this one
             @Override
-            public boolean onQueryTextSubmit(String query){
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
-                flitterList(newText, TodaysToursList, adapterForTodaysTours);
-                flitterList(newText, UpcomingToursList, adapterForUpcomingTours);
+                filterList(newText, todaysToursList, adapterForTodaysTours);
+                filterList(newText, upcomingToursList, adapterForUpcomingTours);
                 return true;
             }
         });
     }
 
-    /*
-     * TODO: this method suppose to filter the tours according to both their name and places in it
-     */
-    private void flitterList(String Text, ArrayList<EventDTO> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
-        if (adapter == null || givenList.isEmpty() || givenList == null){
+    private void loadUpcomingToursAsync() {
+        Integer userId = UserState.getUserId();
+        NetworkModule.toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId())).thenAccept(allTours -> runOnUiThread(() -> {
+            if (allTours != null) {
+                upcomingToursList.clear();
+                todaysToursList.clear();
+                LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+                todaysToursList.addAll(allTours.stream().filter(event ->
+                        event.startDate.isAfter(LocalDateTime.now()) &&
+                        event.startDate.truncatedTo(ChronoUnit.DAYS).equals(today)).collect(Collectors.toList()));
+                upcomingToursList.addAll(allTours.stream().filter(event -> event.startDate.truncatedTo(ChronoUnit.DAYS).isAfter(today)).collect(Collectors.toList()));
+                adapterForTodaysTours.notifyDataSetChanged();
+                adapterForUpcomingTours.notifyDataSetChanged();
+            }
+        }));
+    }
+
+//    private void updateRecyclerView(List<EventDTO> tours, RecyclerView recyclerView, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
+//        if (tours.isEmpty()) {
+//            recyclerView.setVisibility(View.GONE);
+//        } else {
+//            if (adapter == null) {
+//                adapter = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, tours);
+//                recyclerView.setAdapter(adapter);
+//                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//            } else {
+//                adapter.updateList(tours);
+//            }
+//        }
+//    }
+
+    private void filterList(String text, List<EventDTO> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
+        if (adapter == null || givenList == null || givenList.isEmpty()) {
             return;
         }
-        ArrayList<EventDTO> filteredList = new ArrayList<>();
-
-        for (EventDTO currentTour: givenList) {
-            if (currentTour.name.toLowerCase().contains(Text.toLowerCase())) {
-                filteredList.add(currentTour);
-            } else {
-                for (EventLocationDTO currentPlace: currentTour.locations) {
-                    if (currentPlace.title.toLowerCase().contains(Text.toLowerCase())) {
-                        filteredList.add(currentTour);
-                    }
-                }
-            }
-        }
+        List<EventDTO> filteredList = givenList.stream().filter(event ->
+                event.name.toLowerCase().contains(text.toLowerCase()) ||
+                event.locations.stream().anyMatch(location -> location.title.toLowerCase().contains(text.toLowerCase()))).collect(Collectors.toList());
 
         adapter.setFilteredList(filteredList);
 
         if (filteredList.isEmpty()) {
             Toast.makeText(this, R.string.toast_no_matching_tours, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /*
-    TODO: tarihe göre sorted bir şekilde sıralamalı
-    TODO: bu method tamamen test amaçlı normalde o gün olan turları ve dğer turları ayrı ayrı yükleyen methodlar lazım
-     */
-    private ArrayList<EventDTO> loadTours() {
-        ArrayList<EventDTO> tours = new ArrayList<>();
-        return tours;
     }
 }

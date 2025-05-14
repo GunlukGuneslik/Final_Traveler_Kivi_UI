@@ -188,5 +188,7 @@ public interface EventService {
 
     @PUT("events/{eventId}/unregister/{userId}")
     Call<EventDTO> unregisterEvent(@Path("eventId") Integer eventId, @Path("userId") Integer userId);
-    
+
+    @GET("events/{eventId}/hasRated")
+    Call<Boolean> hasUserRated(@Query("userId") int userId, @Path("eventId") int eventId);
 }

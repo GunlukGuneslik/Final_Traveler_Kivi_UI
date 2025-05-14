@@ -15,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Güneş
@@ -26,9 +24,9 @@ import java.util.ArrayList;
  */
 public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page extends RecyclerView.Adapter<Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder>{
     Context context;
-    ArrayList<EventDTO> tourList;
+    List<EventDTO> tourList;
 
-    public Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(Context context, ArrayList<EventDTO> tourList) {
+    public Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(Context context, List<EventDTO> tourList) {
         this.context = context;
         this.tourList = tourList;
     }
@@ -78,7 +76,7 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
         }
     }
 
-    public void setFilteredList(ArrayList<EventDTO> filteredList){
+    public void setFilteredList(List<EventDTO> filteredList) {
         this.tourList = filteredList;
         notifyDataSetChanged();
     }
