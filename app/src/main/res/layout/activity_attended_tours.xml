@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/AttendedToursPageReturnButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="Search for a tour" />
+            app:queryHint="@string/attended_search_hint" />
 
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="The Tours Waiting For Your Rate"
+            android:text="@string/attended_waiting_for_rating"
             android:textColor="@color/brown"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Your Attended Tours"
+            android:text="@string/attended_your_tours"
             android:textColor="@color/brown"
             android:textSize="24sp"
             android:textStyle="bold" />

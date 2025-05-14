@@ -130,4 +130,71 @@
 
     <string name="label_tour_details_prefix">Tourdetails: %1$s</string>
     <string name="toast_error_fetching_tour_plan">Fehler beim Laden der Tour</string>
+    <!-- account_page_posts_recycler_view_row.xml -->
+
+        <!-- account_page_posts_recycler_view_row.xml -->
+        <string name="account_likes">Gefällt mir</string>
+        <string name="account_shared_date">Datum</string>
+        <string name="account_place_hashtags">#ort</string>
+        <string name="account_post_description">Beschreibung</string>
+
+        <!-- activity_add_post.xml -->
+        <string name="addpost_title">Neuer Beitrag</string>
+        <string name="addpost_image_preview_description">Vorschau des Beitragsbildes</string>
+        <string name="addpost_hint_caption">Schreibe eine Bildunterschrift...</string>
+        <string name="addpost_hint_hashtags">#tag1 #tag2</string>
+        <string name="addpost_button_share">Teilen</string>
+
+        <!-- activity_attended_tours.xml -->
+        <string name="attended_search_hint">Suche nach einer Tour</string>
+        <string name="attended_waiting_for_rating">Touren, die auf Ihre Bewertung warten</string>
+        <string name="attended_your_tours">Ihre besuchten Touren</string>
+
+        <!-- activity_edit_tour.xml -->
+        <string name="edit_tour_title">Tour bearbeiten</string>
+        <string name="edit_tour_hint_name">Neuen Tour-Namen eingeben</string>
+        <string name="edit_tour_button_change_date">Datum ändern</string>
+        <string name="edit_tour_button_change_time">Uhrzeit ändern</string>
+        <string name="edit_tour_button_last">zurück</string>
+        <string name="edit_tour_button_next">weiter</string>
+        <string name="edit_tour_button_save">Speichern</string>
+    <!-- activity_launch_tour_catalog.xml -->
+    <string name="activity_launch_tour_catalog_title">Tour-Katalog</string>
+
+    <!-- activity_launch_tour_create.xml -->
+    <string name="activity_launch_tour_create_title">Neue Tour erstellen</string>
+    <string name="activity_launch_tour_create_hint_name">Tournamen eingeben</string>
+    <string name="activity_launch_tour_create_button_select_date">Datum auswählen</string>
+    <string name="activity_launch_tour_create_button_select_time">Uhrzeit auswählen</string>
+
+    <!-- activity_recovery_password.xml -->
+    <string name="activity_recovery_password_title">Passwort zurücksetzen</string>
+    <string name="activity_recovery_password_hint_email">E-Mail</string>
+    <string name="activity_recovery_password_button_send">Reset-Link senden</string>
+
+    <!-- activity_sign_in.xml -->
+    <string name="activity_sign_in_hint_email">E-Mail</string>
+    <string name="activity_sign_in_hint_password">Passwort</string>
+    <string name="activity_sign_in_text_forgot_password">Passwort vergessen?</string>
+    <string name="activity_sign_in_text_signup">Noch kein Konto? Registrieren</string>
+
+    <!-- activity_tour_information_page.xml -->
+    <string name="activity_tour_information_page_name">Tour-Name</string>
+    <string name="activity_tour_information_page_language">Sprache: Deutsch</string>
+    <string name="activity_tour_information_page_date">Tour-Datum</string>
+    <string name="activity_tour_information_page_rate">Bewertung: %1$s</string>
+    <string name="activity_tour_information_page_button_add">Zu meinen Touren hinzufügen</string>
+    <string name="activity_tour_information_page_button_edit">Bearbeiten und Starten</string>
+    <string name="Removefrommytours">Aus meinen Touren entfernen</string>
+    <string name="Edit">Bearbeiten</string>
+    <string name="Guidename">Guide-Name</string>
+    <string name="TourPlan">Tour-Plan</string>
+    <string name="Map">Karte</string>
+    <string name="Chat">Chat</string>
+    <string name="Comments">Kommentare</string>
+
+    <!-- activity_upcoming_tours.xml -->
+    <string name="activity_upcoming_tours_search_hint">Suche nach einer Tour</string>
+
+
 </resources>

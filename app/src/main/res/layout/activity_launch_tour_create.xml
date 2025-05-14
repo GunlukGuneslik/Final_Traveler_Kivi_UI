@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
                 android:layout_margin="8dp"
-                android:text="Create New Tour"
+                android:text="@string/activity_launch_tour_create_title"
                 android:textColor="@color/brown"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -52,7 +52,7 @@
                 android:layout_margin="8dp"
                 android:padding="12dp"
                 android:background="@drawable/search_view_map_page_bg"
-                android:hint="Enter Tour Name"
+                android:hint="@string/activity_launch_tour_create_hint_name"
                 app:layout_constraintEnd_toEndOf="parent"
 
                 app:layout_constraintStart_toEndOf="@+id/tourImageView"
@@ -65,7 +65,7 @@
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@color/brown"
                 android:textColor="@color/white"
-                android:text="Select Date"
+                android:text="@string/activity_launch_tour_create_button_select_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tourImageView"
                 app:layout_constraintTop_toBottomOf="@id/EnterTourNameTextView" />
@@ -76,7 +76,7 @@
                 android:layout_height="50dp"
                 android:backgroundTint="@color/brown"
                 android:textColor="@color/white"
-                android:text="Select Time"
+                android:text="@string/activity_launch_tour_create_button_select_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tourImageView"
                 app:layout_constraintTop_toBottomOf="@+id/CreateTourPageSelectDatePage" />
@@ -108,7 +108,7 @@
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/brown"
                 android:drawableLeft="@drawable/baseline_arrow_back_24"
-                android:text="last"
+                android:text="@string/edit_tour_button_last"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/brown"
-                android:text="next"
+                android:text="@string/edit_tour_button_next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="launch"
+                android:text="@string/Launch"
                 android:backgroundTint="@color/brown"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"

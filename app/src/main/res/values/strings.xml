@@ -151,12 +151,116 @@
     <string name="label_tour_details_prefix">Tour Details: %1$s</string>
     <string name="toast_error_fetching_tour_plan">Error fetching the tour</string>
 
-    <!-- UpcomingToursActivity -->
 
 
+        <!-- account_page_posts_recycler_view_row.xml -->
+        <string name="account_likes">likes</string>
+        <string name="account_shared_date">Date</string>
+        <string name="account_place_hashtags">#place</string>
+        <string name="account_post_description">Description</string>
+
+        <!-- activity_add_post.xml -->
+        <string name="addpost_title">New Post</string>
+        <string name="addpost_image_preview_description">Post image preview</string>
+        <string name="addpost_hint_caption">Write a caption...</string>
+        <string name="addpost_hint_hashtags">#tag1 #tag2</string>
+        <string name="addpost_button_share">Share</string>
+
+        <!-- activity_attended_tours.xml -->
+        <string name="attended_search_hint">Search for a tour</string>
+        <string name="attended_waiting_for_rating">The Tours Waiting For Your Rate</string>
+        <string name="attended_your_tours">Your Attended Tours</string>
+
+        <!-- activity_create_new_account.xml -->
+        <!-- (burada zaten @string/app_name ve @string/create_a_New_Account_Page_Tag kullanılıyor) -->
+
+        <!-- activity_edit_tour.xml -->
+        <string name="edit_tour_title">Edit Tour</string>
+        <string name="edit_tour_hint_name">Enter New Tour Name</string>
+        <string name="edit_tour_button_change_date">Change Date</string>
+        <string name="edit_tour_button_change_time">Change Time</string>
+        <string name="edit_tour_button_last">last</string>
+        <string name="edit_tour_button_next">next</string>
+        <string name="edit_tour_button_save">Save</string>
+        <string name="Launch">Launch</string>
 
 
+        <!-- activity_launch_tour_catalog.xml -->
+        <string name="activity_launch_tour_catalog_title">Tour Catalog</string> <!-- :contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1} -->
 
+        <!-- activity_launch_tour_create.xml -->
+        <string name="activity_launch_tour_create_title">Create New Tour</string>      <!-- :contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3} -->
+        <string name="activity_launch_tour_create_hint_name">Enter Tour Name</string>  <!-- :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5} -->
+        <string name="activity_launch_tour_create_button_select_date">Select Date</string>  <!-- :contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7} -->
+        <string name="activity_launch_tour_create_button_select_time">Select Time</string>  <!-- :contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9} -->
+
+        <!-- activity_recovery_password.xml -->
+        <string name="activity_recovery_password_title">Reset Password</string>           <!-- :contentReference[oaicite:10]{index=10}:contentReference[oaicite:11]{index=11} -->
+        <string name="activity_recovery_password_hint_email">Email</string>              <!-- :contentReference[oaicite:12]{index=12}:contentReference[oaicite:13]{index=13} -->
+        <string name="activity_recovery_password_button_send">Send Reset Link</string>    <!-- :contentReference[oaicite:14]{index=14}:contentReference[oaicite:15]{index=15} -->
+
+        <!-- activity_sign_in.xml -->
+        <string name="activity_sign_in_hint_email">Email</string>                        <!-- :contentReference[oaicite:16]{index=16}:contentReference[oaicite:17]{index=17} -->
+        <string name="activity_sign_in_hint_password">Password</string>                  <!-- :contentReference[oaicite:18]{index=18}:contentReference[oaicite:19]{index=19} -->
+        <string name="activity_sign_in_text_forgot_password">Forgot Password?</string>
+    <string name="activity_sign_in_text_signup">Don’t have an account? Sign Up</string><!-- :contentReference[oaicite:20]{index=20}:contentReference[oaicite:21]{index=21} -->
+
+        <!-- activity_tour_information_page.xml -->
+        <string name="activity_tour_information_page_name">Tour Name</string>             <!-- :contentReference[oaicite:22]{index=22}:contentReference[oaicite:23]{index=23} -->
+        <string name="activity_tour_information_page_language">Language: English</string> <!-- :contentReference[oaicite:24]{index=24}:contentReference[oaicite:25]{index=25} -->
+        <string name="activity_tour_information_page_date">Tour Date</string>             <!-- :contentReference[oaicite:26]{index=26}:contentReference[oaicite:27]{index=27} -->
+        <string name="activity_tour_information_page_rate">Rate: %1$s</string>            <!-- :contentReference[oaicite:28]{index=28}:contentReference[oaicite:29]{index=29} -->
+        <string name="activity_tour_information_page_button_add">Add to my tours</string>  <!-- :contentReference[oaicite:30]{index=30}:contentReference[oaicite:31]{index=31} -->
+        <string name="activity_tour_information_page_button_edit">Edit and Launch</string>
+        <string name="Removefrommytours">Remove From My Tours</string>
+        <string name="Edit">Edit</string>
+        <string name="Guidename">Guide Name</string>
+    <string name="TourPlan">Tour Plan</string>
+    <string name="Map">Map</string>
+    <string name="Chat">Chat</string>
+    <string name="Comments">Comments</string>
+    <!-- :contentReference[oaicite:32]{index=32}:contentReference[oaicite:33]{index=33} -->
+
+        <!-- activity_upcoming_tours.xml -->
+        <string name="activity_upcoming_tours_search_hint">Search for a tour</string>   <!-- :contentReference[oaicite:34]{index=34}:contentReference[oaicite:35]{index=35} -->
+
+
+        <!-- activity_upcoming_tours.xml -->
+        <string name="activity_upcoming_tours_search_hint">Search for a tour</string>              <!-- :contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1} -->
+        <string name="activity_upcoming_tours_today_title">Today's Tours</string>               <!-- :contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3} -->
+        <string name="activity_upcoming_tours_your_tours">Your Upcoming Tours</string>          <!-- :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5} -->
+
+        <!-- comments_recycler_view_row.xml -->
+        <string name="comments_row_comment">A Comment</string>                                  <!-- :contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7} -->
+
+        <!-- create_tour_page_place_recycler_view_row.xml -->
+        <string name="create_tour_place_icon_desc">Icon</string>                                <!-- :contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9} -->
+        <string name="create_tour_place_name_hint">Place Name</string>                         <!-- :contentReference[oaicite:10]{index=10}:contentReference[oaicite:11]{index=11} -->
+        <string name="create_tour_place_description_hint">Place Name</string>                  <!-- :contentReference[oaicite:12]{index=12}:contentReference[oaicite:13]{index=13} -->
+
+        <!-- custom_toast_layout.xml -->
+        <string name="custom_toast_message">Custom Toast Message</string>                       <!-- :contentReference[oaicite:14]{index=14}:contentReference[oaicite:15]{index=15} -->
+
+        <!-- dialog_change_password.xml -->
+        <string name="dialog_change_password_hint_old">Old Password</string>                    <!-- :contentReference[oaicite:16]{index=16}:contentReference[oaicite:17]{index=17} -->
+        <string name="dialog_change_password_hint_new">New Password</string>                    <!-- :contentReference[oaicite:18]{index=18}:contentReference[oaicite:19]{index=19} -->
+        <string name="dialog_change_password_hint_confirm">New Password (Again)</string>        <!-- :contentReference[oaicite:20]{index=20}:contentReference[oaicite:21]{index=21} -->
+
+        <!-- fragment_account_page.xml -->
+        <string name="fragment_account_launch_label">Launch a tour</string>                      <!-- :contentReference[oaicite:22]{index=22}:contentReference[oaicite:23]{index=23} -->
+        <string name="fragment_account_catalog_button">catalog</string>                         <!-- :contentReference[oaicite:24]{index=24}:contentReference[oaicite:25]{index=25} -->
+        <string name="fragment_account_create_button">Create</string>                           <!-- :contentReference[oaicite:26]{index=26}:contentReference[oaicite:27]{index=27} -->
+        <string name="fragment_account_my_badges_label">My Badges:</string>                     <!-- :contentReference[oaicite:28]{index=28}:contentReference[oaicite:29]{index=29} -->
+        <string name="fragment_account_attended_tours_button">Attended Tours</string>           <!-- :contentReference[oaicite:30]{index=30}:contentReference[oaicite:31]{index=31} -->
+        <string name="fragment_account_upcoming_tours_button">Upcoming Tours</string>           <!-- :contentReference[oaicite:32]{index=32}:contentReference[oaicite:33]{index=33} -->
+        <string name="fragment_account_profile_name">Profile Name</string>                      <!-- :contentReference[oaicite:34]{index=34}:contentReference[oaicite:35]{index=35} -->
+        <string name="fragment_account_choose_language_button">Choose Language</string>         <!-- :contentReference[oaicite:36]{index=36}:contentReference[oaicite:37]{index=37} -->
+
+        <!-- fragment_create_tour_page_add_descriptions_to_places.xml -->
+        <string name="fragment_create_descriptions_header">Add Descriptions to Places</string> <!-- :contentReference[oaicite:38]{index=38}:contentReference[oaicite:39]{index=39} -->
+
+        <!-- fragment_create_tour_page_add_notes_to_tour.xml -->
+        <string name="fragment_create_note_label">Add Tour Note</string>                        <!-- :contentReference[oaicite:40]{index=40}:contentReference[oaicite:41]{index=41} -->
 
 
 </resources>

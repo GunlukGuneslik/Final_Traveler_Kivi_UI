@@ -47,7 +47,7 @@
                             android:layout_margin="8dp"
                             android:layout_weight="3"
                             android:gravity="center"
-                            android:text="Launch a tour"
+                            android:text="@string/fragment_account_launch_label"
                             android:textColor="@color/brown"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -60,7 +60,7 @@
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
                             android:backgroundTint="@color/light_brown"
-                            android:text="catalog" />
+                            android:text="@string/fragment_account_catalog_button" />
 
                         <Button
                             android:id="@+id/launchTourWindowCreateButton"
@@ -70,7 +70,7 @@
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
                             android:backgroundTint="@color/light_brown"
-                            android:text="Create" />
+                            android:text="@string/fragment_account_create_button" />
 
 
                     </LinearLayout>
@@ -114,7 +114,7 @@
                             android:layout_margin="7dp"
                             android:layout_weight="3"
                             android:gravity="center"
-                            android:text="My Badges:"
+                            android:text="@string/fragment_account_my_badges_label"
                             android:textColor="@color/brown"
                             android:textSize="14sp"
                             android:textStyle="bold"/>

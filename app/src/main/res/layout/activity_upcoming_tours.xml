@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/UpcomingToursButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="Search for a tour" />
+            app:queryHint="@string/activity_upcoming_tours_search_hint" />
 
     </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Today's Tours"
+            android:text="@string/activity_upcoming_tours_today_title"
             android:textColor="@color/brown"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Your Upcoming Tours"
+            android:text="@string/activity_upcoming_tours_your_tours"
             android:textColor="@color/brown"
             android:textSize="24sp"
             android:textStyle="bold" />
