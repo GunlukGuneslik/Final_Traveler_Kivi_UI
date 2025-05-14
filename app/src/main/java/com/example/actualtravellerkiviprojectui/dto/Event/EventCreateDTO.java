@@ -1,6 +1,5 @@
 package com.example.actualtravellerkiviprojectui.dto.Event;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,7 @@ public class EventCreateDTO {
 
     public List<EventLocationDTO> locations = new ArrayList<>();
 
+    public EventCreateDTO() { }
     public EventCreateDTO(Integer ownerId, String name, String details, LocalDateTime startDate, Integer skeletonId, int popularity,
                           double rate, String language, List<EventLocationDTO> locations) {
         this.ownerId = ownerId;

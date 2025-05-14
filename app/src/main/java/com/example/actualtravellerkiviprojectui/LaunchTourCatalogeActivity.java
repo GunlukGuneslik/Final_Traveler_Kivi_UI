@@ -13,23 +13,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.adapter.Adapter_For_Catolog;
-import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
-import com.google.android.gms.maps.model.LatLng;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class LaunchTourCatalogeActivity extends AppCompatActivity {
     private static final UserService userService = ServiceLocator.getUserService();
-    private ArrayList<EventDTO> previouslyCreatedToursByGuideUser;
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+
+    private ArrayList<EventDTO> previouslyCreatedToursByGuideUser = new ArrayList<>();
     private Button returnButton;
     private RecyclerView recyclerView;
     private Adapter_For_Catolog adapter;
@@ -74,6 +74,13 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
                 flitterList(newText, previouslyCreatedToursByGuideUser, adapter);
                 return false;
             }
+        });
+        NetworkModule.toCompletableFuture(eventService.getOwnedEvents(UserState.getUserId())).thenAccept(eventDTOS ->
+        {
+            previouslyCreatedToursByGuideUser.clear();
+            previouslyCreatedToursByGuideUser.addAll(eventDTOS);
+            adapter.notifyDataSetChanged();
+            //eventDTOS.stream().filter(eventDTO -> eventDTO.startDate.plusMinutes(eventDTO.duration).isBefore(LocalDateTime.now())).forEach(previouslyCreatedToursByGuideUser::add);
         });
 
     }
