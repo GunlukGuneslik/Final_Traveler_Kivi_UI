@@ -15,6 +15,7 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
@@ -73,10 +74,14 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         EventCommentDTO message = messages.get(position);
         if (holder instanceof RightViewHolder) {
-            //((RightViewHolder) holder).textUserName.setText(userName);
+            NetworkModule.toCompletableFuture(userService.getUser(message.ownerId)).thenAccept(a->{
+                ((RightViewHolder) holder).textUserName.setText(a.username);
+            });
             ((RightViewHolder) holder).textMessage.setText(message.commentBody);
         } else {
-            //((LeftViewHolder) holder).textUserName.setText(userName);
+            NetworkModule.toCompletableFuture(userService.getUser(message.ownerId)).thenAccept(a->{
+                ((LeftViewHolder) holder).textUserName.setText(a.username);
+            });
             ((LeftViewHolder) holder).textMessage.setText(message.commentBody);
         }
     }
