@@ -47,7 +47,7 @@
                             android:layout_margin="8dp"
                             android:layout_weight="3"
                             android:gravity="center"
-                            android:text="Launch a tour"
+                            android:text="Launch tour"
                             android:textColor="@color/brown"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -106,18 +106,6 @@
                         android:layout_marginEnd="1dp"
                         android:background="@color/light_green"
                         android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="7dp"
-                            android:layout_weight="3"
-                            android:gravity="center"
-                            android:text="My Badges:"
-                            android:textColor="@color/brown"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
 
                         <ImageButton
                             android:id="@+id/imageButtonPostCreate"
@@ -220,7 +208,7 @@
                             android:layout_weight="3"
                             android:backgroundTint="@color/light_brown"
                             android:drawableLeft="@drawable/baseline_folder_open_24"
-                            android:text="Attended Tours"
+                            android:text="Attended"
                             android:textColor="@color/white"
                             android:visibility="visible" />
 
@@ -233,7 +221,7 @@
                             android:layout_weight="3"
                             android:backgroundTint="@color/light_brown"
                             android:drawableLeft="@drawable/baseline_calendar_month_24"
-                            android:text="Upcoming Tours"
+                            android:text="Upcomıng"
                             android:textColor="@color/white"
                             android:visibility="visible" />
 
@@ -273,7 +261,9 @@
             android:id="@+id/AccountPagePostRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginTop="6dp"/>
+
         <Button
             android:id="@+id/ChooseLanguageButton"
             android:layout_width="match_parent"

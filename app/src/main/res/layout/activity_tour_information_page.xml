@@ -70,8 +70,10 @@
                 android:id="@+id/tourRateTourInformationPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="5dp"
                 android:text="Rate: 5.4"
+                android:textColor="@color/brown"
                 app:layout_constraintStart_toEndOf="@+id/StarImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +82,9 @@
                 android:layout_width="203dp"
                 android:layout_height="22dp"
                 android:layout_margin="10dp"
+                android:padding="2dp"
                 android:text="Tour Date"
+                android:textColor="@color/brown"
                 app:layout_constraintStart_toEndOf="@+id/calenderImage"
                 app:layout_constraintTop_toBottomOf="@+id/tourLanguageTextViewTourInfoPage"/>
 
@@ -173,9 +177,10 @@
 
             <ImageView
                 android:id="@+id/StarImage"
-                android:layout_width="28dp"
-                android:layout_height="25dp"
-                android:layout_margin="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toStartOf="@+id/tourRateTourInformationPage"
                 app:layout_constraintStart_toEndOf="@+id/tourLanguageTextViewTourInfoPage"
                 app:layout_constraintTop_toTopOf="parent"

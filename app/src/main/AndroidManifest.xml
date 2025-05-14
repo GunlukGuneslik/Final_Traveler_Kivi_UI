@@ -39,6 +39,7 @@
             android:exported="false" />
         <activity
             android:name=".TourInformationPageActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".LaunchTourCatalogeActivity"
