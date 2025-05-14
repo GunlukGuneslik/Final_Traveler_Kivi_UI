@@ -53,6 +53,7 @@
                 android:padding="12dp"
                 android:background="@drawable/search_view_map_page_bg"
                 android:hint="Enter Tour Name"
+                android:textColorHint="@color/brown"
                 app:layout_constraintEnd_toEndOf="parent"
 
                 app:layout_constraintStart_toEndOf="@+id/tourImageView"
