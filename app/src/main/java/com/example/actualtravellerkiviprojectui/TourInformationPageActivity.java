@@ -93,40 +93,42 @@ public class TourInformationPageActivity extends AppCompatActivity {
         int tourId = getIntent().getIntExtra("tourId", -1);
 
         toCompletableFuture(eventService.getEvent(tourId))
-                .thenAccept(currentTour -> runOnUiThread(() -> {
-                tourNameTextView.setText(currentTour.name);
-                tourLanguage.setText("Language: " + currentTour.language);
-                tourDate.setText(currentTour.startDate.toString());
-                tourRate.setText("Rate: " + currentTour.rating);
+                .thenAccept(currentTour -> {
+                    runOnUiThread(() -> {
+                        tourNameTextView.setText(currentTour.name);
+                        tourLanguage.setText("Language: " + currentTour.language);
+                        tourDate.setText(currentTour.startDate.toString());
+                        tourRate.setText("Rate: " + currentTour.rating);
 
                     toCompletableFuture(userService.getUser(currentTour.ownerId))
                             .thenAccept(user -> runOnUiThread(() -> guideName.setText(user.username)))
                             .exceptionally(e -> null);
 
-                if (UserState.getUserId().equals(currentTour.ownerId)) {
-                    if (currentTour.startDate.isBefore(LocalDateTime.now())) {
-                        editAndLaunchButton.setVisibility(View.VISIBLE);
-                    } else {
-                        editButton.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
+                        if (UserState.getUserId().equals(currentTour.ownerId)) {
+                            if (currentTour.startDate.isBefore(LocalDateTime.now())) {
+                                editAndLaunchButton.setVisibility(View.VISIBLE);
+                            } else {
+                                editButton.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
                             .thenAccept(list -> runOnUiThread(() -> {
                                 if (list.contains(currentTour) &&
-                                currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
-                                removeFromMyToursButton.setVisibility(View.VISIBLE);
-                            } else {
-                                    if (!list.contains(currentTour) &&
                                     currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
-                                    addToMyToursButton.setVisibility(View.VISIBLE);
+                                    removeFromMyToursButton.setVisibility(View.VISIBLE);
+                                } else {
+                                    if (!list.contains(currentTour) &&
+                                        currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
+                                        addToMyToursButton.setVisibility(View.VISIBLE);
+                                    }
                                 }
-                            }
                             }))
                             .exceptionally(e -> null);
-                }
+                        }
 
-                NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
-                }))
+                        NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
+                    });
+                })
                 .exceptionally(t -> {
                     runOnUiThread(() -> {
                         t3.show();
@@ -248,4 +250,5 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
 
 }
+
 

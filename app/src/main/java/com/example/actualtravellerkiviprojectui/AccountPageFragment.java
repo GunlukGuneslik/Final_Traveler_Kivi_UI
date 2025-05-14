@@ -42,12 +42,7 @@ import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,9 +115,6 @@ public class AccountPageFragment extends Fragment {
 
         Log.e("ERROR", UserState.getUserId().toString());
 
-
-
-
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             try {
                 // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
@@ -172,11 +164,10 @@ public class AccountPageFragment extends Fragment {
                     .show();
         });
         launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
-        userService.getUser(UserState.getUserId()).enqueue(new Callback<UserDTO>() {
-            @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                if (response.isSuccessful() &&
-                    response.body().userType != UserDTO.UserType.GUIDE_USER) {
+
+        NetworkModule.toCompletableFuture(userService.getUser(UserState.getUserId()))
+                .thenAccept(user -> {
+                    if (user != null && user.userType != UserDTO.UserType.GUIDE_USER) {
                     launchTourWindowForGuideUsers.setVisibility(GONE);
                 } else {
                     catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
@@ -198,15 +189,12 @@ public class AccountPageFragment extends Fragment {
                     });
                     chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
                     chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserDTO> call, Throwable throwable) {
-
-            }
-        });
+                    }
+                })
+                .exceptionally(e -> {
+                    Log.e("AccountPage", "Error fetching user details", e);
+                    return null;
+                });
 
         profilePhoto = view.findViewById(R.id.userProfilePhoto);
         // profilePhoto.setImageResource(userProfilePhoto);
@@ -330,28 +318,22 @@ public class AccountPageFragment extends Fragment {
         resultLauncher.launch(intent);
     }
 
-
-
-
-    //TODO: is this a good place for this method? ofcouse not! iğ changed it but i don not understand it. Just copy paste from chatgpt.
     private void fillSocialMediaPosts() {
-        postService.fetchAllPosts().enqueue(new Callback<List<PostDTO>>() {
-            @Override
-            public void onResponse(Call<List<PostDTO>> call, Response<List<PostDTO>> response) {
-                if (response.isSuccessful() && response.body() == null) {
-                    return;
-                }
-                posts.clear();
-                posts.addAll(response.body());
-                adapter.notifyDataSetChanged(); // RecyclerView güncellensin
-            }
-
-            @Override
-            public void onFailure(Call<List<PostDTO>> call, Throwable throwable) {
-                Log.e("retrofit", "Error fetching feed", throwable);
-                Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show();
-            }
-        });
+        NetworkModule.toCompletableFuture(postService.fetchAllPosts())
+                .thenAccept(postList -> {
+                    if (postList != null) {
+                        posts.clear();
+                        posts.addAll(postList);
+                        adapter.notifyDataSetChanged(); // RecyclerView güncellensin
+                    }
+                })
+                .exceptionally(e -> {
+                    Log.e("retrofit", "Error fetching feed", e);
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show();
+                    }
+                    return null;
+                });
     }
 
     // --- Change Name Dialog ---@author:Eftelya

@@ -62,20 +62,23 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         PostDTO post = socialMediaPostModels.get(position);
         toCompletableFuture(userService.getUser(post.userId))
                 .thenCompose(owner -> toCompletableFuture(postService.likers(post.postId))
-                        .thenAccept(likers -> runOnUiThread(() -> {
-                            holder.textViewUserName.setText(owner.username);
-                            holder.textViewPhotoDescription.setText(post.body);
-                            holder.textViewHashtag.setText(post.tags.get(0));
-                            holder.textViewLikes.setText(post.likeCount + " likes");
-                            NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
-                            NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(post.postId), null);
-                            holder.filledHeartButton.setVisibility(
-                                    likers.contains(UserState.getUserId())
-                                    ? View.VISIBLE : View.GONE);
-                            holder.heartButton.setVisibility(likers.contains(UserState.getUserId())
-                                                             ? View.GONE : View.VISIBLE);
+                        .thenAccept(likers -> {
+                            // Use View.post instead of runOnUiThread
+                            holder.itemView.post(() -> {
+                                holder.textViewUserName.setText(owner.username);
+                                holder.textViewPhotoDescription.setText(post.body);
+                                holder.textViewHashtag.setText(post.tags.get(0));
+                                holder.textViewLikes.setText(post.likeCount + " likes");
+                                NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
+                                NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(post.postId), null);
+                                holder.filledHeartButton.setVisibility(
+                                        likers.contains(UserState.getUserId())
+                                        ? View.VISIBLE : View.GONE);
+                                holder.heartButton.setVisibility(
+                                        likers.contains(UserState.getUserId())
+                                        ? View.GONE : View.VISIBLE);
+                            });
                         }))
-                )
                 .exceptionally(e -> null);
 
         holder.heartButton.setOnClickListener(new View.OnClickListener() {

@@ -144,17 +144,23 @@ public class SearchTourPageFragment extends Fragment {
 
     private void setFilteredToursFromCall(Call<List<EventDTO>> call, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
         toCompletableFuture(call)
-                .thenAccept(results -> runOnUiThread(() -> {
-                    filteredTours.clear();
-                    filteredTours.addAll(results);
-                    filteredAdapter.notifyDataSetChanged();
-                    onSuccess.accept(results);
-                }))
+                .thenAccept(results -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            filteredTours.clear();
+                            filteredTours.addAll(results);
+                            filteredAdapter.notifyDataSetChanged();
+                            onSuccess.accept(results);
+                        });
+                    }
+                })
                 .exceptionally(t -> {
-                    runOnUiThread(() -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
                         onError.accept(t);
                     });
+                    }
                     return null;
                 });
     }
@@ -162,16 +168,23 @@ public class SearchTourPageFragment extends Fragment {
     private void initializeRecommendedTours() {
         if (!recommendedTours.isEmpty()) return;
         toCompletableFuture(eventService.getRecommendedTours())
-                .thenAccept(list -> runOnUiThread(() -> {
-                    recommendedTours.clear();
-                    recommendedTours.addAll(list);
-                    showRecommended();
-                }))
+                .thenAccept(list -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            recommendedTours.clear();
+                            recommendedTours.addAll(list);
+                            showRecommended();
+                        });
+                    }
+                })
                 .exceptionally(t -> {
-                    runOnUiThread(() ->
-                            Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show()
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show()
                     );
+                    }
                     return null;
                 });
     }
 }
+
