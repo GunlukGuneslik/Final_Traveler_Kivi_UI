@@ -287,11 +287,11 @@ public class EditTourActivity extends AppCompatActivity {
         initializeUIComponents();
 
         int tourId = -1;
-        // Get tourId from intent
+// Get tourId from intent
         try {
             tourId = getIntent().getIntExtra("tourId", -1);
         } catch (Exception e) {
-            tourId = getIntent().getIntExtra("placeId", -1);
+            tourId = getIntent().getIntExtra("tourId", -1);
         }
 
         if (tourId == -1) {
@@ -300,11 +300,11 @@ public class EditTourActivity extends AppCompatActivity {
             return;
         }
 
-        // Load tour data
+// Load tour data
         loadTourData(tourId);
     }
 
-    private void initializeUIComponents() {
+        private void initializeUIComponents() {
         returnButton = findViewById(R.id.EditTourPageReturnButton);
         nextButton = findViewById(R.id.EditTourPageNextButton);
         backButton = findViewById(R.id.EditTourPageTurnButton);
