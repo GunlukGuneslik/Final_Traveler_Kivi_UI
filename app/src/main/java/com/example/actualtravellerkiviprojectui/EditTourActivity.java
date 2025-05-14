@@ -46,7 +46,7 @@ public class EditTourActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
-                    tourImageView.setImageURI(selectedImageUri);
+                    //tourImageView.setImageURI(selectedImageUri);
                     isImageChanged = true;
                 }
             }
@@ -286,8 +286,14 @@ public class EditTourActivity extends AppCompatActivity {
         // Initialize UI components first
         initializeUIComponents();
 
+        int tourId = -1;
         // Get tourId from intent
-        int tourId = getIntent().getIntExtra("tourId", -1);
+        try {
+            tourId = getIntent().getIntExtra("tourId", -1);
+        } catch (Exception e) {
+            tourId = getIntent().getIntExtra("placeId", -1);
+        }
+
         if (tourId == -1) {
             Toast.makeText(this, R.string.toast_tour_load_error, Toast.LENGTH_SHORT).show();
             finish();
@@ -395,7 +401,7 @@ public class EditTourActivity extends AppCompatActivity {
 
                 // Load first fragment
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
+                        .replace(R.id.frameLayoutForEditTourPage, fragments[currentFragmentIndex])
                         .commit();
             });
         }).exceptionally(throwable -> {
