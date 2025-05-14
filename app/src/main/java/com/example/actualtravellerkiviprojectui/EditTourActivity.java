@@ -46,7 +46,7 @@ public class EditTourActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
-                    tourImageView.setImageURI(selectedImageUri);
+                    //tourImageView.setImageURI(selectedImageUri);
                     isImageChanged = true;
                 }
             }
@@ -286,19 +286,25 @@ public class EditTourActivity extends AppCompatActivity {
         // Initialize UI components first
         initializeUIComponents();
 
-        // Get tourId from intent
-        int tourId = getIntent().getIntExtra("tourId", -1);
+        int tourId = -1;
+// Get tourId from intent
+        try {
+            tourId = getIntent().getIntExtra("tourId", -1);
+        } catch (Exception e) {
+            tourId = getIntent().getIntExtra("tourId", -1);
+        }
+
         if (tourId == -1) {
             Toast.makeText(this, R.string.toast_tour_load_error, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        // Load tour data
+// Load tour data
         loadTourData(tourId);
     }
 
-    private void initializeUIComponents() {
+        private void initializeUIComponents() {
         returnButton = findViewById(R.id.EditTourPageReturnButton);
         nextButton = findViewById(R.id.EditTourPageNextButton);
         backButton = findViewById(R.id.EditTourPageTurnButton);
@@ -395,7 +401,7 @@ public class EditTourActivity extends AppCompatActivity {
 
                 // Load first fragment
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
+                        .replace(R.id.frameLayoutForEditTourPage, fragments[currentFragmentIndex])
                         .commit();
             });
         }).exceptionally(throwable -> {
@@ -500,7 +506,7 @@ public class EditTourActivity extends AppCompatActivity {
 
     private void switchFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
+                .replace(R.id.frameLayoutForEditTourPage, fragments[currentFragmentIndex])
                 .commit();
 
         backButton.setVisibility(currentFragmentIndex > 0 ? View.VISIBLE : View.GONE);

@@ -28,7 +28,7 @@
                 android:src="@drawable/baseline_location_pin_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="Icon" />
+                android:contentDescription="@string/create_tour_place_icon_desc" />
 
 
             <EditText
@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:hint="Place Name"
+                android:hint="@string/create_tour_place_name_hint"
                 android:textColor="@color/brown"
                 android:textColorHint="@color/brown"
                 android:textSize="24dp"
@@ -52,7 +52,7 @@
                 android:layout_margin="8dp"
                 android:textColor="@color/brown"
                 android:textColorHint="@color/brown"
-                android:hint="Place Name"
+                android:hint="@string/create_tour_place_description_hint"
                 android:maxLines="10"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

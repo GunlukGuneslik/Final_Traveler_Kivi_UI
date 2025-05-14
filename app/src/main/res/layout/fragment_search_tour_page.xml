@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/search_background"
-                android:hint="Search tours..."
+                android:hint="@string/fragment_search_tour_page_search_hint"
                 android:inputType="text"
                 android:padding="8dp"
                 android:textColor="@color/black" />
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:backgroundTint="@color/brown"
-                android:text="Search"
+                android:text="@string/fragment_search_tour_page_button_search"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Recommended Tours"
+            android:text="@string/fragment_search_tour_page_recommended_title"
             android:textColor="@color/dark_gray"
             android:textSize="18sp"
             android:textStyle="bold"

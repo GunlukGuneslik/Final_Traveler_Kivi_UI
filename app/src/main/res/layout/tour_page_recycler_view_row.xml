@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Tour Name"
+                android:text="@string/tour_page_tour_name"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"

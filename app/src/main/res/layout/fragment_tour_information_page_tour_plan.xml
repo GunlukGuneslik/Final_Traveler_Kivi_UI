@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:text="Tour Plan: " />
+            android:text="@string/fragment_tour_information_page_tour_plan_label" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTourPlan"
@@ -39,7 +39,7 @@
             android:background="@drawable/tour_information_page_text_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Details: ..." />
+            android:text="@string/fragment_tour_information_page_tour_plan_details" />
     </LinearLayout>
 
 

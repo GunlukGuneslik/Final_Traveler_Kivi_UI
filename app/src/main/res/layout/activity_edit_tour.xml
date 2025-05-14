@@ -53,7 +53,7 @@
                 android:layout_height="50dp"
                 android:layout_margin="8dp"
                 android:background="@drawable/search_view_map_page_bg"
-                android:hint="Enter New Tour Name"
+                android:hint="@string/edit_tour_hint_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingStart="16dp"
                 app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
@@ -65,7 +65,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@color/brown"
-                android:text="Change Date"
+                android:text="@string/edit_tour_button_change_date"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
                 app:layout_constraintTop_toBottomOf="@id/EditTourEnterTourNameTextView" />
@@ -75,7 +75,7 @@
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/brown"
-                android:text="Change Time"
+                android:text="@string/edit_tour_button_change_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
                 app:layout_constraintTop_toBottomOf="@+id/EditTourPageSelectDateButton" />
@@ -106,7 +106,7 @@
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/brown"
                 android:drawableLeft="@drawable/baseline_arrow_back_24"
-                android:text="last"
+                android:text="@string/edit_tour_button_last"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:backgroundTint="@color/brown"
-                android:text="next"
+                android:text="@string/edit_tour_button_next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Save"
+                android:text="@string/edit_tour_button_save"
                 android:backgroundTint="@color/brown"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"

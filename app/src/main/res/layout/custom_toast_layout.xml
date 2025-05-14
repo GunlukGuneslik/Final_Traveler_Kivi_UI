@@ -16,7 +16,7 @@
         android:id="@+id/toatMessage"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:text="Custom Toast Message"
+        android:text="@string/custom_toast_message"
         android:paddingStart="10dp"
         android:gravity="center"
         android:textColor="@color/brown"/>
