@@ -76,6 +76,7 @@ public class SocialMediaFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddPostActivity.class);
                 startActivity(intent);
+
             }
         });
         searchView = view.findViewById(R.id.socialMediaSearchBar);

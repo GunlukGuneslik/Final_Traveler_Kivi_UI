@@ -1,6 +1,5 @@
 package com.example.actualtravellerkiviprojectui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,7 +111,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                flitterList(newText);
+                //flitterList(newText);
                 return true;
             }
         });
@@ -194,7 +193,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         for (EventLocationDTO place : places) {
             if (fromCoordinateDTO(place.location).equals(clickedLocation)) {
                 // when we click on a place on map it directly shows the info about this place
-                flitterList(place.title);
+                //flitterList(place.title);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedLocation, 10));
                 return true;
             }

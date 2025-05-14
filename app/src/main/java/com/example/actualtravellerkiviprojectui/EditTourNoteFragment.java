@@ -62,7 +62,7 @@ public class EditTourNoteFragment extends Fragment {
 
         activity = (EditTourActivity) getActivity();
 
-        tourDescription = activity.getTourDescription();
+        //tourDescription = activity.getTourDescription();
         editText = view.findViewById(R.id.EditTextEditTourNotes);
 
         if (tourDescription != null) {
