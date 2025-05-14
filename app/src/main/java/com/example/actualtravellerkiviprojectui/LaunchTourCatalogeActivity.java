@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.actualtravellerkiviprojectui.adapter.Adapter_For_Catolog;
 import com.example.actualtravellerkiviprojectui.adapter.Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
@@ -29,7 +30,7 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
     private ArrayList<EventDTO> previouslyCreatedToursByGuideUser;
     private Button returnButton;
     private RecyclerView recyclerView;
-    private Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter;
+    private Adapter_For_Catolog adapter;
 
     private SearchView searchView;
 
@@ -40,7 +41,7 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
 
         //previouslyCreatedToursByGuideUser = loadCreatedOldTours();
 
-        returnButton = findViewById(R.id.AttendedToursPageReturnButton);
+        returnButton = findViewById(R.id.CatalougeToursPageReturnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +50,7 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.recyclerViewLaunchTourCatalog);
-        adapter = new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(this, previouslyCreatedToursByGuideUser);
+        adapter = new Adapter_For_Catolog(this, previouslyCreatedToursByGuideUser);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -107,7 +108,7 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
     /*
      * TODO: this method suppose to filter the tours according to both their name and places in it
      */
-    private void flitterList(String Text, ArrayList<EventDTO> givenList, Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page adapter) {
+    private void flitterList(String Text, ArrayList<EventDTO> givenList, Adapter_For_Catolog adapter) {
         if (adapter == null || givenList.isEmpty() || givenList == null) {
             return;
         }

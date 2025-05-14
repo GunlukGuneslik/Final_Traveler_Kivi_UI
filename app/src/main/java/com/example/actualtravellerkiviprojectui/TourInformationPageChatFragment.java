@@ -1,24 +1,27 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static com.example.actualtravellerkiviprojectui.api.modules.NetworkModule.toCompletableFuture;
+
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-
 import com.example.actualtravellerkiviprojectui.adapter.Chat_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.model.Message;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentCreateDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * @author zeynep
@@ -27,17 +30,14 @@ import java.util.Comparator;
  * create an instance of this fragment.
  */
 public class TourInformationPageChatFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_TOUR_ID = "tourId";
+    private final EventService eventService = ServiceLocator.getEventService();
+    private final ArrayList<EventCommentDTO> messages = new ArrayList<>();
 
     private EditText editTextMessage;
     private ImageButton buttonSendChat;
     private RecyclerView chatRecyclerView;
-
-    private ArrayList<Message> messages = new ArrayList<>();
+    private Integer tourId;
     private Chat_RecyclerViewAdapter adapter;
     private String currentUserId;
 
@@ -45,11 +45,10 @@ public class TourInformationPageChatFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TourInformationPageChatFragment newInstance(String param1, String param2) {
+    public static TourInformationPageChatFragment newInstance(Integer tourId) {
         TourInformationPageChatFragment fragment = new TourInformationPageChatFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_TOUR_ID, tourId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,9 +57,20 @@ public class TourInformationPageChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            tourId = getArguments().getInt(ARG_TOUR_ID);
         }
+        toCompletableFuture(eventService.getEventChatComments(tourId))
+                .thenAccept(msgs -> requireActivity().runOnUiThread(() -> {
+                    messages.clear();
+                    messages.addAll(msgs);
+                    adapter.notifyDataSetChanged();
+                }))
+                .exceptionally(e -> {
+                    requireActivity().runOnUiThread(() ->
+                            Toast.makeText(getContext(), "Couldn't get chat messages.", Toast.LENGTH_SHORT).show()
+                    );
+                    return null;
+                });
     }
 
     @Override
@@ -72,24 +82,27 @@ public class TourInformationPageChatFragment extends Fragment {
         buttonSendChat = view.findViewById(R.id.imageButtonSend);
         chatRecyclerView = view.findViewById(R.id.chatRecyclerView);
 
-        messages = new ArrayList<>();
-        adapter = new Chat_RecyclerViewAdapter(requireContext(),messages,this,currentUserId);
+        adapter = new Chat_RecyclerViewAdapter(requireContext(), messages, this);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         chatRecyclerView.setAdapter(adapter);
 
         buttonSendChat.setOnClickListener(v -> {
             String text = editTextMessage.getText().toString().trim();
-            if (!text.isEmpty()) {
-                //currentUserId daha yok
-                //Message message = new Message(currentUserId, text, System.currentTimeMillis());
-                //messages.add(message);
-
-                //Collections.sort(messages, Comparator.comparingLong(Message::getTimestamp));
-
-                //adapter.notifyItemInserted(messages.size() - 1);
-                //chatRecyclerView.scrollToPosition(messages.size() - 1);
-                editTextMessage.setText("");
-            }
+            if (text.isEmpty()) return;
+            EventCommentCreateDTO dto = new EventCommentCreateDTO(UserState.getUserId(), text);
+            toCompletableFuture(eventService.postEventChatComment(tourId, dto))
+                    .thenAccept(c -> requireActivity().runOnUiThread(() -> {
+                        messages.add(c);
+                        adapter.notifyItemInserted(messages.size() - 1);
+                        chatRecyclerView.scrollToPosition(messages.size() - 1);
+                        editTextMessage.setText("");
+                    }))
+                    .exceptionally(e -> {
+                        requireActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), "Couldn't send message.", Toast.LENGTH_SHORT).show()
+                        );
+                        return null;
+                });
         });
 
         return view;

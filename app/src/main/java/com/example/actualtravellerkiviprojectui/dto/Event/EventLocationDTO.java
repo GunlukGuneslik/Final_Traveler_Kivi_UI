@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui.dto.Event;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Set;
 
 /**
@@ -17,6 +19,10 @@ public class EventLocationDTO {
     public CoordinateDTO location;
     public boolean featured;
 
+    public EventLocationDTO() {
+
+    }
+
     public EventLocationDTO(CoordinateDTO location, boolean featured, Set<String> keywords, String description, String title, String district, String city) {
         this.location = location;
         this.featured = featured;
@@ -25,5 +31,9 @@ public class EventLocationDTO {
         this.title = title;
         this.district = district;
         this.city = city;
+    }
+
+    public LatLng toLatLng() {
+        return new LatLng(this.location.latitude, this.location.longtitude);
     }
 }

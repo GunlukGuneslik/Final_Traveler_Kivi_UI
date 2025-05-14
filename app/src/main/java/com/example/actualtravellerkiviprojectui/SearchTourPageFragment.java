@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static com.example.actualtravellerkiviprojectui.api.modules.NetworkModule.toCompletableFuture;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +24,14 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SearchTourPageFragment extends Fragment {
 
@@ -41,7 +39,6 @@ public class SearchTourPageFragment extends Fragment {
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
 
-    private final List<EventDTO> allTours = new ArrayList<>();
     private TextView recommendedTitle;
     private final List<EventDTO> filteredTours = new ArrayList<>();
     private final List<EventDTO> recommendedTours = new ArrayList<>();
@@ -63,7 +60,7 @@ public class SearchTourPageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle bs) {
         super.onViewCreated(view, bs);
         initializeRecommendedTours();   // Önerilen tur listesi
-        initializeAllTours();
+
         // View binding
         etSearch = view.findViewById(R.id.etSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
@@ -72,6 +69,9 @@ public class SearchTourPageFragment extends Fragment {
         rvFiltered = view.findViewById(R.id.rvTours);
         rvRecommended = view.findViewById(R.id.rvRecommendedTours);
         recommendedTitle = view.findViewById(R.id.recommendedTitle);
+        filteredAdapter = new TourAdapter(requireContext(), filteredTours);
+        recommendedAdapter = new TourAdapter(requireContext(), recommendedTours);
+
 
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_background_brown, new String[]{
                 "All", "City", "Guide"});
@@ -85,12 +85,10 @@ public class SearchTourPageFragment extends Fragment {
 
 
         // Searched tour view
-        filteredAdapter = new TourAdapter(getContext(), filteredTours);
         rvFiltered.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         rvFiltered.setAdapter(filteredAdapter);
 
         // Önerilen turlar listesi
-        recommendedAdapter = new TourAdapter(getContext(), recommendedTours);
         rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         rvRecommended.setAdapter(recommendedAdapter);
 
@@ -105,47 +103,32 @@ public class SearchTourPageFragment extends Fragment {
             return;
         }
         String filter = spinnerFilter.getSelectedItem().toString();
-        String sortBy = spinnerSort.getSelectedItem().toString();
-        // TODO: Use async
-        List<EventDTO> result = allTours.stream().filter(t -> {
-            switch (filter) {
-                case "City":
-                    if (!t.locations.isEmpty()) {
-                        String locationTitle = t.locations.get(0).title;
-                        return locationTitle != null && locationTitle.toLowerCase().contains(query);
-                    }
-                    return false;
-
-                case "Guide":
-                    if (t.ownerId == null) return false;
-                    UserDTO guide = null;
-                    try {
-                        guide = userService.getUser(t.ownerId).execute().body();
-                    } catch (IOException e) {
-                    }
-                    return (guide.username != null &&
-                            guide.username.toLowerCase().contains(query)) ||
-                           (guide.firstName != null &&
-                            guide.firstName.toLowerCase().contains(query)) ||
-                           (guide.lastName != null && guide.lastName.toLowerCase().contains(query));
-
-
-                case "All":
-                default:
-                    return t.name != null && t.name.toLowerCase().contains(query);
-            }
-        }).collect(Collectors.toList());
-
-        if (sortBy.equals("Date")) {
-            result.sort(Comparator.comparing(t -> t.startDate));
-        } else if (sortBy.equals("Popularity")) {
-            result.sort((t1, t2) -> Integer.compare(t2.userIds.size(), t1.userIds.size()));
+        switch (filter) {
+            case "Guide":
+                filterByOwnerName(query, tours -> {
+                    showFiltered();
+                }, t -> {
+                    showRecommended();
+                    Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
+                });
+                break;
+            case "City":
+                filterByLocation(query, tours -> {
+                    showFiltered();
+                }, t -> {
+                    showRecommended();
+                    Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
+                });
+                break;
         }
+    }
 
-        filteredTours.clear();
-        filteredTours.addAll(result);
-        filteredAdapter.notifyDataSetChanged();
-        showAllTours();
+    private void filterByLocation(String location, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
+        setFilteredToursFromCall(eventService.getEventsByLocation(location), onSuccess, onError);
+    }
+
+    private void filterByOwnerName(String ownerName, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
+        setFilteredToursFromCall(eventService.getEventsByOwner(ownerName), onSuccess, onError);
     }
 
 
@@ -155,55 +138,51 @@ public class SearchTourPageFragment extends Fragment {
         rvFiltered.setVisibility(View.GONE);
     }
 
-    private void showAllTours() {
+    private void showFiltered() {
         recommendedTitle.setVisibility(View.GONE);
         rvRecommended.setVisibility(View.GONE);
         rvFiltered.setVisibility(View.VISIBLE);
     }
 
-    private void initializeAllTours() {
-        if (!allTours.isEmpty()) {
-            return;
-        }
-        eventService.getAllEvents().enqueue(new Callback<List<EventDTO>>() {
-            @Override
-            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null &&
-                    !response.body().isEmpty()) {
-                    allTours.clear();
-                    allTours.addAll(response.body());
-                    filteredTours.addAll(allTours);
-                    filteredAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void setFilteredToursFromCall(Call<List<EventDTO>> call, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
+        toCompletableFuture(call)
+                .thenAccept(results -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            filteredTours.clear();
+                            filteredTours.addAll(results);
+                            filteredAdapter.notifyDataSetChanged();
+                            onSuccess.accept(results);
+                        });
+                    }
+                })
+                .exceptionally(t -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                        Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
+                        onError.accept(t);
+                    });
+                    }
+                    return null;
+                });
     }
 
     private void initializeRecommendedTours() {
-        if (!recommendedTours.isEmpty()) {
-            return;
-        }
-        eventService.getRecommendedTours().enqueue(new Callback<List<EventDTO>>() {
-
-            @Override
-            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null &&
-                    !response.body().isEmpty()) {
-                    recommendedTours.clear();
-                    recommendedTours.addAll(response.body());
+        NetworkModule.toCompletableFuture(eventService.getAllEvents())
+                .thenAccept(list -> {
                     showRecommended();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    recommendedTours.clear();
+                    recommendedTours.addAll(list);
+                    recommendedAdapter.notifyDataSetChanged();
+                })
+                .exceptionally(t -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show()
+                    );
+                    }
+                    return null;
+                });
     }
 }
+

@@ -4,48 +4,54 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
-import com.example.actualtravellerkiviprojectui.SocialMediaFragment;
 import com.example.actualtravellerkiviprojectui.TourInformationPageChatFragment;
-import com.example.actualtravellerkiviprojectui.model.Message;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author zeynep
  */
 public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    private ArrayList<Message> messages;
-    private String currentUserId;
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+    private List<EventCommentDTO> messages;
+    private int currentUserId;
     private static final int RIGHT = 1;
     private static final int LEFT = 2;
     TourInformationPageChatFragment tourInformationPageChatFragment;
 
-    public Chat_RecyclerViewAdapter(Context context, ArrayList<Message> messages, TourInformationPageChatFragment fragment, String id) {
+    public Chat_RecyclerViewAdapter(Context context, List<EventCommentDTO> messages, TourInformationPageChatFragment fragment) {
         this.context = context;
         this.messages = messages;
         tourInformationPageChatFragment = fragment;
-        this.currentUserId = id;
+        currentUserId = UserState.getUserId();
     }
 
 
     //I will update this part
     @Override
     public int getItemViewType(int position) {
-        Message message = messages.get(position);
-        return 0;
-        //return message.getSenderId().equals(currentUserId) ? TYPE_RIGHT : TYPE_LEFT;
+        EventCommentDTO message = messages.get(position);
+        if (message.ownerId.equals(currentUserId)) {
+            return RIGHT;
+        } else {
+            return LEFT;
+        }
     }
 
     @NonNull
@@ -65,15 +71,13 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Message message = messages.get(position);
-        //User user = message.getUserId();
-        //String userName = user.getName();
+        EventCommentDTO message = messages.get(position);
         if (holder instanceof RightViewHolder) {
             //((RightViewHolder) holder).textUserName.setText(userName);
-            ((RightViewHolder) holder).textMessage.setText(message.getText());
+            ((RightViewHolder) holder).textMessage.setText(message.commentBody);
         } else {
             //((LeftViewHolder) holder).textUserName.setText(userName);
-            ((LeftViewHolder) holder).textMessage.setText(message.getText());
+            ((LeftViewHolder) holder).textMessage.setText(message.commentBody);
         }
     }
 
@@ -102,7 +106,7 @@ public class Chat_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         public LeftViewHolder(@NonNull View itemView) {
             super(itemView);
             textMessage = itemView.findViewById(R.id.left_chat_text_view);
-            textMessage = itemView.findViewById(R.id.messageLeftUserName);
+            textUserName = itemView.findViewById(R.id.messageLeftUserName);
         }
     }
 

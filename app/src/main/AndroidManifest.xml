@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ActualTravellerKiviProjectUI"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -38,6 +39,7 @@
             android:exported="false" />
         <activity
             android:name=".TourInformationPageActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".LaunchTourCatalogeActivity"

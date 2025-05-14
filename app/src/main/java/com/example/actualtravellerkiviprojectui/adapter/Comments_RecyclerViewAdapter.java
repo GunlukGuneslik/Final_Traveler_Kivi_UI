@@ -11,19 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageCommentsFragment;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zeynep
  */
 
 public class Comments_RecyclerViewAdapter extends RecyclerView.Adapter<Comments_RecyclerViewAdapter.CommentsViewHolder>{
-    private ArrayList<String> comments;
+    private List<EventCommentDTO> comments;
     private Context context;
     private TourInformationPageCommentsFragment tourInformationPageCommentsFragment;
 
-    public Comments_RecyclerViewAdapter(Context context, ArrayList<String> comments, TourInformationPageCommentsFragment fragment){
+    public Comments_RecyclerViewAdapter(Context context, List<EventCommentDTO> comments, TourInformationPageCommentsFragment fragment) {
         this.comments = comments;
         this.context = context;
         tourInformationPageCommentsFragment = fragment;
@@ -38,7 +39,7 @@ public class Comments_RecyclerViewAdapter extends RecyclerView.Adapter<Comments_
 
     @Override
     public void onBindViewHolder(@NonNull Comments_RecyclerViewAdapter.CommentsViewHolder holder, int position) {
-        holder.textItem.setText(comments.get(position));
+        holder.textItem.setText(comments.get(position).commentBody);
     }
 
     @Override

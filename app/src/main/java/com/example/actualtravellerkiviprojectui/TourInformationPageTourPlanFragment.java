@@ -16,28 +16,28 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author zeynep
  */
 public class TourInformationPageTourPlanFragment extends Fragment {
-    private EventDTO currentTour;
     private RecyclerView recyclerView;
     private TourPlan_RecyclerViewAdapter adapter;
 
-    private List<EventLocationDTO> places = new ArrayList<>();
+    private final List<EventLocationDTO> places = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_TOUR_ID = "tourId";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Integer tourId;
     private TextView tourDetails;
 
     public TourInformationPageTourPlanFragment() {
@@ -53,11 +53,10 @@ public class TourInformationPageTourPlanFragment extends Fragment {
      * @return A new instance of fragment TourInformationPageTourPlanFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TourInformationPageTourPlanFragment newInstance(String param1, String param2) {
+    public static TourInformationPageTourPlanFragment newInstance(String param1, Integer tourId) {
         TourInformationPageTourPlanFragment fragment = new TourInformationPageTourPlanFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_TOUR_ID, tourId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,8 +65,7 @@ public class TourInformationPageTourPlanFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            tourId = getArguments().getInt(ARG_TOUR_ID);
         }
     }
 
@@ -76,15 +74,23 @@ public class TourInformationPageTourPlanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tour_information_page_tour_plan, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewTourPlan);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        try {
-            currentTour = ServiceLocator.getEventService().getEvent(getActivity().getIntent().getIntExtra("tourId", -1)).execute().body();
-        } catch (IOException e) {
-            // TODO: handle better
-            return null;
-        }
+
         tourDetails = view.findViewById(R.id.textView17);
-        tourDetails.setText(R.string.label_tour_details_prefix + currentTour.details);
-        places = currentTour.locations;
+        ServiceLocator.getEventService().getEvent(getActivity().getIntent().getIntExtra("tourId", -1)).enqueue(new Callback<EventDTO>() {
+            @Override
+            public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
+                tourDetails.setText("Tour Details: " + response.body().details);
+                places.clear();
+                places.addAll(response.body().locations);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<EventDTO> call, Throwable throwable) {
+            }
+        });
+
+
         adapter = new TourPlan_RecyclerViewAdapter(getContext(), places, this);
         recyclerView.setAdapter(adapter);
         // Inflate the layout for this fragment

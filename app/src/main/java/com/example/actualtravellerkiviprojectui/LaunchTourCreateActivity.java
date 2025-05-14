@@ -24,23 +24,16 @@ import androidx.fragment.app.Fragment;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventCreateDTO;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationCreateDTO;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.Tour;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class LaunchTourCreateActivity extends AppCompatActivity {
     private static final UserService userService = ServiceLocator.getUserService();
-    UserDTO currentUser;
     public ArrayList<EventLocationDTO> placeModels = new ArrayList<>();
     private EditText tourNameEditText;
     private Button returnButton;
@@ -65,7 +58,6 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch_tour_create);
 
-        currentUser = UserState.getUser(userService);
 
         returnButton = findViewById(R.id.CreateNewTourPageReturnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +135,7 @@ public class LaunchTourCreateActivity extends AppCompatActivity {
                 ArrayList<String> comments = new ArrayList<>();
 
                 EventCreateDTO createdTour = new EventCreateDTO(
-                        currentUser.id,
+                        UserState.getUserId(),
                         tourName,
                         desc,
                         tourDate,

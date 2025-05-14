@@ -61,6 +61,18 @@ public class MockEventService implements EventService {
         return delegate.returningResponse(mockEvents).getPaginatedEvents(size, page, sort);
     }
 
+    @Override
+    public Call<List<EventDTO>> getEventsByLocation(String locationName) {
+        return delegate.returningResponse(Utils.loadObject("mock/events/all.json", new TypeReference<List<EventDTO>>() {
+        })).getEventsByLocation(locationName);
+    }
+
+    @Override
+    public Call<List<EventDTO>> getEventsByOwner(String ownerName) {
+        return delegate.returningResponse(Utils.loadObject("mock/events/all.json", new TypeReference<List<EventDTO>>() {
+        })).getEventsByOwner(ownerName);
+    }
+
     /**
      * Returns a list of recommended events
      */
@@ -162,7 +174,7 @@ public class MockEventService implements EventService {
      */
     @Override
     public Call<List<EventLocationDTO>> getAllEventLocations() {
-        return delegate.returningResponse(Utils.loadObject("mock/events/location.json", new TypeReference<List<EventLocationDTO>>() {
+        return delegate.returningResponse(Utils.loadObject("mock/events/locations.json", new TypeReference<List<EventLocationDTO>>() {
         })).getAllEventLocations();
     }
 

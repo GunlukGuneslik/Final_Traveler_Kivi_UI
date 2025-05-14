@@ -18,9 +18,13 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * @author zeynep
  */
@@ -60,8 +64,7 @@ public class SocialMediaFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_social_media, container, false);
         recyclerView = view.findViewById(R.id.socialMediaRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -111,15 +114,26 @@ public class SocialMediaFragment extends Fragment {
     }
 
     //for testing now
-    private void fillSocialMediaPosts(){
-        try {
-            postDTOS.clear();
-            ServiceLocator.getPostService().fetchAllPosts().execute().body().forEach(postDTOS::add);
-        } catch (IOException e) {
-            cleanUp(e);
-            return;
-        }
+    private void fillSocialMediaPosts() {
         recyclerView.setAdapter(socialMediaAdapter);
+
+        ServiceLocator.getPostService().fetchAllPosts().enqueue(new Callback<List<PostDTO>>() {
+            @Override
+            public void onResponse(Call<List<PostDTO>> call, Response<List<PostDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    postDTOS.clear();
+                    postDTOS.addAll(response.body());
+                    socialMediaAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PostDTO>> call, Throwable throwable) {
+
+            }
+        });
+        //;execute().body().forEach(postDTOS::add);
+
     }
 
     private void cleanUp(Throwable t) {

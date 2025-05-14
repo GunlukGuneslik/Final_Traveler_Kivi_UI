@@ -2,7 +2,6 @@ package com.example.actualtravellerkiviprojectui.dto.Event;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +13,7 @@ public class EventDTO {
     public Status status;
     public LocalDate created;
     public LocalDateTime startDate;
-    public LocalDate endDate;
+    public Integer duration;
     public Set<Integer> ratingIds = new HashSet<>();
     public List<EventLocationDTO> locations = new ArrayList<>();
     public List<Integer> userIds = new ArrayList<>();

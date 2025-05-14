@@ -20,9 +20,7 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
-import java.io.IOException;
 import java.util.List;
 
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder> {
@@ -30,18 +28,14 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     private final UserService userService = ServiceLocator.getUserService();
     private final PostService postService = ServiceLocator.getPostService();
     private final EventService eventService = ServiceLocator.getEventService();
-    private Context context;
-    private List<EventDTO> tourList;
+    private final Context context;
+    private final List<EventDTO> tourList;
 
     public TourAdapter(Context context, List<EventDTO> tourList) {
         this.context = context;
         this.tourList = tourList;
     }
 
-    public void setTours(List<EventDTO> newList) {
-        this.tourList = newList;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -54,13 +48,11 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     public void onBindViewHolder(@NonNull TourViewHolder holder, int position) {
         EventDTO tour = tourList.get(position);
         holder.tourName.setText(tour.name);
-        UserDTO owner = null;
-        try {
-            owner = userService.getUser(tour.ownerId).execute().body();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        holder.guideName.setText("with " + owner.firstName);
+        NetworkModule.toCompletableFuture(userService.getUser(tour.ownerId)).thenAccept(userDTO -> {
+            holder.guideName.setText("with" + userDTO.firstName);
+        });
+
+
         NetworkModule.setImageViewFromCall(holder.tourImage, eventService.getPhoto(tour.id), null);
 
         holder.itemView.setOnClickListener(v -> {

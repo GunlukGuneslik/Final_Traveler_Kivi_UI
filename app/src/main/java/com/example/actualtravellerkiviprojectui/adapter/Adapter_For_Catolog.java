@@ -12,35 +12,32 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.actualtravellerkiviprojectui.EditTourActivity;
 import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.TourInformationPageActivity;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 
 import java.util.List;
 
-/**
- * @author Güneş
- * this adapter was created to show attended tours and upcoming tours which can be accessed by account page
- */
-public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page extends RecyclerView.Adapter<Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder>{
+public class Adapter_For_Catolog extends RecyclerView.Adapter<Adapter_For_Catolog.MapViewHolder>{
     Context context;
     List<EventDTO> tourList;
 
-    public Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page(Context context, List<EventDTO> tourList) {
+    public Adapter_For_Catolog(Context context, List<EventDTO> tourList) {
         this.context = context;
         this.tourList = tourList;
     }
 
     @NonNull
     @Override
-    public Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Adapter_For_Catolog.MapViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.tour_page_recycler_view_row, parent, false);
-        return new Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder(view);
+        return new Adapter_For_Catolog.MapViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page.MapViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Adapter_For_Catolog.MapViewHolder holder, int position) {
         EventDTO currentTour = tourList.get(position);
         int guideId = currentTour.ownerId;
 
@@ -80,4 +77,5 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
         this.tourList = filteredList;
         notifyDataSetChanged();
     }
+
 }

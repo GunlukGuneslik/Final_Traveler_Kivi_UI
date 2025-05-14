@@ -1,6 +1,7 @@
 package com.example.actualtravellerkiviprojectui;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,11 +39,10 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
+import com.example.actualtravellerkiviprojectui.dto.User.UserCreateUpdateDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,13 +58,10 @@ public class AccountPageFragment extends Fragment {
     private static final EventService eventService = ServiceLocator.getEventService();
     private SharedPreferences prefs;
 
-    ArrayList<PostDTO> posts = new ArrayList<>();
+    List<PostDTO> posts = new ArrayList<>();
     private RecyclerView recyclerView;
     private Account_Page_Posts_RecyclerViewAdapter adapter;
 
-    private UserDTO currentUser;
-    private int userProfilePhoto;
-    private String userName;
     private ImageView profilePhoto;
     private TextView userProfileName;
     private Button settingsButton;
@@ -80,15 +77,6 @@ public class AccountPageFragment extends Fragment {
     private Button createButton;
     ActivityResultLauncher<Intent> resultLauncher;
 
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public AccountPageFragment() {
         // Required empty public constructor
     }
@@ -102,11 +90,9 @@ public class AccountPageFragment extends Fragment {
      * @return A new instance of fragment AccountPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AccountPageFragment newInstance(String param1, String param2) {
+    public static AccountPageFragment newInstance() {
         AccountPageFragment fragment = new AccountPageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,36 +100,23 @@ public class AccountPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = requireContext()
-                .getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
 
-        // 2) API’dan currentUser’ı çekiyor
-        currentUser = UserState.getUser(userService);
-
-        // 3) userName’i hem pref’ten hem de API’den gelen default’la tek satırda atıyor
-        userName = prefs.getString("username", currentUser.firstName);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
+        Log.e("ERROR", UserState.getUserId().toString());
 
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             try {
-                // TODO: burası kullanıcının fotoğrafını değiştirmiyor aslında!
                 Uri imageUri = result.getData().getData();
                 int curId = UserState.getUserId();
-                NetworkModule.uploadImage(getContext(), imageUri, filePart -> userService.setAvatar(curId, filePart),
-                        userDetail -> {
-                            // Handle success - update UI with the returned UserDetail
-                            profilePhoto.setImageURI(imageUri);
-                            Toast.makeText(getContext(), "Profile picture updated!", Toast.LENGTH_LONG).show();
-                        }, error -> {
-                            // Handle error
-                            Log.e("Avatar", "Upload failed", error);
-                            Toast.makeText(getContext(), "Failed to upload profile picture!", Toast.LENGTH_LONG).show();
-                        });
+                NetworkModule.uploadImage(getContext(), imageUri, filePart -> userService.setAvatar(curId, filePart), userDetail -> {
+                    // Handle success - update UI with the returned UserDetail
+                    profilePhoto.setImageURI(imageUri);
+                    Toast.makeText(getContext(), "Profile picture updated!", Toast.LENGTH_LONG).show();
+                }, error -> {
+                    // Handle error
+                    Log.e("Avatar", "Upload failed", error);
+                    Toast.makeText(getContext(), "Failed to upload profile picture!", Toast.LENGTH_LONG).show();
+                });
             } catch (Exception e) {
                 Log.e("Avatar", "No image selected", e);
             }
@@ -152,69 +125,54 @@ public class AccountPageFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_page, container, false);
-        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton );
-        chooseLanguageButton .setOnClickListener(v -> {
-            String[] languages = {"English", "Türkçe", "Deutsch"};
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Select Language")
-                    .setSingleChoiceItems(languages, -1, null)
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        int selected = ((AlertDialog) dialog).getListView()
-                                .getCheckedItemPosition();
-                        String lang = languages[selected];
-                        // Dil seçim bilgisini kaydet
-                        PreferenceManager.getDefaultSharedPreferences(requireContext())
-                                .edit()
-                                .putString("app_language", lang)
-                                .apply();
-                        Toast.makeText(getContext(),
-                                "Language set to " + lang,
-                                Toast.LENGTH_SHORT).show();
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
-        });
-        launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
-        if (currentUser.userType != UserDTO.UserType.GUIDE_USER) {
-            //TODO: burası test edilecek eğer düzgün durmuyorsa telefonda gone yerine invisible yapılacak!
-            launchTourWindowForGuideUsers.setVisibility(GONE);
-        } else {
-            catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
-            catalogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
-                    intent.putExtra("userId", currentUser);
-                    startActivity(intent);
-                }
-            });
-
-            createButton = view.findViewById(R.id.launchTourWindowCreateButton);
-            createButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
-                    intent.putExtra("User", currentUser.id);
-                    startActivity(intent);
-                }
-            });
-            chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
-            chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
-        }
-
-        profilePhoto = view.findViewById(R.id.userProfilePhoto);
-        // profilePhoto.setImageResource(userProfilePhoto);
-
+        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
+        //badges
+        postCreateBadge = view.findViewById(R.id.imageButtonPostCreate);
+        eventJoinBadge = view.findViewById(R.id.imageButtonEventJoint);
+        eventCreateBadge = view.findViewById(R.id.imageButtonEventCreate);
+        commentWriteBadge = view.findViewById(R.id.ImageButtonCommentWriteBadge);
+        imageUploadBadge = view.findViewById(R.id.ImageButtonImageUploadBadge);
+        likeReceiveBadge = view.findViewById(R.id.ImageButtonLikeBadge);
         userProfileName = view.findViewById(R.id.userProfileNameTextView);
-
-        String displayName = prefs.getString("username", userName);// to change the name @eftelya
-        userProfileName.setText(displayName);
-
-
         settingsButton = view.findViewById(R.id.AccountPageSettingsButton);
+        profilePhoto = view.findViewById(R.id.userProfilePhoto);
+        attendedToursButton = view.findViewById(R.id.AttendedToursButton);
+        upcomingToursButton = view.findViewById(R.id.UpcomingToursButton);
+        recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
+        launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
+        createButton = view.findViewById(R.id.launchTourWindowCreateButton);
+        catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
+
+        chooseLanguageButton.setOnClickListener(v -> {
+            String[] languages = {"English", "Türkçe", "Deutsch"};
+            new AlertDialog.Builder(requireContext()).setTitle("Select Language").setSingleChoiceItems(languages, -1, null).setPositiveButton("OK", (dialog, which) -> {
+                int selected = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                String lang = languages[selected];
+                // Dil seçim bilgisini kaydet
+                PreferenceManager.getDefaultSharedPreferences(requireContext()).edit().putString("app_language", lang).apply();
+                Toast.makeText(getContext(), "Language set to " + lang, Toast.LENGTH_SHORT).show();
+            }).setNegativeButton("Cancel", null).show();
+        });
+
+        NetworkModule.toCompletableFuture(userService.getUser(UserState.getUserId())).thenAccept(user -> {
+            if (user != null && user.userType != UserDTO.UserType.GUIDE_USER) {
+                launchTourWindowForGuideUsers.setVisibility(GONE);
+            } else {
+                launchTourWindowForGuideUsers.setVisibility(VISIBLE);
+
+
+            }
+            userProfileName.setText(user.username);
+        }).exceptionally(e -> {
+            Log.e("AccountPage", "Error fetching user details", e);
+            return null;
+        });
+
+        NetworkModule.setImageViewFromCall(profilePhoto, userService.getAvatar(UserState.getUserId()), null);
+
+
         settingsButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(getContext(), settingsButton);
             popup.getMenuInflater().inflate(R.menu.account_settings_menu, popup.getMenu());
@@ -243,7 +201,24 @@ public class AccountPageFragment extends Fragment {
             popup.show();
         });
 
-        attendedToursButton = view.findViewById(R.id.AttendedToursButton);
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
+                startActivity(intent);
+            }
+        });
+        catalogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
+                startActivity(intent);
+            }
+        });
+        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
+        chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
+
+
         attendedToursButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,7 +227,6 @@ public class AccountPageFragment extends Fragment {
             }
         });
 
-        upcomingToursButton = view.findViewById(R.id.UpcomingToursButton);
         upcomingToursButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,13 +237,6 @@ public class AccountPageFragment extends Fragment {
 
         //TODO: Badge achievement system
 
-        //badges
-        postCreateBadge = view.findViewById(R.id.imageButtonPostCreate);
-        eventJoinBadge = view.findViewById(R.id.imageButtonEventJoint);
-        eventCreateBadge = view.findViewById(R.id.imageButtonEventCreate);
-        commentWriteBadge = view.findViewById(R.id.ImageButtonCommentWriteBadge);
-        imageUploadBadge = view.findViewById(R.id.ImageButtonImageUploadBadge);
-        likeReceiveBadge = view.findViewById(R.id.ImageButtonLikeBadge);
 
         postCreateBadge.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,7 +278,6 @@ public class AccountPageFragment extends Fragment {
             }
         });
 
-        recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
         //posts = currentUser.getPosts();
         //TODO
         fillSocialMediaPosts();
@@ -324,32 +290,25 @@ public class AccountPageFragment extends Fragment {
 
     private void pickImage() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        // Restrict to images
+        intent.setType("image/*");
         resultLauncher.launch(intent);
     }
 
-    //TODO: Complete this method. Will add callback and fail methods
-    private UserDTO getCurrentUser() throws IOException {
-        return userService.getUser(UserState.getUserId()).execute().body();
-    }
-
-
-    //TODO: is this a good place for this method? ofcouse not! iğ changed it but i don not understand it. Just copy paste from chatgpt.
     private void fillSocialMediaPosts() {
-        new Thread(() -> {
-            try {
-                List<PostDTO> fetchedPosts = postService.fetchFeed(0, 1, 100, "").execute().body().content;
-                requireActivity().runOnUiThread(() -> {
-                    posts.clear();
-                    posts.addAll(fetchedPosts);
-                    adapter.notifyDataSetChanged(); // RecyclerView güncellensin
-                });
-            } catch (IOException e) {
-                Log.e("retrofit", "Error fetching feed", e);
-                requireActivity().runOnUiThread(() ->
-                        Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show()
-                );
+        NetworkModule.toCompletableFuture(postService.fetchUserPosts(UserState.getUserId())).thenAccept(postList -> {
+            if (postList != null) {
+                posts.clear();
+                posts.addAll(postList);
+                adapter.notifyDataSetChanged(); // RecyclerView güncellensin
             }
-        }).start();
+        }).exceptionally(e -> {
+            Log.e("retrofit", "Error fetching feed", e);
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Error fetching feed", Toast.LENGTH_SHORT).show();
+            }
+            return null;
+        });
     }
 
     // --- Change Name Dialog ---@author:Eftelya
@@ -357,66 +316,66 @@ public class AccountPageFragment extends Fragment {
         final EditText input = new EditText(requireContext());
         input.setHint(R.string.NewName);
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.ChangeName)
-                .setView(input)
-                .setPositiveButton(R.string.Save, (dlg, which) -> {
-                    String yeniIsim = input.getText().toString().trim();
-                    prefs.edit()
-                            .putString("username", yeniIsim)
-                            .apply();
-                    userProfileName.setText(yeniIsim);
-                    Toast.makeText(getContext(), R.string.NameUpdated, Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton(R.string.Cancel, null)
-                .show();
+        new AlertDialog.Builder(requireContext()).setTitle(R.string.ChangeName).setView(input).setPositiveButton(R.string.Save, (dlg, which) -> {
+            String yeniIsim = input.getText().toString().trim();
+            UserCreateUpdateDTO updateDTO = new UserCreateUpdateDTO();
+            updateDTO.username = yeniIsim;
+            NetworkModule.toCompletableFuture(userService.updateUser(UserState.getUserId(), updateDTO)).thenAccept(userDTO -> {
+                userProfileName.setText(userDTO.username);
+                Toast.makeText(getContext(), R.string.NameUpdated, Toast.LENGTH_SHORT).show();
+
+            }).exceptionally(throwable -> {
+                        Toast.makeText(getContext(), "Failed to update the name!", Toast.LENGTH_SHORT).show();
+                        return null;
+                    }
+
+            );
+        }).setNegativeButton(R.string.Cancel, null).show();
     }
 
-    // --- Change Language Dialog ---@author:Eftelya
+    // --- Change Language Dialog ---
     // TODO : backendle bağlanması gerek.
     private void showChangeLanguageDialog() {
         String[] labels = {"English", "Türkçe", "Deutsch"};
         String[] codes = {"en", "tr", "de"};
         int checkedItem = getSavedLangIndex();
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.SelectLanguage)
-                .setSingleChoiceItems(labels, checkedItem, (dlg, which) -> {
+        new AlertDialog.Builder(requireContext()).setTitle(R.string.SelectLanguage).setSingleChoiceItems(labels, checkedItem, (dlg, which) -> {
 
-                    prefs.edit()
-                            .putString("lang", codes[which])
-                            .apply();
-                })
-                .setPositiveButton(R.string.Apply, (dlg, which) -> {
-                    String lang = prefs.getString("lang", "en");
-                    applyLocale(lang);
-                })
-                .setNegativeButton(R.string.Cancel, null)
-                .show();
+            prefs.edit().putString("lang", codes[which]).apply();
+        }).setPositiveButton(R.string.Apply, (dlg, which) -> {
+            String lang = prefs.getString("lang", "en");
+            applyLocale(lang);
+        }).setNegativeButton(R.string.Cancel, null).show();
     }
+
     private void showChangePasswordDialog() {
 
-//TODO: backendle bağlancak.
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
         EditText etOld = dialogView.findViewById(R.id.etOldPassword);
         EditText etNew = dialogView.findViewById(R.id.etNewPassword);
         EditText etNew2 = dialogView.findViewById(R.id.etConfirmNewPassword);
 
-        new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.ChangePassword)
-                .setView(dialogView)
-                .setPositiveButton(R.string.Save, (dlg, which) -> {
-                    String oldPw = etOld.getText().toString();
-                    String newPw = etNew.getText().toString();
-                    String newPw2 = etNew2.getText().toString();
-                    if (!newPw.equals(newPw2)) {
-                        Toast.makeText(getContext(), R.string.PasswordsDontMatch, Toast.LENGTH_SHORT).show();
-                        return;
+        new AlertDialog.Builder(requireContext()).setTitle(R.string.ChangePassword).setView(dialogView).setPositiveButton(R.string.Save, (dlg, which) -> {
+            String oldPw = etOld.getText().toString();
+            String newPw = etNew.getText().toString();
+            String newPw2 = etNew2.getText().toString();
+            if (!newPw.equals(newPw2)) {
+                Toast.makeText(getContext(), R.string.PasswordsDontMatch, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            UserCreateUpdateDTO updateDTO = new UserCreateUpdateDTO();
+            updateDTO.password = newPw;
+            NetworkModule.toCompletableFuture(userService.updateUser(UserState.getUserId(), updateDTO)).thenAccept(userDTO -> {
+                Toast.makeText(getContext(), "Successfully changed the password", Toast.LENGTH_SHORT).show();
+
+            }).exceptionally(throwable -> {
+                        Toast.makeText(getContext(), "Failed to change the password", Toast.LENGTH_SHORT).show();
+                        return null;
                     }
-                    // TODO: userService.changePassword(userId, oldPw, newPw) çağır
-                })
-                .setNegativeButton(R.string.Cancel, null)
-                .show();
+
+            );
+        }).setNegativeButton(R.string.Cancel, null).show();
     }
 
 

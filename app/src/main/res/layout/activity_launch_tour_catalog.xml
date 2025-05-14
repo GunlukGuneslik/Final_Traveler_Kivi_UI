@@ -17,11 +17,11 @@
         android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/AttendedToursPageReturnButton"
+        app:layout_constraintStart_toEndOf="@+id/CatalougeToursPageReturnButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/AttendedToursPageReturnButton"
+        android:id="@+id/CatalougeToursPageReturnButton"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_margin="8dp"
@@ -41,7 +41,7 @@
         android:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AttendedToursPageReturnButton">
+        app:layout_constraintTop_toBottomOf="@+id/CatalougeToursPageReturnButton">
     </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView

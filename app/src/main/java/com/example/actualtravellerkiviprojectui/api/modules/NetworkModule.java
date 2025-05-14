@@ -9,11 +9,11 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.actualtravellerkiviprojectui.App;
-import com.example.actualtravellerkiviprojectui.R;
 import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,10 +39,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  * NetworkModule is only used in {@link com.example.actualtravellerkiviprojectui.api.ServiceLocator}
  */
 public class NetworkModule {
-    private static final String BASE_URL = App.getContext().getResources().getString(R.string.kivi_api_url);
+    private static final String BASE_URL = "http://localhost:45976/api/";
 
     public static Retrofit provideRetrofit() {
-        return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create()).build();
+        ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        //.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+        return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create(mapper)).build();
     }
 
     public static UserService provideUserService(Retrofit retrofit) {
@@ -97,17 +100,29 @@ public class NetworkModule {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> r) {
-                if (r.isSuccessful() && r.body() != null) {
-                    try {
-                        byte[] buf = r.body().bytes();
-                        imageView.setImageBitmap(BitmapFactory.decodeByteArray(buf, 0, buf.length));
+                new Thread(() -> {
+                    if (r.isSuccessful() && r.body() != null) {
+                        byte[] buf = null;
+                        try {
+                            buf = r.body().bytes();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        final Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+
+                        imageView.post(() -> {
+                            imageView.setImageBitmap(bitmap);
+                            if (callback != null) {
+                                callback.accept(r.body());
+                            }
+                        });
                         if (callback != null) {
                             callback.accept(r.body());
                         }
-                    } catch (IOException e) {
-                        Log.w("profilePhoto", e.getMessage());
+
                     }
-                }
+                }).start();
+
             }
 
             @Override

@@ -1,22 +1,26 @@
 package com.example.actualtravellerkiviprojectui;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.example.actualtravellerkiviprojectui.adapter.Comments_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.adapter.TourPlan_RecyclerViewAdapter;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import com.example.actualtravellerkiviprojectui.model.Tour;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -25,17 +29,13 @@ public class TourInformationPageCommentsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+    private static final String ARG_TOUR_ID = "tourId";
+    private final List<EventCommentDTO> comments = new ArrayList<>();
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private Tour currentTour;
+    private Integer tourId;
     private RecyclerView recyclerView;
     private Comments_RecyclerViewAdapter adapter;
-    private ArrayList<String> comments = new ArrayList<>();
+    private EventDTO currentTour;
 
     public TourInformationPageCommentsFragment() {
         // Required empty public constructor
@@ -50,11 +50,10 @@ public class TourInformationPageCommentsFragment extends Fragment {
      * @return A new instance of fragment TourInformationPageCommentsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TourInformationPageCommentsFragment newInstance(String param1, String param2) {
+    public static TourInformationPageCommentsFragment newInstance(int tourId) {
         TourInformationPageCommentsFragment fragment = new TourInformationPageCommentsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_TOUR_ID, tourId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,9 +62,9 @@ public class TourInformationPageCommentsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            tourId = getArguments().getInt(ARG_TOUR_ID);
         }
+        adapter = new Comments_RecyclerViewAdapter(getContext(), comments, this);
     }
 
     @Override
@@ -74,10 +73,22 @@ public class TourInformationPageCommentsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tour_information_page_comments, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewComments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        currentTour = getActivity().getIntent().getParcelableExtra("tour");
-        comments = currentTour.getComments();
-        adapter = new Comments_RecyclerViewAdapter(getContext(),comments,this);
         recyclerView.setAdapter(adapter);
+        ServiceLocator.getEventService().getEventComment(tourId).enqueue(new Callback<List<EventCommentDTO>>() {
+            @Override
+            public void onResponse(Call<List<EventCommentDTO>> call, Response<List<EventCommentDTO>> response) {
+                comments.clear();
+                comments.addAll(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<List<EventCommentDTO>> call, Throwable throwable) {
+                Log.w("Tour", "Error fetching comments", throwable);
+
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
     }

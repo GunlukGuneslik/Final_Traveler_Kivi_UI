@@ -1,16 +1,18 @@
 package com.example.actualtravellerkiviprojectui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,10 +22,31 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TourInformationPageMapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    ArrayList<PlaceModel> placesOnTheTour;
+    private static final String ARG_TOUR_ID = "tour_id";
+    private final List<EventLocationDTO> locationsOfTour = new ArrayList<>();
+    private int tourId;
+
+    // Factory method
+    public static TourInformationPageMapsFragment newInstance(int tourId) {
+        TourInformationPageMapsFragment fragment = new TourInformationPageMapsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_TOUR_ID, tourId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            tourId = getArguments().getInt(ARG_TOUR_ID);
+        }
+    }
+
     private GoogleMap mMap;
 
     /**
@@ -39,14 +62,14 @@ public class TourInformationPageMapsFragment extends Fragment implements OnMapRe
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (placesOnTheTour.isEmpty()) {
+        if (locationsOfTour.isEmpty()) {
             LatLng defaultLocation =  new LatLng(39.925533, 32.866287);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10));
         } else {
 
             // Adding all available markers
-            for (PlaceModel place : placesOnTheTour) {
-                mMap.addMarker(new MarkerOptions().position(place.getLocation()).title(place.getPlaceName()));
+            for (EventLocationDTO place : locationsOfTour) {
+                mMap.addMarker(new MarkerOptions().position(place.toLatLng()).title(place.title));
             }
         }
 
@@ -54,13 +77,13 @@ public class TourInformationPageMapsFragment extends Fragment implements OnMapRe
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
+
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         LatLng clickedLocation = marker.getPosition();
-
-        for (PlaceModel place : placesOnTheTour) {
-            if (place.getLocation().equals(clickedLocation)) {
-                Toast.makeText(getContext(), place.getPlaceName(), Toast.LENGTH_SHORT).show();
+        for (EventLocationDTO location : locationsOfTour) {
+            if (location.toLatLng().equals(clickedLocation)) {
+                Toast.makeText(getContext(), location.title, Toast.LENGTH_SHORT).show();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(clickedLocation, 10));
                 return true;
             }
@@ -73,10 +96,33 @@ public class TourInformationPageMapsFragment extends Fragment implements OnMapRe
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        placesOnTheTour = new ArrayList<PlaceModel>();
         fillThePlaceArrayList();
 
         return inflater.inflate(R.layout.fragment_tour_information_page_maps, container, false);
+    }
+
+    private void fillThePlaceArrayList() {
+        // Clear existing data to prevent duplication
+        locationsOfTour.clear();
+
+        // Use the EventService to fetch location data for this tour
+        NetworkModule.toCompletableFuture(ServiceLocator.getEventService().getEvent(tourId))
+                .thenAccept(event -> {
+                    // Populate your places list based on the event data
+                    // This is just an example - adjust according to your actual data structure
+                    if (event != null && event.locations != null) {
+                        locationsOfTour.addAll(event.locations);
+
+                        // Update the map if it's already available
+                        if (mMap != null) {
+                            getActivity().runOnUiThread(() -> onMapReady(mMap));
+                        }
+                    }
+                })
+                .exceptionally(e -> {
+                    // Handle error
+                    return null;
+                });
     }
 
     @Override
@@ -94,12 +140,6 @@ public class TourInformationPageMapsFragment extends Fragment implements OnMapRe
      *if data is not changed it might be cause delay.
      * also prevent the duplication of items
      */
-    private void fillThePlaceArrayList() {
-        PlaceModel testPlace1 = new PlaceModel("Ankara Kalesi",5,8,"f", "Ankara", "Altındağ", new LatLng(39.925533, 32.866287));
-        PlaceModel testPlace2 = new PlaceModel("f",5,8,"f\nk\nh", "Ankara", "Çankaya", new LatLng(41.0082, 28.9784));
 
-        placesOnTheTour.add(testPlace1);
-        placesOnTheTour.add(testPlace2);
-    }
 
 }

@@ -14,26 +14,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.MapPageFragment;
 import com.example.actualtravellerkiviprojectui.R;
-import com.example.actualtravellerkiviprojectui.dto.PlaceModel;
-import java.util.ArrayList;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
+import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
+
+import java.util.List;
 
 /**
  * @author Güneş
  */
 
 public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_RecyclerViewAdapter.MapViewHolder> {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+
     Context context;
-    ArrayList<PlaceModel> placeModels;
+    List<EventLocationDTO> placeModels;
     MapPageFragment mapPageFragment;
 
-    public Place_RecyclerViewAdapter(Context context, ArrayList<PlaceModel> placeModels, MapPageFragment fragment) {
+    public Place_RecyclerViewAdapter(Context context, List<EventLocationDTO> placeModels, MapPageFragment fragment) {
         this.context = context;
         this.placeModels = placeModels;
         mapPageFragment = fragment;
     }
 
-    public void setFlitiredList(ArrayList<PlaceModel> flitiredList){
-        this.placeModels = flitiredList;
+    public void setFilteredList(List<EventLocationDTO> filteredList) {
+        this.placeModels = filteredList;
         notifyDataSetChanged();
     }
 
@@ -47,17 +57,17 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
 
     @Override
     public void onBindViewHolder(@NonNull Place_RecyclerViewAdapter.MapViewHolder holder, int position) {
-        PlaceModel currentPlace = placeModels.get(position);
-        holder.placeImageView.setImageResource(currentPlace.getImageOfPlace());
-        holder.placeNameView.setText(currentPlace.getPlaceName());
-        holder.placeRateView.setText(currentPlace.getRateOfPlace());
-        holder.placeInfoView.setText(currentPlace.getPlaceInformationText());
+        EventLocationDTO place = placeModels.get(position);
+        //NetworkModule.setImageViewFromCall(holder.placeImageView, );
+        holder.placeNameView.setText(place.title);
+        holder.placeInfoView.setText(place.description);
+        NetworkModule.setImageViewFromCall(holder.placeImageView, eventService.getLocationPhoto(place.id), null);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mapPageFragment.showPlaceOnMap(currentPlace);
-                Toast.makeText(context, "You clicked: " + currentPlace.getPlaceName(), Toast.LENGTH_SHORT).show();
+                mapPageFragment.showPlaceOnMap(place);
+                Toast.makeText(context, "You clicked: " + place.title, Toast.LENGTH_SHORT).show();
             }
         });
     }

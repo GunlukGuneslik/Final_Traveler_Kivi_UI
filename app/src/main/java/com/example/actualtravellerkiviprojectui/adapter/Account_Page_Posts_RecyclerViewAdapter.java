@@ -17,10 +17,9 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
-import com.example.actualtravellerkiviprojectui.model.SocialMediaPostModel;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Güneş
@@ -31,9 +30,9 @@ public class Account_Page_Posts_RecyclerViewAdapter extends RecyclerView.Adapter
     private static final EventService eventService = ServiceLocator.getEventService();
 
     Context context;
-    ArrayList<PostDTO> posts;
+    List<PostDTO> posts;
 
-    public Account_Page_Posts_RecyclerViewAdapter(Context context, ArrayList<PostDTO> posts) {
+    public Account_Page_Posts_RecyclerViewAdapter(Context context, List<PostDTO> posts) {
         this.context = context;
         this.posts = posts;
     }

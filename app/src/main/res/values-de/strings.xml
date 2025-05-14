@@ -46,7 +46,6 @@
     </string-array>
 
     <string name="hello_blank_fragment">Hallo leeres Fragment</string>
-    <string name="kivi_api_url">https://kivi.local:45976/</string>
 
     <string name="PostCreateBadge">Abzeichen für Beitragserstellung</string>
     <string name="EventJoinBadge">Abzeichen für Veranstaltungsteilnahme</string>
