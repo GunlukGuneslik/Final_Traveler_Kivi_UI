@@ -1,14 +1,17 @@
 package com.example.actualtravellerkiviprojectui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -94,6 +97,11 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
         mapFragment.getMapAsync(this);
 
         searchViewForMap = view.findViewById(R.id.searchViewForMapPage);
+        int id = searchViewForMap.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEditText = searchViewForMap.findViewById(id);
+        searchEditText.setTextColor(ContextCompat.getColor(requireContext(), R.color.brown));
+        searchEditText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.brown));
+
         searchViewForMap.clearFocus();
         searchViewForMap.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // we dont use this one

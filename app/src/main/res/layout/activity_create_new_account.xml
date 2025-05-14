@@ -39,6 +39,7 @@
         android:backgroundTint="@color/brown"
         android:onClick="SignInButtonClicked"
         android:text="@string/Sign_in_button_tag"
+        android:textColor="@color/white"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

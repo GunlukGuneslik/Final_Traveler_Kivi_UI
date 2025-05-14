@@ -68,7 +68,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
                             holder.itemView.post(() -> {
                                 holder.textViewUserName.setText(owner.username);
                                 holder.textViewPhotoDescription.setText(post.body);
-                                holder.textViewHashtag.setText(post.tags.get(0));
+                                holder.textViewHashtag.setText("#" + post.tags.get(0));
                                 holder.textViewLikes.setText(post.likeCount + " likes");
                                 NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
                                 NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(post.postId), null);
