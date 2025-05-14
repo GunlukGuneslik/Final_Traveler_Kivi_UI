@@ -46,7 +46,7 @@ public class EditTourActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
-                    tourImageView.setImageURI(selectedImageUri);
+                    //tourImageView.setImageURI(selectedImageUri);
                     isImageChanged = true;
                 }
             }
