@@ -193,5 +193,5 @@ public interface EventService {
     Call<Boolean> hasUserRated(@Query("userId") int userId, @Path("eventId") int eventId);
 
     @GET("events/skeletonsOf/{userId}")
-    Call<EventSkeletonDTO> getSkeletonsOfUser(@Path("userId") int userId);
+    Call<List<EventSkeletonDTO>> getSkeletonsOfUser(@Path("userId") int userId);
 }

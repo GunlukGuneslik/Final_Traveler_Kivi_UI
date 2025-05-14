@@ -1,4 +1,5 @@
 package com.example.actualtravellerkiviprojectui;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
-
-import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 
 public class EditTourNoteFragment extends Fragment {
     EditTourActivity activity;
@@ -63,7 +62,7 @@ public class EditTourNoteFragment extends Fragment {
 
         activity = (EditTourActivity) getActivity();
 
-        tourDescription = activity.tourDescription;
+        tourDescription = activity.getTourDescription();
         editText = view.findViewById(R.id.EditTextEditTourNotes);
 
         if (tourDescription != null) {
@@ -78,7 +77,7 @@ public class EditTourNoteFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tourDescription = s.toString();
-                activity.tourDescription = tourDescription;
+                activity.setTourDescription(tourDescription);
             }
 
             @Override
