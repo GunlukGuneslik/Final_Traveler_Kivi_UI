@@ -44,7 +44,7 @@
                             android:id="@+id/LaunchTourTextViewLabel"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_margin="8dp"
+                            android:layout_margin="4dp"
                             android:layout_weight="3"
                             android:gravity="center"
                             android:text="Launch tour"
@@ -59,6 +59,8 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
                             android:backgroundTint="@color/light_brown"
                             android:text="catalog" />
 
@@ -69,6 +71,8 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
                             android:backgroundTint="@color/light_brown"
                             android:text="Create" />
 
@@ -94,6 +98,7 @@
                     android:layout_margin="8dp"
                     android:background="@color/light_green"
                     app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userProfilePhoto">
@@ -191,7 +196,7 @@
                             android:id="@+id/ToursTextViewLabel"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_margin="8dp"
+                            android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="Tours"
@@ -206,6 +211,7 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
+                            android:textSize="12sp"
                             android:backgroundTint="@color/light_brown"
                             android:drawableLeft="@drawable/baseline_folder_open_24"
                             android:text="Attended"
@@ -219,6 +225,7 @@
                             android:layout_marginLeft="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_weight="3"
+                            android:textSize="12sp"
                             android:backgroundTint="@color/light_brown"
                             android:drawableLeft="@drawable/baseline_calendar_month_24"
                             android:text="Upcomıng"
