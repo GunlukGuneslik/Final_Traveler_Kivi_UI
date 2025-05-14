@@ -25,6 +25,7 @@ import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * @author zeynep
@@ -53,7 +54,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
     @Override
     public SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.social_media_page_recycler_view_row,parent,false);
+        View view = inflater.inflate(R.layout.social_media_page_recycler_view_row, parent, false);
         return new SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder(view);
     }
 
@@ -71,11 +72,12 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
                                 holder.textViewLikes.setText(post.likeCount + " likes");
                                 NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
                                 NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(post.postId), null);
+                                boolean contains = likers.stream().map(user -> user.id).collect(Collectors.toList()).contains(UserState.getUserId());
                                 holder.filledHeartButton.setVisibility(
-                                        likers.contains(UserState.getUserId())
+                                        contains
                                         ? View.VISIBLE : View.GONE);
                                 holder.heartButton.setVisibility(
-                                        likers.contains(UserState.getUserId())
+                                        contains
                                         ? View.GONE : View.VISIBLE);
                             });
                         }))
@@ -84,12 +86,20 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.heartButton.setImageResource(R.drawable.filledheart);
-                if(!holder.isClicked){
-                    socialMediaPostModels.get(holder.getAdapterPosition()).likeCount++;
-                    holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", post.likeCount));
-                    holder.isClicked = true;
-                }
+                toCompletableFuture(postService.likePost(post.postId, UserState.getUserId()))
+                        .thenAccept(updatedPost -> {
+                            holder.itemView.post(() -> {
+                                post.likeCount = updatedPost.likeCount;
+                                holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", post.likeCount));
+                                holder.heartButton.setVisibility(View.GONE);
+                                holder.filledHeartButton.setVisibility(View.VISIBLE);
+                                holder.isClicked = true;
+                            });
+                        })
+                        .exceptionally(e -> {
+                            // Handle failure case
+                            return null;
+                        });
             }
         });
     }
@@ -99,7 +109,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
         return socialMediaPostModels.size();
     }
 
-    public static class SocialMediaViewHolder extends RecyclerView.ViewHolder{
+    public static class SocialMediaViewHolder extends RecyclerView.ViewHolder {
         ImageView profileImageView;
         ImageView placeImageView;
         TextView textViewUserName;

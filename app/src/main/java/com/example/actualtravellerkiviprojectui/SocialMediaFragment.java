@@ -115,12 +115,16 @@ public class SocialMediaFragment extends Fragment {
 
     //for testing now
     private void fillSocialMediaPosts() {
-        postDTOS.clear();
+        recyclerView.setAdapter(socialMediaAdapter);
+
         ServiceLocator.getPostService().fetchAllPosts().enqueue(new Callback<List<PostDTO>>() {
             @Override
             public void onResponse(Call<List<PostDTO>> call, Response<List<PostDTO>> response) {
-                if (response.isSuccessful() && response.body() != null)
+                if (response.isSuccessful() && response.body() != null) {
+                    postDTOS.clear();
                     postDTOS.addAll(response.body());
+                    socialMediaAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -130,7 +134,6 @@ public class SocialMediaFragment extends Fragment {
         });
         //;execute().body().forEach(postDTOS::add);
 
-        recyclerView.setAdapter(socialMediaAdapter);
     }
 
     private void cleanUp(Throwable t) {

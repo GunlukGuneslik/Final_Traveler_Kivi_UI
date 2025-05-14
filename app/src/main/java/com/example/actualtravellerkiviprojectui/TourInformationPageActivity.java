@@ -100,9 +100,9 @@ public class TourInformationPageActivity extends AppCompatActivity {
                         tourDate.setText(currentTour.startDate.toString());
                         tourRate.setText("Rate: " + currentTour.rating);
 
-                    toCompletableFuture(userService.getUser(currentTour.ownerId))
-                            .thenAccept(user -> runOnUiThread(() -> guideName.setText(user.username)))
-                            .exceptionally(e -> null);
+                        toCompletableFuture(userService.getUser(currentTour.ownerId))
+                                .thenAccept(user -> runOnUiThread(() -> guideName.setText(user.username)))
+                                .exceptionally(e -> null);
 
                         if (UserState.getUserId().equals(currentTour.ownerId)) {
                             if (currentTour.startDate.isBefore(LocalDateTime.now())) {
@@ -112,20 +112,21 @@ public class TourInformationPageActivity extends AppCompatActivity {
                             }
                         } else {
                             toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
-                            .thenAccept(list -> runOnUiThread(() -> {
-                                if (list.contains(currentTour) &&
-                                    currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
-                                    removeFromMyToursButton.setVisibility(View.VISIBLE);
-                                } else {
-                                    if (!list.contains(currentTour) &&
-                                        currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
-                                        addToMyToursButton.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            }))
-                            .exceptionally(e -> null);
+                                    .thenAccept(list -> runOnUiThread(() -> {
+                                        if (list.contains(currentTour) &&
+                                            currentTour.startDate.compareTo(LocalDateTime.now()) >=
+                                            0) {
+                                            removeFromMyToursButton.setVisibility(View.VISIBLE);
+                                        } else {
+                                            if (!list.contains(currentTour) &&
+                                                currentTour.startDate.compareTo(LocalDateTime.now()) >=
+                                                0) {
+                                                addToMyToursButton.setVisibility(View.VISIBLE);
+                                            }
+                                        }
+                                    }))
+                                    .exceptionally(e -> null);
                         }
-
                         NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
                     });
                 })
@@ -155,13 +156,13 @@ public class TourInformationPageActivity extends AppCompatActivity {
         toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
                 .thenAccept(events -> runOnUiThread(() -> {
                     if (events.size() == 0) {
-                    buttonChat.setEnabled(false);
-                    t2.show();
-                    buttonChat.setVisibility(View.GONE);
-                } else {
-                    buttonChat.setEnabled(true);
-                    buttonChat.setVisibility(View.VISIBLE);
-                }
+                        buttonChat.setEnabled(false);
+                        t2.show();
+                        buttonChat.setVisibility(View.GONE);
+                    } else {
+                        buttonChat.setEnabled(true);
+                        buttonChat.setVisibility(View.VISIBLE);
+                    }
                 }))
                 .exceptionally(e -> {
                     runOnUiThread(t::show);

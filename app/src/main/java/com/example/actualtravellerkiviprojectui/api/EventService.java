@@ -49,10 +49,10 @@ public interface EventService {
     @GET("events")
     Call<PagedModel<EventDTO>> getPaginatedEvents(@Query("size") int size, @Query("page") int page, @Query("sort") String sort);
 
-    @GET("/by-location")
+    @GET("events/by-location")
     public Call<List<EventDTO>> getEventsByLocation(@Query("locationName") String locationName);
 
-    @GET("/by-owner")
+    @GET("events/by-owner")
     public Call<List<EventDTO>> getEventsByOwner(@Query("ownerName") String ownerName);
 
 
@@ -167,6 +167,18 @@ public interface EventService {
     @POST("events/{eventId}/photo")
     @Multipart
     Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("image") MultipartBody.Part image);
+
+
+    @GET("locations/{locationId}/photo")
+    @Streaming
+    Call<ResponseBody> getLocationPhoto(@Path("locationId") int locationId);
+
+    @POST("locations/{locationId}/photo")
+    @Multipart
+    Call<EventDTO> setLocationPhoto(@Path("locationId") int locationId, @Part("image") MultipartBody.Part image);
+
+    @GET("locations/featured")
+    Call<List<EventLocationDTO>> getFeaturedLocations();
 
     @GET("events/attended/{userId}")
     Call<List<EventDTO>> getAttendedEvents(@Path("userId") Integer userId);

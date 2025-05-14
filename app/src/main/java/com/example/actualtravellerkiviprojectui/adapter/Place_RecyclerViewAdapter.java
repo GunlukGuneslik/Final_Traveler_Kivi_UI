@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.actualtravellerkiviprojectui.MapPageFragment;
 import com.example.actualtravellerkiviprojectui.R;
+import com.example.actualtravellerkiviprojectui.api.EventService;
+import com.example.actualtravellerkiviprojectui.api.PostService;
+import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
+import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventLocationDTO;
 
 import java.util.List;
@@ -23,6 +28,10 @@ import java.util.List;
  */
 
 public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_RecyclerViewAdapter.MapViewHolder> {
+    private static final UserService userService = ServiceLocator.getUserService();
+    private static final PostService postService = ServiceLocator.getPostService();
+    private static final EventService eventService = ServiceLocator.getEventService();
+
     Context context;
     List<EventLocationDTO> placeModels;
     MapPageFragment mapPageFragment;
@@ -52,6 +61,7 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
         //NetworkModule.setImageViewFromCall(holder.placeImageView, );
         holder.placeNameView.setText(place.title);
         holder.placeInfoView.setText(place.description);
+        NetworkModule.setImageViewFromCall(holder.placeImageView, eventService.getLocationPhoto(place.id), null);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
