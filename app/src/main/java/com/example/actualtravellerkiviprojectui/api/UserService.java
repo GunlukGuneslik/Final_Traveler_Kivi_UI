@@ -1,5 +1,6 @@
 package com.example.actualtravellerkiviprojectui.api;
 
+import com.example.actualtravellerkiviprojectui.dto.AchievementDTO;
 import com.example.actualtravellerkiviprojectui.dto.PagedModel;
 import com.example.actualtravellerkiviprojectui.dto.User.UserCreateUpdateDTO;
 import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
@@ -75,4 +76,6 @@ public interface UserService {
     @POST("users/{userId}/update")
     Call<UserDTO> updateUser(@Path("userId") int userId, @Body UserCreateUpdateDTO updateDTO);
 
+    @GET("achievements/{userId}")
+    Call<List<AchievementDTO>> getAchievements(@Path("userId") int userId);
 }

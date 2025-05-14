@@ -149,7 +149,7 @@ public class MapPageFragment extends Fragment implements OnMapReadyCallback, Goo
      * also prevent the duplication of items
      */
     private void fillPlaceArrayList() {
-        ServiceLocator.getEventService().getAllEventLocations().enqueue(new Callback<List<EventLocationDTO>>() {
+        ServiceLocator.getEventService().getFeaturedLocations().enqueue(new Callback<List<EventLocationDTO>>() {
             @Override
             public void onResponse(Call<List<EventLocationDTO>> call, Response<List<EventLocationDTO>> response) {
                 places.addAll(response.body());

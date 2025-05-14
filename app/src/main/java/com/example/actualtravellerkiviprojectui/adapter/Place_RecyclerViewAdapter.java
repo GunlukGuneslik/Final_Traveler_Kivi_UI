@@ -58,10 +58,9 @@ public class Place_RecyclerViewAdapter extends RecyclerView.Adapter<Place_Recycl
     @Override
     public void onBindViewHolder(@NonNull Place_RecyclerViewAdapter.MapViewHolder holder, int position) {
         EventLocationDTO place = placeModels.get(position);
-        //NetworkModule.setImageViewFromCall(holder.placeImageView, );
+        NetworkModule.setImageViewFromCall(holder.placeImageView, eventService.getLocationPhoto(place.id), null);
         holder.placeNameView.setText(place.title);
         holder.placeInfoView.setText(place.description);
-        NetworkModule.setImageViewFromCall(holder.placeImageView, eventService.getLocationPhoto(place.id), null);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
