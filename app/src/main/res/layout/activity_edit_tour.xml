@@ -56,6 +56,7 @@
                 android:hint="@string/edit_tour_hint_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingStart="16dp"
+                android:textColor="@color/brown"
                 app:layout_constraintStart_toEndOf="@+id/EditTourImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,8 +97,11 @@
                 android:id="@+id/frameLayoutForEditTourPage"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/EditTourPageTurnButton"
-                app:layout_constraintTop_toBottomOf="@+id/EditTourPageSelectTimeButton" />
+                android:layout_marginBottom="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/EditTourPageSelectTimeButton"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="-8dp" />
 
             <Button
                 android:id="@+id/EditTourPageTurnButton"
