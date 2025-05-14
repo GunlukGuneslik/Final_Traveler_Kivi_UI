@@ -105,7 +105,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             } else {
                 TextView userPasswordTextView = findViewById(R.id.editTextTextPassword);
                 userPasswordTextView.setTextColor(Color.BLACK);
-                userPasswordTextView.setText(getString(R.string.enterPasswordLabelTag));
             }
         } else {
             valid = false;

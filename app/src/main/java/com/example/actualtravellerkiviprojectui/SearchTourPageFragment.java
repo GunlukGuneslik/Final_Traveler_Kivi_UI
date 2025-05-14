@@ -59,7 +59,6 @@ public class SearchTourPageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle bs) {
         super.onViewCreated(view, bs);
-        initializeRecommendedTours();   // Önerilen tur listesi
 
         // View binding
         etSearch = view.findViewById(R.id.etSearch);
@@ -93,6 +92,7 @@ public class SearchTourPageFragment extends Fragment {
         rvRecommended.setAdapter(recommendedAdapter);
 
         btnSearch.setOnClickListener(v -> applySearchFilterSort());
+        initializeRecommendedTours();   // Önerilen tur listesi
 
     }
 
