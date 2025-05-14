@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_weight="1"
-                    android:textColor="@color/brown"
+                    android:textColor="@color/black"
                     android:text="#place" />
 
                 <ImageButton
