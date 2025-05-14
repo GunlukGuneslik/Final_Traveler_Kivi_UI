@@ -24,6 +24,7 @@ import com.example.actualtravellerkiviprojectui.api.EventService;
 import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 
 import java.util.ArrayList;
@@ -38,7 +39,6 @@ public class SearchTourPageFragment extends Fragment {
     private static final PostService postService = ServiceLocator.getPostService();
     private static final EventService eventService = ServiceLocator.getEventService();
 
-    private final List<EventDTO> allTours = new ArrayList<>();
     private TextView recommendedTitle;
     private final List<EventDTO> filteredTours = new ArrayList<>();
     private final List<EventDTO> recommendedTours = new ArrayList<>();
@@ -60,6 +60,7 @@ public class SearchTourPageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle bs) {
         super.onViewCreated(view, bs);
         initializeRecommendedTours();   // Önerilen tur listesi
+
         // View binding
         etSearch = view.findViewById(R.id.etSearch);
         btnSearch = view.findViewById(R.id.btnSearch);
@@ -68,6 +69,9 @@ public class SearchTourPageFragment extends Fragment {
         rvFiltered = view.findViewById(R.id.rvTours);
         rvRecommended = view.findViewById(R.id.rvRecommendedTours);
         recommendedTitle = view.findViewById(R.id.recommendedTitle);
+        filteredAdapter = new TourAdapter(requireContext(), filteredTours);
+        recommendedAdapter = new TourAdapter(requireContext(), recommendedTours);
+
 
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_background_brown, new String[]{
                 "All", "City", "Guide"});
@@ -81,12 +85,10 @@ public class SearchTourPageFragment extends Fragment {
 
 
         // Searched tour view
-        filteredAdapter = new TourAdapter(getContext(), filteredTours);
         rvFiltered.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         rvFiltered.setAdapter(filteredAdapter);
 
         // Önerilen turlar listesi
-        recommendedAdapter = new TourAdapter(getContext(), recommendedTours);
         rvRecommended.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         rvRecommended.setAdapter(recommendedAdapter);
 
@@ -104,7 +106,7 @@ public class SearchTourPageFragment extends Fragment {
         switch (filter) {
             case "Guide":
                 filterByOwnerName(query, tours -> {
-                    showAllTours();
+                    showFiltered();
                 }, t -> {
                     showRecommended();
                     Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
@@ -112,7 +114,7 @@ public class SearchTourPageFragment extends Fragment {
                 break;
             case "City":
                 filterByLocation(query, tours -> {
-                    showAllTours();
+                    showFiltered();
                 }, t -> {
                     showRecommended();
                     Toast.makeText(getContext(), "Turlar alınamadı", Toast.LENGTH_SHORT).show();
@@ -136,7 +138,7 @@ public class SearchTourPageFragment extends Fragment {
         rvFiltered.setVisibility(View.GONE);
     }
 
-    private void showAllTours() {
+    private void showFiltered() {
         recommendedTitle.setVisibility(View.GONE);
         rvRecommended.setVisibility(View.GONE);
         rvFiltered.setVisibility(View.VISIBLE);
@@ -166,16 +168,12 @@ public class SearchTourPageFragment extends Fragment {
     }
 
     private void initializeRecommendedTours() {
-        if (!recommendedTours.isEmpty()) return;
-        toCompletableFuture(eventService.getRecommendedTours())
+        NetworkModule.toCompletableFuture(eventService.getAllEvents())
                 .thenAccept(list -> {
-                    if (getActivity() != null) {
-                        getActivity().runOnUiThread(() -> {
-                            recommendedTours.clear();
-                            recommendedTours.addAll(list);
-                            showRecommended();
-                        });
-                    }
+                    showRecommended();
+                    recommendedTours.clear();
+                    recommendedTours.addAll(list);
+                    recommendedAdapter.notifyDataSetChanged();
                 })
                 .exceptionally(t -> {
                     if (getActivity() != null) {

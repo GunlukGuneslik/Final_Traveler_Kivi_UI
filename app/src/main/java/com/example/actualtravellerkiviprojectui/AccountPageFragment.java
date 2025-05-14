@@ -1,6 +1,7 @@
 package com.example.actualtravellerkiviprojectui;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -141,6 +142,8 @@ public class AccountPageFragment extends Fragment {
         upcomingToursButton = view.findViewById(R.id.UpcomingToursButton);
         recyclerView = view.findViewById(R.id.AccountPagePostRecyclerView);
         launchTourWindowForGuideUsers = view.findViewById(R.id.LaunchTourWindowForGuideUsers);
+        createButton = view.findViewById(R.id.launchTourWindowCreateButton);
+        catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
 
         chooseLanguageButton.setOnClickListener(v -> {
             String[] languages = {"English", "Türkçe", "Deutsch"};
@@ -157,25 +160,9 @@ public class AccountPageFragment extends Fragment {
             if (user != null && user.userType != UserDTO.UserType.GUIDE_USER) {
                 launchTourWindowForGuideUsers.setVisibility(GONE);
             } else {
-                catalogButton = view.findViewById(R.id.launchTourWindowCatalogButton);
-                catalogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
-                        startActivity(intent);
-                    }
-                });
+                launchTourWindowForGuideUsers.setVisibility(VISIBLE);
 
-                createButton = view.findViewById(R.id.launchTourWindowCreateButton);
-                createButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
-                chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
+
             }
             userProfileName.setText(user.username);
         }).exceptionally(e -> {
@@ -213,6 +200,24 @@ public class AccountPageFragment extends Fragment {
             });
             popup.show();
         });
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LaunchTourCreateActivity.class);
+                startActivity(intent);
+            }
+        });
+        catalogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LaunchTourCatalogeActivity.class);
+                startActivity(intent);
+            }
+        });
+        chooseLanguageButton = view.findViewById(R.id.ChooseLanguageButton);
+        chooseLanguageButton.setOnClickListener(v -> showChangeLanguageDialog());
+
 
         attendedToursButton.setOnClickListener(new View.OnClickListener() {
             @Override

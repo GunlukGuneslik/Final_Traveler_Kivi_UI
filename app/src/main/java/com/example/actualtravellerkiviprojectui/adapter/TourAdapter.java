@@ -20,7 +20,6 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 
 import java.util.List;
 
@@ -29,18 +28,14 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     private final UserService userService = ServiceLocator.getUserService();
     private final PostService postService = ServiceLocator.getPostService();
     private final EventService eventService = ServiceLocator.getEventService();
-    private Context context;
-    private List<EventDTO> tourList;
+    private final Context context;
+    private final List<EventDTO> tourList;
 
     public TourAdapter(Context context, List<EventDTO> tourList) {
         this.context = context;
         this.tourList = tourList;
     }
 
-    public void setTours(List<EventDTO> newList) {
-        this.tourList = newList;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -53,31 +48,10 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourViewHolder
     public void onBindViewHolder(@NonNull TourViewHolder holder, int position) {
         EventDTO tour = tourList.get(position);
         holder.tourName.setText(tour.name);
-        UserDTO owner = null;
-
-        userService.getUser(tour.ownerId).enqueue(new retrofit2.Callback<UserDTO>() {
-            @Override
-            public void onResponse(retrofit2.Call<UserDTO> call, retrofit2.Response<UserDTO> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    UserDTO owner = response.body();
-                    holder.guideName.setText("with " + owner.firstName);
-                } else {
-                    // API cevap verdi ama başarısız oldu
-                    holder.guideName.setText("Rehber bilgisi alınamadı");
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<UserDTO> call, Throwable t) {
-                // Bir kez daha dene
-                if (!call.isCanceled()) {
-                    call.clone().enqueue(this); // Aynı callback ile yeniden dene
-                } else {
-                    // İkinci deneme de başarısız olursa
-                    holder.guideName.setText("ERR");
-                }
-            }
+        NetworkModule.toCompletableFuture(userService.getUser(tour.ownerId)).thenAccept(userDTO -> {
+            holder.guideName.setText("with" + userDTO.firstName);
         });
+
 
         NetworkModule.setImageViewFromCall(holder.tourImage, eventService.getPhoto(tour.id), null);
 

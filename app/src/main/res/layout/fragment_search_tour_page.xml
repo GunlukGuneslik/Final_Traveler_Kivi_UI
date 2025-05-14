@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_green"
-    android:fillViewport="true">
+    android:background="@color/light_green">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -17,29 +15,29 @@
             android:id="@+id/search_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@color/green"
+            android:orientation="horizontal"
             android:padding="8dp">
 
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/search_background"
                 android:hint="Search tours..."
                 android:inputType="text"
-                android:background="@drawable/search_background"
                 android:padding="8dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search"
-                android:textColor="@color/white"
+                android:layout_marginStart="8dp"
                 android:backgroundTint="@color/brown"
-                android:layout_marginStart="8dp"/>
+                android:text="Search"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <!-- FILTER & SORT -->
@@ -53,54 +51,56 @@
             <Spinner
                 android:id="@+id/spinnerFilter"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/brown"
-                android:popupBackground="@color/brown"/>
+                android:minHeight="48dp"
+                android:popupBackground="@color/brown" />
 
             <Spinner
                 android:id="@+id/spinnerSort"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
                 android:backgroundTint="@color/brown"
-                android:popupBackground="@color/brown"/>
+                android:minHeight="48dp"
+                android:popupBackground="@color/brown" />
         </LinearLayout>
 
         <!-- MAIN TOUR LIST -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTours"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             android:overScrollMode="never"
-            android:clipToPadding="false" />
+            android:padding="8dp" />
 
         <!-- RECOMMENDED TOURS TITLE -->
         <TextView
             android:id="@+id/recommendedTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:text="Recommended Tours"
+            android:textColor="@color/dark_gray"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/dark_gray"
-            android:visibility="gone"
-            android:padding="8dp" />
+            android:visibility="gone" />
 
         <!-- RECOMMENDED TOURS LIST -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecommendedTours"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:padding="8dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
             android:overScrollMode="never"
-            android:nestedScrollingEnabled="false" />
+            android:padding="8dp"
+            android:visibility="gone" />
     </LinearLayout>
-</ScrollView>
+</FrameLayout>
