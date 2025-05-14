@@ -20,7 +20,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
 
-            app:queryHint="Search for a place"
+            app:queryHint="@string/fragment_map_page_search_hint"
             android:background="@drawable/search_view_map_page_bg"
             android:iconifiedByDefault="false"
             />

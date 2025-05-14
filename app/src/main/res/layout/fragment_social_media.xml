@@ -25,7 +25,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:autofillHints="Enter a hashtag"
+                android:autofillHints="@string/fragment_social_media_autofill_hint"
                 android:background="@drawable/search_view_social_media_page"
                 android:elevation="10dp"
                 android:iconifiedByDefault="false">
@@ -41,7 +41,7 @@
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/search_background"
                 android:backgroundTint="@color/brown"
-                android:contentDescription="add_post_btn"
+                android:contentDescription="@string/fragment_social_media_add_post_desc"
                 android:src="@android:drawable/ic_input_add"
                 app:tint="@color/green" />
 

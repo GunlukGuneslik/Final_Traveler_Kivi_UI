@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="username"/>
+            android:text="@string/chat_left_username"/>
 
         <TextView
             android:id="@+id/left_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="message"
+            android:text="@string/chat_left_message"
             android:textColor="@color/black"
             android:padding="2dp"
             android:textSize="18sp">

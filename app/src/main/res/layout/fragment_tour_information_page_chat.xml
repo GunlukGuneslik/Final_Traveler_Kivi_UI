@@ -30,7 +30,7 @@
             android:padding="2dp"
             android:textColorHint="@color/black"
             android:background="@android:color/transparent"
-            android:hint="Write message here"
+            android:hint="@string/fragment_tour_information_page_chat_hint"
             android:layout_toLeftOf="@+id/imageButtonSend"/>
 
         <ImageButton
@@ -38,7 +38,7 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:src="@drawable/send"
-            android:contentDescription="send button"
+            android:contentDescription="@string/fragment_tour_information_page_chat_send_desc"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
             app:tint="@color/light_brown"

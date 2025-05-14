@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/ChangeTheAccountPhoto"
-        android:title="Update profile photo">
+        android:title="@string/change_the_account_photo">
     </item>
 
     <item android:id="@+id/ChangeName"
-        android:title="Change Name">
+        android:title="@string/change_name">
     </item>
 
     <item android:id="@+id/ChangeLanguages"
-        android:title="Change Languages">
+        android:title="@string/change_languages">
     </item>
     <item
         android:id="@+id/ChangePassword"
-        android:title="Change Password" />
+        android:title="@string/change_password" />
 
 
 

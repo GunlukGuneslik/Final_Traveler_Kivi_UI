@@ -13,7 +13,7 @@
         android:id="@+id/textViewDescriptionsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Descriptions to Places"
+        android:text="@string/fragment_create_descriptions_header"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/brown"

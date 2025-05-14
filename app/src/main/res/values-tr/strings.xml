@@ -144,5 +144,171 @@
     <string name="label_tour_details_prefix">Tur Detayları: %1$s</string>
     <string name="toast_error_fetching_tour_plan">Tur yüklenirken hata oluştu</string>
 
-    <!-- UpcomingToursActivity -->
+        <!-- account_page_posts_recycler_view_row.xml -->
+        <string name="account_likes">beğeniler</string>
+        <string name="account_shared_date">Tarih</string>
+        <string name="account_place_hashtags">#yer</string>
+        <string name="account_post_description">Açıklama</string>
+
+        <!-- activity_add_post.xml -->
+        <string name="addpost_title">Yeni Gönderi</string>
+        <string name="addpost_image_preview_description">Gönderi resim önizlemesi</string>
+        <string name="addpost_hint_caption">Bir açıklama yazın...</string>
+        <string name="addpost_hint_hashtags">#etiket1 #etiket2</string>
+        <string name="addpost_button_share">Paylaş</string>
+
+        <!-- activity_attended_tours.xml -->
+        <string name="attended_search_hint">Tur ara</string>
+        <string name="attended_waiting_for_rating">Puanınızı bekleyen turlar</string>
+        <string name="attended_your_tours">Katıldığınız turlar</string>
+
+        <!-- activity_edit_tour.xml -->
+        <string name="edit_tour_title">Turu Düzenle</string>
+        <string name="edit_tour_hint_name">Yeni Tur Adı Giriniz</string>
+        <string name="edit_tour_button_change_date">Tarihi Değiştir</string>
+        <string name="edit_tour_button_change_time">Saati Değiştir</string>
+        <string name="edit_tour_button_last">geri</string>
+        <string name="edit_tour_button_next">ileri</string>
+        <string name="edit_tour_button_save">Kaydet</string>
+
+    <!-- activity_launch_tour_catalog.xml -->
+    <string name="activity_launch_tour_catalog_title">Tur Kataloğu</string>
+
+    <!-- activity_launch_tour_create.xml -->
+    <string name="activity_launch_tour_create_title">Yeni Tur Oluştur</string>
+    <string name="activity_launch_tour_create_hint_name">Tur Adı Girin</string>
+    <string name="activity_launch_tour_create_button_select_date">Tarih Seç</string>
+    <string name="activity_launch_tour_create_button_select_time">Saat Seç</string>
+
+    <!-- activity_recovery_password.xml -->
+    <string name="activity_recovery_password_title">Şifre Sıfırla</string>
+    <string name="activity_recovery_password_hint_email">E-posta</string>
+    <string name="activity_recovery_password_button_send">Sıfırlama Bağlantısı Gönder</string>
+
+    <!-- activity_sign_in.xml -->
+    <string name="activity_sign_in_hint_email">E-posta</string>
+    <string name="activity_sign_in_hint_password">Şifre</string>
+    <string name="activity_sign_in_text_forgot_password">Şifremi Unuttum?</string>
+    <string name="activity_sign_in_text_signup">Hesabınız yok mu? Kayıt Ol</string>
+
+    <!-- activity_tour_information_page.xml -->
+    <string name="activity_tour_information_page_name">Tur Adı</string>
+    <string name="activity_tour_information_page_language">Dil: Türkçe</string>
+    <string name="activity_tour_information_page_date">Tur Tarihi</string>
+    <string name="activity_tour_information_page_rate">Puan: %1$s</string>
+    <string name="activity_tour_information_page_button_add">Turlarıma Ekle</string>
+    <string name="activity_tour_information_page_button_edit">Düzenle ve Başlat</string>
+    <string name="Removefrommytours">Turlarımdan Çıkar</string>
+    <string name="Edit">Düzenle</string>
+    <string name="Guidename">Rehber Adı</string>
+    <string name="TourPlan">Tur Planı</string>
+    <string name="Map">Harita</string>
+    <string name="Chat">Sohbet</string>
+    <string name="Comments">Yorumlar</string>
+
+    <!-- activity_upcoming_tours.xml -->
+    <string name="activity_upcoming_tours_search_hint">Tur ara</string>
+    <!-- comments_recycler_view_row.xml -->
+    <string name="comments_row_comment">Bir Yorum</string>
+
+    <!-- create_tour_page_place_recycler_view_row.xml -->
+    <string name="create_tour_place_icon_desc">Simge</string>
+    <string name="create_tour_place_name_hint">Yer Adı</string>
+    <string name="create_tour_place_description_hint">Yer Açıklaması</string>
+
+    <!-- custom_toast_layout.xml -->
+    <string name="custom_toast_message">Özel Toast Mesajı</string>
+
+    <!-- dialog_change_password.xml -->
+    <string name="dialog_change_password_hint_old">Eski Şifre</string>
+    <string name="dialog_change_password_hint_new">Yeni Şifre</string>
+    <string name="dialog_change_password_hint_confirm">Yeni Şifre (Tekrar)</string>
+
+    <!-- fragment_account_page.xml -->
+    <string name="fragment_account_launch_label">Tur Başlat</string>
+    <string name="fragment_account_catalog_button">Katalog</string>
+    <string name="fragment_account_create_button">Oluştur</string>
+    <string name="fragment_account_my_badges_label">Rozetlerim:</string>
+    <string name="fragment_account_attended_tours_button">Katıldığım Turlar</string>
+    <string name="fragment_account_upcoming_tours_button">Yaklaşan Turlar</string>
+    <string name="fragment_account_profile_name">Profil Adı</string>
+    <string name="fragment_account_choose_language_button">Dil Seç</string>
+
+    <!-- fragment_create_tour_page_add_descriptions_to_places.xml -->
+    <string name="fragment_create_descriptions_header">Mekanlara Açıklama Ekle</string>
+
+    <!-- fragment_create_tour_page_add_notes_to_tour.xml -->
+    <string name="fragment_create_note_label">Tur Notu Ekle</string>
+    <string name="Tours">Turlar</string>
+    <string name="Edittournote">Tur Notunu Düzenle</string>
+    <string name="app_name">Gezgin Kivi</string>
+
+
+        <string name="activity_upcoming_tours_today_title">Bugünün Turları</string>
+        <string name="activity_upcoming_tours_your_tours">Yaklaşan Turlarınız</string>
+    <string name="Launch">Başlat</string>
+
+
+        <!-- fragment_map_page.xml -->
+        <string name="fragment_map_page_search_hint">Yer ara</string>
+
+        <!-- fragment_search_tour_page.xml -->
+        <string name="fragment_search_tour_page_search_hint">Turları ara...</string>
+        <string name="fragment_search_tour_page_button_search">Ara</string>
+        <string name="fragment_search_tour_page_recommended_title">Önerilen Turlar</string>
+
+        <!-- fragment_social_media.xml -->
+        <string name="fragment_social_media_autofill_hint">Bir hashtag girin</string>
+        <string name="fragment_social_media_add_post_desc">Gönderi ekle düğmesi</string>
+
+        <!-- fragment_tour_information_page_chat.xml -->
+        <string name="fragment_tour_information_page_chat_hint">Mesajınızı buraya yazın</string>
+        <string name="fragment_tour_information_page_chat_send_desc">Gönder düğmesi</string>
+
+        <!-- fragment_tour_information_page_tour_plan.xml -->
+        <string name="fragment_tour_information_page_tour_plan_label">Tur Planı: </string>
+        <string name="fragment_tour_information_page_tour_plan_details">Detaylar: ...</string>
+
+        <!-- item_tour.xml -->
+        <string name="item_tour_name">Tur Adı</string>
+        <string name="item_tour_guide_prefix">Rehber ile</string>
+
+        <!-- map_page_recycler_view_row.xml -->
+        <string name="map_page_place_name_label">Yer adı: </string>
+        <string name="map_page_rating_label">puan: </string>
+        <string name="map_page_information">Bilgi.....</string>
+
+        <!-- social_media_page_recycler_view_row.xml -->
+        <string name="social_media_username">Kullanıcı Adı</string>
+        <string name="social_media_photo_description">Fotoğraf Açıklaması</string>
+        <string name="social_media_hashtag">#yer</string>
+        <string name="social_media_hashtags">0 beğeni</string>
+
+        <!-- tour_information_page_chat_recycler_view_row_left.xml -->
+        <string name="chat_left_username">Kullanıcı Adı</string>
+        <string name="chat_left_message">Mesaj</string>
+
+        <!-- tour_information_page_chat_recycler_view_row_right.xml -->
+        <string name="chat_right_username">Kullanıcı Adı</string>
+        <string name="chat_right_message">Mesaj</string>
+
+        <!-- tour_page_recycler_view_row.xml -->
+        <string name="tour_page_tour_name">Tur Adı</string>
+
+        <!-- account_settings_menu.xml -->
+        <string name="change_the_account_photo">Profil fotoğrafını güncelle</string>
+        <string name="change_name">İsmi değiştir</string>
+        <string name="change_languages">Dilleri değiştir</string>
+        <string name="change_password">Şifreyi değiştir</string>
+
+        <!-- bottom_nav_menu.xml -->
+        <string name="nav_map">Harita</string>
+        <string name="nav_social_media">Sosyal Medya</string>
+        <string name="nav_search_tour">Tur Ara</string>
+        <string name="nav_profile">Profil</string>
+
+        <!-- menu_add_post.xml -->
+        <string name="action_share">Paylaş</string>
+
+
 </resources>

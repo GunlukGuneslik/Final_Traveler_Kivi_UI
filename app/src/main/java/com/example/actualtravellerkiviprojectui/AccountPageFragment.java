@@ -350,7 +350,7 @@ public class AccountPageFragment extends Fragment {
 
             prefs.edit().putString("lang", codes[which]).apply();
         }).setPositiveButton(R.string.Apply, (dlg, which) -> {
-            String lang = prefs.getString("lang", "en");
+            String lang = prefs.getString("app_language", "en");
             applyLocale(lang);
         }).setNegativeButton(R.string.Cancel, null).show();
     }

@@ -25,7 +25,7 @@
             android:id="@+id/tourNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tour Name"
+            android:text="@string/item_tour_name"
             android:textStyle="bold"
             android:textSize="16sp"
             android:paddingTop="8dp"
@@ -35,7 +35,7 @@
             android:id="@+id/guideNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="with Guide"
+            android:text="@string/item_tour_guide_prefix"
             android:textSize="14sp"
             android:textColor="@color/gray" />
     </LinearLayout>

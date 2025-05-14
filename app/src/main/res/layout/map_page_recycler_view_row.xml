@@ -46,7 +46,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/brown"
                 android:textSize="24sp"
-                android:text="Place name: " />
+                android:text="@string/map_page_place_name_label" />
 
             <TextView
                 android:id="@+id/ratingTextView"
@@ -56,7 +56,7 @@
                 android:textColor="@color/brown"
                 app:layout_constraintTop_toBottomOf="@id/placeNameTextView"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="rate: "
+                android:text="@string/map_page_rating_label"
                 />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:textColor="@color/brown"
                 app:layout_constraintTop_toBottomOf="@id/ratingTextView"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="Information....."
+                android:text="@string/map_page_information"
 
                 />
 
