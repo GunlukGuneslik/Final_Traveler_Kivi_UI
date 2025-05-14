@@ -23,15 +23,9 @@ import com.example.actualtravellerkiviprojectui.api.PostService;
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
-import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -101,7 +95,10 @@ public class TourInformationPageActivity extends AppCompatActivity {
                         tourRate.setText("Rate: " + currentTour.rating);
 
                         toCompletableFuture(userService.getUser(currentTour.ownerId))
-                                .thenAccept(user -> runOnUiThread(() -> guideName.setText(user.username)))
+                                .thenAccept(user -> {
+                                    runOnUiThread(() -> guideName.setText(user.username));
+                                    NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(user.id), null);
+                                })
                                 .exceptionally(e -> null);
 
                         if (UserState.getUserId().equals(currentTour.ownerId)) {
@@ -150,24 +147,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         buttonChat = findViewById(R.id.button7);
         buttonComments = findViewById(R.id.button8);
 
-        Toast t = Toast.makeText(this, "Error getting the events", Toast.LENGTH_SHORT);
-        Toast t2 = Toast.makeText(this, "You are not registered to the tour.", Toast.LENGTH_SHORT);
 
-        toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
-                .thenAccept(events -> runOnUiThread(() -> {
-                    if (events.size() == 0) {
-                        buttonChat.setEnabled(false);
-                        t2.show();
-                        buttonChat.setVisibility(View.GONE);
-                    } else {
-                        buttonChat.setEnabled(true);
-                        buttonChat.setVisibility(View.VISIBLE);
-                    }
-                }))
-                .exceptionally(e -> {
-                    runOnUiThread(t::show);
-                    return null;
-                });
 
         addToMyToursButton = findViewById(R.id.button4);
         editButton = findViewById(R.id.button9);
@@ -193,49 +173,90 @@ public class TourInformationPageActivity extends AppCompatActivity {
             }
         });
 
+        // Check if attended
+        NetworkModule.toCompletableFuture(eventService.getEvent(tourId)).thenAccept(event -> {
+            boolean isAttended = event.userIds.contains(UserState.getUserId());
+            if (isAttended) {
+                addToMyToursButton.setText("Remove from my tours");
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+                addToMyToursButton.setEnabled(true);
+            } else {
+                addToMyToursButton.setText("Add to my tours");
+                addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+                addToMyToursButton.setEnabled(true);
+            }
+            if (!isAttended) {
+                buttonChat.setEnabled(false);
+                buttonChat.setVisibility(View.GONE);
+            } else {
+                buttonChat.setEnabled(true);
+                buttonChat.setVisibility(View.VISIBLE);
+            }
+        });
 
         addToMyToursButton.setOnClickListener(v -> {
-            boolean isattended = false;
-            try {
-                isattended = eventService.getEvent(tourId).execute().body().userIds.contains(UserState.getUserId());
-            } catch (IOException e) {
-                return;
-            }
-            if (!isattended) {
-                eventService.registerEvent(tourId, UserState.getUserId()).enqueue(new Callback<EventDTO>() {
-                    @Override
-                    public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
-                        addToMyToursButton.setText("Add to my tours");
-                        addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
-                    }
+            // Disable button during operation
+            addToMyToursButton.setEnabled(false);
 
-                    @Override
-                    public void onFailure(Call<EventDTO> call, Throwable throwable) {
+            // Use CompletableFuture instead of executing on the main thread
+            NetworkModule.toCompletableFuture(eventService.getEvent(tourId))
+                    .thenAccept(event -> {
+                        boolean isAttended = event.userIds.contains(UserState.getUserId());
 
-                    }
-                });
-            } else {
-                eventService.unregisterEvent(tourId, UserState.getUserId()).enqueue(new Callback<EventDTO>() {
-                    @Override
-                    public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
-                        addToMyToursButton.setText("Remove from my tours");
-                        addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
-                    }
-
-                    @Override
-                    public void onFailure(Call<EventDTO> call, Throwable throwable) {
-
-                    }
-                });
-
-            }
+                        if (!isAttended) {
+                            // User is not registered, so register them
+                            NetworkModule.toCompletableFuture(eventService.registerEvent(tourId, UserState.getUserId()))
+                                    .thenAccept(eventDTO -> {
+                                        runOnUiThread(() -> {
+                                            // Show "Remove" after successfully registering
+                                            addToMyToursButton.setText("Remove from my tours");
+                                            addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_24, 0, 0, 0);
+                                            addToMyToursButton.setEnabled(true);
+                                            Toast.makeText(TourInformationPageActivity.this, "Successfully registered for the tour", Toast.LENGTH_SHORT).show();
+                                        });
+                                    })
+                                    .exceptionally(e -> {
+                                        runOnUiThread(() -> {
+                                            addToMyToursButton.setEnabled(true);
+                                            Toast.makeText(TourInformationPageActivity.this, "Failed to register for the tour", Toast.LENGTH_SHORT).show();
+                                        });
+                                        return null;
+                                    });
+                        } else {
+                            // User is registered, so unregister them
+                            NetworkModule.toCompletableFuture(eventService.unregisterEvent(tourId, UserState.getUserId()))
+                                    .thenAccept(eventDTO -> {
+                                        runOnUiThread(() -> {
+                                            // Show "Add" after successfully unregistering
+                                            addToMyToursButton.setText("Add to my tours");
+                                            addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
+                                            addToMyToursButton.setEnabled(true);
+                                            Toast.makeText(TourInformationPageActivity.this, "Successfully unregistered from the tour", Toast.LENGTH_SHORT).show();
+                                        });
+                                    })
+                                    .exceptionally(e -> {
+                                        runOnUiThread(() -> {
+                                            addToMyToursButton.setEnabled(true);
+                                            Toast.makeText(TourInformationPageActivity.this, "Failed to unregister from the tour", Toast.LENGTH_SHORT).show();
+                                        });
+                                        return null;
+                                    });
+                        }
+                    })
+                    .exceptionally(e -> {
+                        runOnUiThread(() -> {
+                            addToMyToursButton.setEnabled(true);
+                            Toast.makeText(TourInformationPageActivity.this, "Failed to get tour information", Toast.LENGTH_SHORT).show();
+                        });
+                        return null;
+                    });
         });
 
 
         tourPlanFragment = new TourInformationPageTourPlanFragment();
         chatFragment = TourInformationPageChatFragment.newInstance(tourId);
         commentsFragment = TourInformationPageCommentsFragment.newInstance(tourId);
-        mapsFragment = new TourInformationPageMapsFragment();
+        mapsFragment = TourInformationPageMapsFragment.newInstance(tourId);
 
         openFragment(tourPlanFragment);
 
