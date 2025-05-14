@@ -73,12 +73,12 @@ public class SearchTourPageFragment extends Fragment {
 
 
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_background_brown, new String[]{
-                "@string/All", "@string/Place", "@string/Guide"});
+                getString(R.string.All), getString(R.string.Place), getString(R.string.Guide)});
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilter.setAdapter(filterAdapter);
 
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item_background_brown, // Seçili öğe
-                new String[]{"@string/Date", "@string/Popularity"});
+                new String[]{getString(R.string.Date), getString(R.string.Popularity)});
         sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Açılır liste (normal)
         spinnerSort.setAdapter(sortAdapter);
 
