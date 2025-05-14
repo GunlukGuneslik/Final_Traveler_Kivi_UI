@@ -52,7 +52,7 @@ public class Tour_RecyclerViewAdapter_for_tours_accessed_from_account_page exten
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
-                intent.putExtra("placeId", currentTour.id);
+                intent.putExtra("tourId", currentTour.id);
                 v.getContext().startActivity(intent);
             }
         });
