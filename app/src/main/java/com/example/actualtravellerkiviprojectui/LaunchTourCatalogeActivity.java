@@ -3,10 +3,12 @@ package com.example.actualtravellerkiviprojectui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,6 +57,10 @@ public class LaunchTourCatalogeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         searchView = findViewById(R.id.searchViewForAttendedTours);
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchEditText = searchView.findViewById(id);
+        searchEditText.setTextColor(ContextCompat.getColor(this, R.color.brown));
+        searchEditText.setHintTextColor(ContextCompat.getColor(this, R.color.brown));
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // we dont use this one
