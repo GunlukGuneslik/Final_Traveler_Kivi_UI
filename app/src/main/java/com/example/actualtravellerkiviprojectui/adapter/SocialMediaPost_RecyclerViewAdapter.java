@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui.adapter;
 
+import static com.example.actualtravellerkiviprojectui.api.modules.NetworkModule.toCompletableFuture;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +21,10 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Post.PostDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -62,67 +59,24 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
 
     @Override
     public void onBindViewHolder(@NonNull SocialMediaPost_RecyclerViewAdapter.SocialMediaViewHolder holder, int position) {
-        PostDTO socialMediaPostModel = socialMediaPostModels.get(position);
-
-        userService.getUser(socialMediaPostModel.userId).enqueue(new Callback<UserDTO>() {
-            @Override
-            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                UserDTO owner = response.body();
-                Response<UserDTO> response1 = response;
-                postService.likers(socialMediaPostModel.postId).enqueue(new Callback<List<UserDTO>>() {
-                    @Override
-                    public void onResponse(Call<List<UserDTO>> call, Response<List<UserDTO>> response) {
-                        if (!response.isSuccessful() || response.body() == null) {
-                            return;
-                        }
-                        UserDTO owner = response1.body();
-                        var likers = response.body();
-                        holder.textViewUserName.setText(owner.username);
-                        holder.textViewPhotoDescription.setText(socialMediaPostModel.body);
-                        holder.textViewHashtag.setText(socialMediaPostModel.tags.get(0));
-                        holder.textViewLikes.setText(socialMediaPostModel.likeCount + " likes");
-                        NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
-                        NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(socialMediaPostModel.postId), null);
-                        holder.filledHeartButton.setVisibility(View.GONE);
-                        userService.getUser(UserState.getUserId()).enqueue(new Callback<UserDTO>() {
-                            @Override
-                            public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                                if (!response.isSuccessful() || response.body() == null) {
-                                    return;
-                                }
-                                if (likers.contains(response.body())) {
-                                    holder.filledHeartButton.setVisibility(View.VISIBLE);
-                                    holder.heartButton.setVisibility(View.GONE);
-                                } else {
-                                    holder.heartButton.setVisibility(View.VISIBLE);
-                                }
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<UserDTO> call, Throwable throwable) {
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<UserDTO>> call, Throwable throwable) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<UserDTO> call, Throwable throwable) {
-
-            }
-        });
-
-
-
-
-
+        PostDTO post = socialMediaPostModels.get(position);
+        toCompletableFuture(userService.getUser(post.userId))
+                .thenCompose(owner -> toCompletableFuture(postService.likers(post.postId))
+                        .thenAccept(likers -> runOnUiThread(() -> {
+                            holder.textViewUserName.setText(owner.username);
+                            holder.textViewPhotoDescription.setText(post.body);
+                            holder.textViewHashtag.setText(post.tags.get(0));
+                            holder.textViewLikes.setText(post.likeCount + " likes");
+                            NetworkModule.setImageViewFromCall(holder.profileImageView, userService.getAvatar(owner.id), null);
+                            NetworkModule.setImageViewFromCall(holder.placeImageView, postService.getPhoto(post.postId), null);
+                            holder.filledHeartButton.setVisibility(
+                                    likers.contains(UserState.getUserId())
+                                    ? View.VISIBLE : View.GONE);
+                            holder.heartButton.setVisibility(likers.contains(UserState.getUserId())
+                                                             ? View.GONE : View.VISIBLE);
+                        }))
+                )
+                .exceptionally(e -> null);
 
         holder.heartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +84,7 @@ public class SocialMediaPost_RecyclerViewAdapter extends RecyclerView.Adapter<So
                 holder.heartButton.setImageResource(R.drawable.filledheart);
                 if(!holder.isClicked){
                     socialMediaPostModels.get(holder.getAdapterPosition()).likeCount++;
-                    holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", socialMediaPostModel.likeCount));
+                    holder.textViewLikes.setText(String.format(Locale.ENGLISH, "%d likes", post.likeCount));
                     holder.isClicked = true;
                 }
             }

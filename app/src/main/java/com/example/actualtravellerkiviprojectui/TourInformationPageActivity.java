@@ -1,6 +1,8 @@
 package com.example.actualtravellerkiviprojectui;
 
 
+import static com.example.actualtravellerkiviprojectui.api.modules.NetworkModule.toCompletableFuture;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,12 +24,10 @@ import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
 import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.dto.Event.EventDTO;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,32 +91,17 @@ public class TourInformationPageActivity extends AppCompatActivity {
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         Toast t3 = Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT);
         int tourId = getIntent().getIntExtra("tourId", -1);
-        eventService.getEvent(tourId).enqueue(new Callback<EventDTO>() {
-            @Override
-            public void onResponse(Call<EventDTO> call, Response<EventDTO> response) {
-                if (!response.isSuccessful() || response.body() == null) {
-                    return;
-                }
-                EventDTO currentTour = response.body();
+
+        toCompletableFuture(eventService.getEvent(tourId))
+                .thenAccept(currentTour -> runOnUiThread(() -> {
                 tourNameTextView.setText(currentTour.name);
                 tourLanguage.setText("Language: " + currentTour.language);
                 tourDate.setText(currentTour.startDate.toString());
                 tourRate.setText("Rate: " + currentTour.rating);
-                userService.getUser(currentTour.ownerId).enqueue(new Callback<UserDTO>() {
-                    @Override
-                    public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-                        if (!response.isSuccessful() || response.body() == null) {
-                            return;
-                        }
-                        guideName.setText(response.body().username);
-                        //NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(currentTour.ownerId), null);
-                    }
 
-                    @Override
-                    public void onFailure(Call<UserDTO> call, Throwable throwable) {
-
-                    }
-                });
+                    toCompletableFuture(userService.getUser(currentTour.ownerId))
+                            .thenAccept(user -> runOnUiThread(() -> guideName.setText(user.username)))
+                            .exceptionally(e -> null);
 
                 if (UserState.getUserId().equals(currentTour.ownerId)) {
                     if (currentTour.startDate.isBefore(LocalDateTime.now())) {
@@ -125,42 +110,30 @@ public class TourInformationPageActivity extends AppCompatActivity {
                         editButton.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    eventService.getAttendedEvents(UserState.getUserId()).enqueue(new Callback<List<EventDTO>>() {
-                        @Override
-                        public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                            if (!response.isSuccessful()) {
-                                return;
-                            }
-                            var body = response.body();
-                            if (body.contains(currentTour) &&
+                    toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
+                            .thenAccept(list -> runOnUiThread(() -> {
+                                if (list.contains(currentTour) &&
                                 currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
                                 removeFromMyToursButton.setVisibility(View.VISIBLE);
                             } else {
-                                if (!body.contains(currentTour) &&
+                                    if (!list.contains(currentTour) &&
                                     currentTour.startDate.compareTo(LocalDateTime.now()) >= 0) {
                                     addToMyToursButton.setVisibility(View.VISIBLE);
                                 }
                             }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<EventDTO>> call, Throwable throwable) {
-
-                        }
-                    });
-
+                            }))
+                            .exceptionally(e -> null);
                 }
+
                 NetworkModule.setImageViewFromCall(tourImage, eventService.getPhoto(currentTour.id), null);
-
-            }
-
-            @Override
-            public void onFailure(Call<EventDTO> call, Throwable throwable) {
-                t3.show();
-                finish(); // Eğer tour yoksa sayfayı kapatabilirsin.
-            }
-        });
-
+                }))
+                .exceptionally(t -> {
+                    runOnUiThread(() -> {
+                        t3.show();
+                        finish();
+                    });
+                    return null;
+                });
 
         // guide image
         guideImage = findViewById(R.id.guideImageTourInformationPage);
@@ -177,11 +150,9 @@ public class TourInformationPageActivity extends AppCompatActivity {
         Toast t = Toast.makeText(this, "Error getting the events", Toast.LENGTH_SHORT);
         Toast t2 = Toast.makeText(this, "You are not registered to the tour.", Toast.LENGTH_SHORT);
 
-        eventService.getAttendedEvents(UserState.getUserId()).enqueue(new Callback<List<EventDTO>>() {
-            @Override
-            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                // TODO:
-                if (response.body().size() == 0) {
+        toCompletableFuture(eventService.getAttendedEvents(UserState.getUserId()))
+                .thenAccept(events -> runOnUiThread(() -> {
+                    if (events.size() == 0) {
                     buttonChat.setEnabled(false);
                     t2.show();
                     buttonChat.setVisibility(View.GONE);
@@ -189,15 +160,11 @@ public class TourInformationPageActivity extends AppCompatActivity {
                     buttonChat.setEnabled(true);
                     buttonChat.setVisibility(View.VISIBLE);
                 }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<EventDTO>> call, Throwable throwable) {
-                t.show();
-            }
-        });
-
+                }))
+                .exceptionally(e -> {
+                    runOnUiThread(t::show);
+                    return null;
+                });
 
         addToMyToursButton = findViewById(R.id.button4);
         editButton = findViewById(R.id.button9);
@@ -281,3 +248,4 @@ public class TourInformationPageActivity extends AppCompatActivity {
 
 
 }
+

@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static com.example.actualtravellerkiviprojectui.api.modules.NetworkModule.toCompletableFuture;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +22,6 @@ import com.example.actualtravellerkiviprojectui.dto.Event.EventCommentDTO;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * @author zeynep
@@ -62,7 +59,18 @@ public class TourInformationPageChatFragment extends Fragment {
         if (getArguments() != null) {
             tourId = getArguments().getInt(ARG_TOUR_ID);
         }
-        initalizeMessages();
+        toCompletableFuture(eventService.getEventChatComments(tourId))
+                .thenAccept(msgs -> requireActivity().runOnUiThread(() -> {
+                    messages.clear();
+                    messages.addAll(msgs);
+                    adapter.notifyDataSetChanged();
+                }))
+                .exceptionally(e -> {
+                    requireActivity().runOnUiThread(() ->
+                            Toast.makeText(getContext(), "Couldn't get chat messages.", Toast.LENGTH_SHORT).show()
+                    );
+                    return null;
+                });
     }
 
     @Override
@@ -80,53 +88,23 @@ public class TourInformationPageChatFragment extends Fragment {
 
         buttonSendChat.setOnClickListener(v -> {
             String text = editTextMessage.getText().toString().trim();
-            if (!text.isEmpty()) {
-                EventCommentCreateDTO message = new EventCommentCreateDTO(UserState.getUserId(), text);
-                eventService.postEventChatComment(tourId, message).enqueue(new Callback<EventCommentDTO>() {
-                    @Override
-                    public void onResponse(Call<EventCommentDTO> call, Response<EventCommentDTO> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            messages.add(EventCommentCreateDTO.toEventCommentDTO(message));
-                            adapter.notifyItemInserted(messages.size() - 1);
-                            chatRecyclerView.scrollToPosition(messages.size() - 1);
-                            editTextMessage.setText("");
-                        } else {
-                            Toast.makeText(getContext(), "Couldn't send the message.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<EventCommentDTO> call, Throwable t) {
-                        Toast.makeText(getContext(), "Couldn't send the message.", Toast.LENGTH_SHORT).show();
-                    }
+            if (text.isEmpty()) return;
+            EventCommentCreateDTO dto = new EventCommentCreateDTO(UserState.getUserId(), text);
+            toCompletableFuture(eventService.postEventChatComment(tourId, dto))
+                    .thenAccept(c -> requireActivity().runOnUiThread(() -> {
+                        messages.add(c);
+                        adapter.notifyItemInserted(messages.size() - 1);
+                        chatRecyclerView.scrollToPosition(messages.size() - 1);
+                        editTextMessage.setText("");
+                    }))
+                    .exceptionally(e -> {
+                        requireActivity().runOnUiThread(() ->
+                                Toast.makeText(getContext(), "Couldn't send message.", Toast.LENGTH_SHORT).show()
+                        );
+                        return null;
                 });
-
-            }
         });
 
         return view;
-    }
-
-    private void initalizeMessages() {
-        if (!messages.isEmpty()) {
-            return;
-        }
-        eventService.getEventChatComments(tourId).enqueue(new Callback<List<EventCommentDTO>>() {
-
-            @Override
-            public void onResponse(Call<List<EventCommentDTO>> call, Response<List<EventCommentDTO>> response) {
-                if (response.isSuccessful() && response.body() != null &&
-                    !response.body().isEmpty()) {
-                    messages.clear();
-                    messages.addAll(response.body());
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventCommentDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), "Couldn't get the chat messages.", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

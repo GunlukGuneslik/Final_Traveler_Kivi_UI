@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui;
 
+import static com.example.actualtravellerkiviprojectui.api.modules.NetworkModule.toCompletableFuture;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +31,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SearchTourPageFragment extends Fragment {
 
@@ -143,45 +143,35 @@ public class SearchTourPageFragment extends Fragment {
     }
 
     private void setFilteredToursFromCall(Call<List<EventDTO>> call, Consumer<List<EventDTO>> onSuccess, Consumer<Throwable> onError) {
-        call.enqueue(new Callback<List<EventDTO>>() {
-            @Override
-            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null &&
-                    !response.body().isEmpty()) {
-                    filteredTours.addAll(allTours);
+        toCompletableFuture(call)
+                .thenAccept(results -> runOnUiThread(() -> {
+                    filteredTours.clear();
+                    filteredTours.addAll(results);
                     filteredAdapter.notifyDataSetChanged();
-                    onSuccess.accept(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
-                onError.accept(t);
-            }
-        });
+                    onSuccess.accept(results);
+                }))
+                .exceptionally(t -> {
+                    runOnUiThread(() -> {
+                        Toast.makeText(getContext(), R.string.Tourscouldnotbeaccessed, Toast.LENGTH_SHORT).show();
+                        onError.accept(t);
+                    });
+                    return null;
+                });
     }
 
     private void initializeRecommendedTours() {
-        if (!recommendedTours.isEmpty()) {
-            return;
-        }
-        eventService.getRecommendedTours().enqueue(new Callback<List<EventDTO>>() {
-
-            @Override
-            public void onResponse(Call<List<EventDTO>> call, Response<List<EventDTO>> response) {
-                if (response.isSuccessful() && response.body() != null &&
-                    !response.body().isEmpty()) {
+        if (!recommendedTours.isEmpty()) return;
+        toCompletableFuture(eventService.getRecommendedTours())
+                .thenAccept(list -> runOnUiThread(() -> {
                     recommendedTours.clear();
-                    recommendedTours.addAll(response.body());
+                    recommendedTours.addAll(list);
                     showRecommended();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventDTO>> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show();
-            }
-        });
+                }))
+                .exceptionally(t -> {
+                    runOnUiThread(() ->
+                            Toast.makeText(getContext(), R.string.Recommendedtoursnotavailable, Toast.LENGTH_SHORT).show()
+                    );
+                    return null;
+                });
     }
 }
