@@ -11,7 +11,7 @@
         android:id="@+id/textViewTourNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Tour Note"
+        android:text="@string/fragment_create_note_label"
         android:textColor="@color/brown"
         android:textSize="20sp"
         android:textStyle="bold"

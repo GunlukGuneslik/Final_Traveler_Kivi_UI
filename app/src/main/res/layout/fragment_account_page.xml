@@ -47,7 +47,7 @@
                             android:layout_margin="4dp"
                             android:layout_weight="3"
                             android:gravity="center"
-                            android:text="Launch tour"
+                            android:text="@string/fragment_account_launch_label"
                             android:textColor="@color/brown"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -62,7 +62,7 @@
                             android:textSize="12sp"
                             android:textColor="@color/white"
                             android:backgroundTint="@color/light_brown"
-                            android:text="catalog" />
+                            android:text="@string/fragment_account_catalog_button" />
 
                         <Button
                             android:id="@+id/launchTourWindowCreateButton"
@@ -74,7 +74,7 @@
                             android:textSize="12sp"
                             android:textColor="@color/white"
                             android:backgroundTint="@color/light_brown"
-                            android:text="Create" />
+                            android:text="@string/fragment_account_create_button" />
 
 
                     </LinearLayout>
@@ -199,7 +199,7 @@
                             android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Tours"
+                            android:text="@string/Tours"
                             android:textColor="@color/brown"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -214,7 +214,7 @@
                             android:textSize="12sp"
                             android:backgroundTint="@color/light_brown"
                             android:drawableLeft="@drawable/baseline_folder_open_24"
-                            android:text="Attended"
+                            android:text="@string/fragment_account_attended_tours_button"
                             android:textColor="@color/white"
                             android:visibility="visible" />
 
@@ -228,7 +228,7 @@
                             android:textSize="12sp"
                             android:backgroundTint="@color/light_brown"
                             android:drawableLeft="@drawable/baseline_calendar_month_24"
-                            android:text="Upcomıng"
+                            android:text="@string/fragment_account_upcoming_tours_button"
                             android:textColor="@color/white"
                             android:visibility="visible" />
 
@@ -255,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="15dp"
-                    android:text="Profile Name"
+                    android:text="@string/fragment_account_profile_name"
                     android:textSize="25dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/userProfilePhoto"
@@ -277,7 +277,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/light_brown"
-            android:text="Choose Language"
+            android:text="@string/fragment_account_choose_language_button"
             android:textColor="@color/white" />
 
     </LinearLayout>

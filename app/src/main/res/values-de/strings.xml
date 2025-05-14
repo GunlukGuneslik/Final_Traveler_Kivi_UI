@@ -9,6 +9,8 @@
     <string name="enterPasswordLabelTag">Passwort eingeben</string>
     <string name="PasswordHint">Passwort</string>
     <string name="enterPasswordAgainLabelTag">Passwort erneut eingeben</string>
+    <string name="Launch">Starten</string>
+    <string name="app_name">Reisender Kiwi</string>
 
     <string name="welcomeLabelTag">Willkommen bei Reisender Kiwi</string>
     <string name="everythingIsReadyForYouLabelTag">Alles ist für Sie bereit</string>
@@ -194,6 +196,104 @@
 
     <!-- activity_upcoming_tours.xml -->
     <string name="activity_upcoming_tours_search_hint">Suche nach einer Tour</string>
+    <!-- comments_recycler_view_row.xml -->
+    <string name="comments_row_comment">Ein Kommentar</string>
+
+    <!-- create_tour_page_place_recycler_view_row.xml -->
+    <string name="create_tour_place_icon_desc">Symbol</string>
+    <string name="create_tour_place_name_hint">Ortsname</string>
+    <string name="create_tour_place_description_hint">Ortsbeschreibung</string>
+
+    <!-- custom_toast_layout.xml -->
+    <string name="custom_toast_message">Benutzerdefinierte Toast-Nachricht</string>
+
+    <!-- dialog_change_password.xml -->
+    <string name="dialog_change_password_hint_old">Altes Passwort</string>
+    <string name="dialog_change_password_hint_new">Neues Passwort</string>
+    <string name="dialog_change_password_hint_confirm">Neues Passwort (Wiederholen)</string>
+
+    <!-- fragment_account_page.xml -->
+    <string name="fragment_account_launch_label">Tour starten</string>
+    <string name="fragment_account_catalog_button">Katalog</string>
+    <string name="fragment_account_create_button">Erstellen</string>
+    <string name="fragment_account_my_badges_label">Meine Abzeichen:</string>
+    <string name="fragment_account_attended_tours_button">Teilgenommene Touren</string>
+    <string name="fragment_account_upcoming_tours_button">Kommende Touren</string>
+    <string name="fragment_account_profile_name">Profilname</string>
+    <string name="fragment_account_choose_language_button">Sprache auswählen</string>
+
+    <!-- fragment_create_tour_page_add_descriptions_to_places.xml -->
+    <string name="fragment_create_descriptions_header">Beschreibungen zu Orten hinzufügen</string>
+
+    <!-- fragment_create_tour_page_add_notes_to_tour.xml -->
+    <string name="fragment_create_note_label">Tour-Notiz hinzufügen</string>
+    <string name="Tours">Touren</string>
+    <string name="Edittournote">Tour-Notiz bearbeiten</string>
+        <string name="activity_upcoming_tours_today_title">Heutige Touren</string>
+        <string name="activity_upcoming_tours_your_tours">Ihre bevorstehenden Touren</string>
+
+
+        <!-- fragment_map_page.xml -->
+        <string name="fragment_map_page_search_hint">Nach einem Ort suchen</string>
+
+        <!-- fragment_search_tour_page.xml -->
+        <string name="fragment_search_tour_page_search_hint">Touren suchen...</string>
+        <string name="fragment_search_tour_page_button_search">Suchen</string>
+        <string name="fragment_search_tour_page_recommended_title">Empfohlene Touren</string>
+
+        <!-- fragment_social_media.xml -->
+        <string name="fragment_social_media_autofill_hint">Geben Sie ein Hashtag ein</string>
+        <string name="fragment_social_media_add_post_desc">Beitrag hinzufügen Schaltfläche</string>
+
+        <!-- fragment_tour_information_page_chat.xml -->
+        <string name="fragment_tour_information_page_chat_hint">Nachricht hier schreiben</string>
+        <string name="fragment_tour_information_page_chat_send_desc">Senden-Schaltfläche</string>
+
+        <!-- fragment_tour_information_page_tour_plan.xml -->
+        <string name="fragment_tour_information_page_tour_plan_label">Tour-Plan: </string>
+        <string name="fragment_tour_information_page_tour_plan_details">Details: ...</string>
+
+        <!-- item_tour.xml -->
+        <string name="item_tour_name">Tour-Name</string>
+        <string name="item_tour_guide_prefix">mit Reiseleiter</string>
+
+        <!-- map_page_recycler_view_row.xml -->
+        <string name="map_page_place_name_label">Ortsname: </string>
+        <string name="map_page_rating_label">Bewertung: </string>
+        <string name="map_page_information">Informationen.....</string>
+
+        <!-- social_media_page_recycler_view_row.xml -->
+        <string name="social_media_username">Benutzername</string>
+        <string name="social_media_photo_description">Fotobeschreibung</string>
+        <string name="social_media_hashtag">#ort</string>
+        <string name="social_media_hashtags">0 Gefällt mir</string>
+
+        <!-- tour_information_page_chat_recycler_view_row_left.xml -->
+        <string name="chat_left_username">Benutzername</string>
+        <string name="chat_left_message">Nachricht</string>
+
+        <!-- tour_information_page_chat_recycler_view_row_right.xml -->
+        <string name="chat_right_username">Benutzername</string>
+        <string name="chat_right_message">Nachricht</string>
+
+        <!-- tour_page_recycler_view_row.xml -->
+        <string name="tour_page_tour_name">Tour-Name</string>
+
+        <!-- account_settings_menu.xml -->
+        <string name="change_the_account_photo">Profilfoto aktualisieren</string>
+        <string name="change_name">Name ändern</string>
+        <string name="change_languages">Sprachen ändern</string>
+        <string name="change_password">Passwort ändern</string>
+
+        <!-- bottom_nav_menu.xml -->
+        <string name="nav_map">Karte</string>
+        <string name="nav_social_media">Soziale Medien</string>
+        <string name="nav_search_tour">Tour suchen</string>
+        <string name="nav_profile">Profil</string>
+
+        <!-- menu_add_post.xml -->
+        <string name="action_share">Teilen</string>
+
 
 
 </resources>
