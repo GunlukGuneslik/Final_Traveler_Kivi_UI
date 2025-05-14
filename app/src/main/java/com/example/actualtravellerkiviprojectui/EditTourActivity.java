@@ -506,7 +506,7 @@ public class EditTourActivity extends AppCompatActivity {
 
     private void switchFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayoutForCreateNewTourPage, fragments[currentFragmentIndex])
+                .replace(R.id.frameLayoutForEditTourPage, fragments[currentFragmentIndex])
                 .commit();
 
         backButton.setVisibility(currentFragmentIndex > 0 ? View.VISIBLE : View.GONE);
