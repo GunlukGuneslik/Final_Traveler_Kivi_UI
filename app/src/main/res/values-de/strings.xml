@@ -284,7 +284,7 @@
         <string name="change_name">Name ändern</string>
         <string name="change_languages">Sprachen ändern</string>
         <string name="change_password">Passwort ändern</string>
-
+    <string name="kivi_api_url">https://kivi.local:45976/</string>
         <!-- bottom_nav_menu.xml -->
         <string name="nav_map">Karte</string>
         <string name="nav_social_media">Soziale Medien</string>
