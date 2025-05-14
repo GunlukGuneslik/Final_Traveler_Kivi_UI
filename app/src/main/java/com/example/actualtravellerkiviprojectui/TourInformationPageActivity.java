@@ -84,7 +84,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
         //tour rate
         tourRate = findViewById(R.id.tourRateTourInformationPage);
         Toast t3 = Toast.makeText(this, "Error: Tour information not available.", Toast.LENGTH_SHORT);
-        int tourId = getIntent().getIntExtra("placeId", -1);
+        int tourId = getIntent().getIntExtra("tourId", -1);
 
         toCompletableFuture(eventService.getEvent(tourId))
                 .thenAccept(currentTour -> {

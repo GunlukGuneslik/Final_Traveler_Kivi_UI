@@ -51,7 +51,7 @@ public class Adapter_For_Catolog extends RecyclerView.Adapter<Adapter_For_Catolo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditTourActivity.class);
-                intent.putExtra("placeId", currentTour.id);
+                intent.putExtra("tourId", currentTour.id);
                 //intent.putExtra("user",currentUser);
                 v.getContext().startActivity(intent);
             }

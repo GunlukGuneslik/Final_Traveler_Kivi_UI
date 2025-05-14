@@ -169,15 +169,15 @@ public interface EventService {
     Call<EventDTO> setPhoto(@Path("eventId") int eventId, @Part("image") MultipartBody.Part image);
 
 
-    @GET("locations/{locationId}/photo")
+    @GET("events/locations/{locationId}/photo")
     @Streaming
     Call<ResponseBody> getLocationPhoto(@Path("locationId") int locationId);
 
-    @POST("locations/{locationId}/photo")
+    @POST("events/locations/{locationId}/photo")
     @Multipart
     Call<EventDTO> setLocationPhoto(@Path("locationId") int locationId, @Part("image") MultipartBody.Part image);
 
-    @GET("locations/featured")
+    @GET("events/locations/featured")
     Call<List<EventLocationDTO>> getFeaturedLocations();
 
     @GET("events/attended/{userId}")
@@ -191,4 +191,7 @@ public interface EventService {
 
     @GET("events/{eventId}/hasRated")
     Call<Boolean> hasUserRated(@Query("userId") int userId, @Path("eventId") int eventId);
+
+    @GET("events/skeletonsOf/{userId}")
+    Call<EventSkeletonDTO> getSkeletonsOfUser(@Path("userId") int userId);
 }
