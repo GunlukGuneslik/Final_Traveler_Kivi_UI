@@ -185,7 +185,10 @@ public class TourInformationPageActivity extends AppCompatActivity {
                 addToMyToursButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_add_circle_outline_24, 0, 0, 0);
                 addToMyToursButton.setEnabled(true);
             }
-            if (!isAttended) {
+            if(event.ownerId.equals(UserState.getUserId())){
+                buttonChat.setEnabled(true);
+                buttonChat.setVisibility(View.VISIBLE);
+            } else if (!isAttended) {
                 buttonChat.setEnabled(false);
                 buttonChat.setVisibility(View.GONE);
             } else {
