@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Traveller Kivi</string>
     <string name="google_maps_key">AIzaSyBqWmEcQtnMrJwxeuwpkvV7HpL--G1xscA</string>
-
+    <string name="kivi_api_url">https://kivi.local:45976/</string>
     <string name="create_a_New_Account_Page_Tag">Create a New Account</string>
     <string name="Sign_in_button_tag">SIGN IN</string>
     <string name="enterUserNameLabelTag">Enter a User Name</string>
@@ -323,6 +323,11 @@
 
     <!-- menu_add_post.xml -->
     <string name="action_share">Share</string>
+    <string name="All">All</string>
+    <string name="Place">Place</string>
+    <string name="Guide">Guide</string>
+    <string name="Date">Date</string>
+    <string name="Popularity">Popularity</string>
 
 
 </resources>

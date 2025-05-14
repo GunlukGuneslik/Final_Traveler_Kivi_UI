@@ -309,6 +309,11 @@
 
         <!-- menu_add_post.xml -->
         <string name="action_share">Paylaş</string>
+    <string name="All">Tümü</string>
+    <string name="Place">Yer</string>
+    <string name="Guide">Rehber</string>
+    <string name="Date">Tarih</string>
+    <string name="Popularity">Popülerlik</string>
 
 
 </resources>
