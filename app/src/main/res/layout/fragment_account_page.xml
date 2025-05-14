@@ -278,7 +278,8 @@
             android:layout_margin="8dp"
             android:backgroundTint="@color/light_brown"
             android:text="@string/fragment_account_choose_language_button"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 </FrameLayout>

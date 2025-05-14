@@ -70,8 +70,10 @@
                 android:id="@+id/tourRateTourInformationPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="5dp"
                 android:text="@string/activity_tour_information_page_rate"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/StarImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,6 +82,7 @@
                 android:layout_width="203dp"
                 android:layout_height="22dp"
                 android:layout_margin="10dp"
+                android:textColor="@color/black"
                 android:text="@string/activity_tour_information_page_date"
                 app:layout_constraintStart_toEndOf="@+id/calenderImage"
                 app:layout_constraintTop_toBottomOf="@+id/tourLanguageTextViewTourInfoPage"/>
@@ -159,21 +162,20 @@
                 android:id="@+id/guideNameTextViewTourInformationPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginStart="7dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/Guidename"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/button4"
-                app:layout_constraintTop_toBottomOf="@+id/guideImageTourInformationPage" />
+                app:layout_constraintStart_toStartOf="@+id/guideImageTourInformationPage" />
 
             <ImageView
                 android:id="@+id/StarImage"
                 android:layout_width="28dp"
                 android:layout_height="25dp"
-                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/tourRateTourInformationPage"
                 app:layout_constraintStart_toEndOf="@+id/tourLanguageTextViewTourInfoPage"
                 app:layout_constraintTop_toTopOf="parent"
