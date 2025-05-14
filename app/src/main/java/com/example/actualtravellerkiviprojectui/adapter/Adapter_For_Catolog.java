@@ -1,5 +1,7 @@
 package com.example.actualtravellerkiviprojectui.adapter;
 
+import static android.view.View.INVISIBLE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -43,12 +45,12 @@ public class Adapter_For_Catolog extends RecyclerView.Adapter<Adapter_For_Catolo
 
         holder.tourName.setText(currentTour.name);
         //TODO : userlara fotoğraf eklenecek
-        //holder.guidePhoto.setImageURI(guide.photo);
+        holder.guidePhoto.setVisibility(INVISIBLE);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), TourInformationPageActivity.class);
+                Intent intent = new Intent(v.getContext(), EditTourActivity.class);
                 intent.putExtra("placeId", currentTour.id);
                 //intent.putExtra("user",currentUser);
                 v.getContext().startActivity(intent);
