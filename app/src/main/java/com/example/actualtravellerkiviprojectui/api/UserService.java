@@ -31,8 +31,7 @@ public interface UserService {
     Call<List<UserDTO>> getAllUsers();
 
     @POST("users")
-    Call<UserDTO> createUser(@Body UserDTO userCreateDTO);
-
+    Call<UserDTO> createUser(@Body UserCreateUpdateDTO userCreateDTO);
 
     @GET("users/type/{userType}")
     Call<PagedModel<UserDTO>> getUsersByType(@Path("userType") UserDTO.UserType userType);

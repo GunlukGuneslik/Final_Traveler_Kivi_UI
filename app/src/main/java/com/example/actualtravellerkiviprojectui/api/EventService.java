@@ -191,4 +191,7 @@ public interface EventService {
 
     @GET("events/{eventId}/hasRated")
     Call<Boolean> hasUserRated(@Query("userId") int userId, @Path("eventId") int eventId);
+
+    @GET("events/skeletonsOf/{userId}")
+    Call<EventSkeletonDTO> getSkeletonsOfUser(@Path("userId") int userId);
 }
