@@ -294,6 +294,11 @@
         <!-- menu_add_post.xml -->
         <string name="action_share">Teilen</string>
 
+    <string name="All">Alle</string>
+    <string name="Place">Ort</string>
+    <string name="Guide">Reiseführer</string>
+    <string name="Date">Datum</string>
+    <string name="Popularity">Beliebtheit</string>
 
 
 </resources>
