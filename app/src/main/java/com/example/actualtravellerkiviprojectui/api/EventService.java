@@ -99,7 +99,7 @@ public interface EventService {
     public Call<List<EventCommentDTO>> getEventChatComments(@Path("eventId") Integer eventId);
 
     @POST("events/{eventId}/chat")
-    public Call<EventCommentDTO> postEventChatComment(@Path("eventId") Integer eventId, @Body EventCommentDTO comment);
+    public Call<EventCommentDTO> postEventChatComment(@Path("eventId") Integer eventId, @Body EventCommentCreateDTO comment);
 
     /**
      * Create a new event location
@@ -173,5 +173,8 @@ public interface EventService {
 
     @PUT("events/{eventId}/register/{userId}")
     Call<EventDTO> registerEvent(@Path("eventId") Integer eventId, @Path("userId") Integer userId);
+
+    @PUT("events/{eventId}/unregister/{userId}")
+    Call<EventDTO> unregisterEvent(@Path("eventId") Integer eventId, @Path("userId") Integer userId);
     
 }

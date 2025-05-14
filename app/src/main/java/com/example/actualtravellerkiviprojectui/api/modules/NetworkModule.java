@@ -42,8 +42,7 @@ public class NetworkModule {
     private static final String BASE_URL = "http://localhost:45976/api/";
 
     public static Retrofit provideRetrofit() {
-        ObjectMapper mapper = new ObjectMapper()
-                .registerModule(new JavaTimeModule());
+        ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
         //.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         return new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(JacksonConverterFactory.create(mapper)).build();
@@ -101,17 +100,29 @@ public class NetworkModule {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> r) {
-                if (r.isSuccessful() && r.body() != null) {
-                    try {
-                        byte[] buf = r.body().bytes();
-                        imageView.setImageBitmap(BitmapFactory.decodeByteArray(buf, 0, buf.length));
+                new Thread(() -> {
+                    if (r.isSuccessful() && r.body() != null) {
+                        byte[] buf = null;
+                        try {
+                            buf = r.body().bytes();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        final Bitmap bitmap = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+
+                        imageView.post(() -> {
+                            imageView.setImageBitmap(bitmap);
+                            if (callback != null) {
+                                callback.accept(r.body());
+                            }
+                        });
                         if (callback != null) {
                             callback.accept(r.body());
                         }
-                    } catch (IOException e) {
-                        Log.w("profilePhoto", e.getMessage());
+
                     }
-                }
+                }).start();
+
             }
 
             @Override

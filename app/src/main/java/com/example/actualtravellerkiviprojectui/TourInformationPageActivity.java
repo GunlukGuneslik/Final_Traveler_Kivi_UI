@@ -109,7 +109,7 @@ public class TourInformationPageActivity extends AppCompatActivity {
                             return;
                         }
                         guideName.setText(response.body().username);
-                        NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(currentTour.ownerId), null);
+                        //NetworkModule.setImageViewFromCall(guideImage, userService.getAvatar(currentTour.ownerId), null);
                     }
 
                     @Override

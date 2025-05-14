@@ -1,9 +1,8 @@
 package com.example.actualtravellerkiviprojectui;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Pair;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,12 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.actualtravellerkiviprojectui.api.ServiceLocator;
 import com.example.actualtravellerkiviprojectui.api.UserService;
-import com.example.actualtravellerkiviprojectui.dto.User.UserDTO;
+import com.example.actualtravellerkiviprojectui.api.modules.NetworkModule;
 import com.example.actualtravellerkiviprojectui.state.UserState;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.io.IOException;
 
 /**
  * @author: Eftelya
@@ -35,12 +32,9 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         goToSignUpBtn = findViewById(R.id.goToSignUpBtn);
-        goToSignUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignInActivity.this, CreateAccountActivity.class);
-                startActivity(intent);
-            }
+        goToSignUpBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(SignInActivity.this, CreateAccountActivity.class);
+            startActivity(intent);
         });
 
         // View’lar
@@ -61,50 +55,31 @@ public class SignInActivity extends AppCompatActivity {
             }
 
             UserService userService = ServiceLocator.getUserService();
-
-            userService.getUserByEmail(email).enqueue(new Callback<UserDTO>() {
-  @Override
-  public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
-      UserDTO user = response.body();
-      if (!response.isSuccessful() && user == null) {
-          Toast.makeText(SignInActivity.this, R.string.signin_user_not_found, Toast.LENGTH_SHORT).show();
-      }
-      userService.checkPassword(user.id, password).enqueue(new retrofit2.Callback<Boolean>() {
-          @Override
-          public void onResponse(retrofit2.Call<Boolean> call, retrofit2.Response<Boolean> response) {
-              if (response.isSuccessful() && Boolean.TRUE.equals(response.body())) {
-                  UserState.setUserId(user.id);
-                  startActivity(new Intent(SignInActivity.this, ApplicationPagesActivity.class));
-                  finish();
-              } else {
-                  Toast.makeText(SignInActivity.this, R.string.signin_wrong_password, Toast.LENGTH_SHORT).show();
-              }
-          }
-
-          @Override
-          public void onFailure(retrofit2.Call<Boolean> call, Throwable t) {
-              Toast.makeText(SignInActivity.this, R.string.signin_server_error, Toast.LENGTH_SHORT).show();
-          }
-      });
-  }
-
-  @Override
-  public void onFailure(Call<UserDTO> call, Throwable throwable) {
-      Toast.makeText(SignInActivity.this, R.string.signin_server_error, Toast.LENGTH_SHORT).show();
-
-  }
-}
-
-            );
-
-
-            if (emailEt.getText().toString().isEmpty() ||
-                passwordEt.getText().toString().isEmpty()) {
-                Toast.makeText(this, R.string.signin_fill_all_fields, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.signin_demo_success, Toast.LENGTH_SHORT).show();
-            }
-
+            NetworkModule.toCompletableFuture(userService.getUserByEmail(email))
+                    .thenCompose(user ->
+                            NetworkModule.toCompletableFuture(userService.checkPassword(user.id, password))
+                                    .thenApply(isValid -> new Pair<>(user, isValid))
+                    )
+                    .thenAccept(pair -> runOnUiThread(() -> {
+                        if (Boolean.TRUE.equals(pair.second)) {
+                            UserState.setUserId(pair.first.id);
+                            startActivity(new Intent(SignInActivity.this, ApplicationPagesActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(SignInActivity.this, R.string.signin_wrong_password, Toast.LENGTH_SHORT).show();
+                        }
+                    }))
+                    .exceptionally(t -> {
+                        runOnUiThread(() -> {
+                            Throwable cause = t.getCause() != null ? t.getCause() : t;
+                            if (cause instanceof IOException) {
+                                Toast.makeText(SignInActivity.this, R.string.signin_user_not_found, Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(SignInActivity.this, R.string.signin_server_error, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return null;
+                    });
         });
 
         // Forgot Password
